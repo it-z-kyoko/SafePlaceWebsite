@@ -11,43 +11,6 @@ li {
     padding: 0;
 }
 
-body {
-    font-family: 'Raleway', sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-.Navbar {
-    border-radius: 40px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    font-size: 1rem;
-    color: #1e1e1e;
-    font-weight: 500;
-    text-align: center;
-    letter-spacing: 1px;
-    line-height: 1.5;
-    padding: 1em 2em;
-    align-items: center;
-    flex-direction: row;
-}
-
-.navbar-image {
-    max-height: 70px;
-    width: auto;
-    height: auto;
-    object-position: center;
-}
-
-body {
-    font-family: 'Raleway', sans-serif;
-    padding: 0;
-    margin: 0;
-}
-
 .img {
     position: absolute;
     inset: 0;
@@ -77,33 +40,55 @@ body {
     .navbar-image {
         max-height: 80px;
     }
+
     .Navbar {
         flex-direction: column;
         padding: 1em;
     }
+
+    .div-14 {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        /* Adjusted gap for smaller screens */
+    }
+
+    .div-15,
+    .div-16 {
+        width: 100%;
+        /* Full width on smaller screens */
+        margin-top: 20px;
+        /* Adjusted margin for spacing */
+    }
+
+    .textbox {
+        margin-top: 20px;
+        /* Adjusted margin for spacing */
+    }
+}
+
+.div-15,
+.div-16 {
+    border-radius: 20px;
+    background-color: #fff;
 }
 
 .div-15 {
-    border-radius: 20px;
-    background-color: #fff;
-    display: flex;
-    flex-grow: 1;
-    flex-basis: 0%;
-    flex-direction: column;
-    align-items: start;
-    padding: 0 10px 10px 0;
-    transition: margin 0.2s ease-in-out;
+    width: 10%;
+    /* Adjusted width for responsiveness */
 }
 
 .div-16 {
-    border-radius: 20px;
     box-shadow: 0px 2px 48px 0px rgba(0, 0, 0, 0.08);
-    background-color: #fff;
     z-index: 10;
     display: flex;
     margin-top: -10px;
     flex-direction: column;
     padding: 24px 33px;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 @media (max-width: 991px) {
@@ -116,16 +101,18 @@ body {
     aspect-ratio: 1;
     object-fit: auto;
     object-position: center;
-    width: 32px;
+    width: 60px;
     align-self: center;
 }
 
 .div-17 {
     color: #1e1e1e;
     letter-spacing: 0.25px;
-    margin-top: 26px;
+    margin-top: 20px;
+    /* Adjusted margin for spacing */
     white-space: nowrap;
-    font: 17px/150% 'Raleway', sans-serif;
+    font: 15px/130% 'Raleway', sans-serif;
+    /* Adjusted font size and line height */
 }
 
 @media (max-width: 991px) {
@@ -137,25 +124,30 @@ body {
 .div-18 {
     color: #777;
     letter-spacing: 0.75px;
-    margin-top: 16px;
-    font: 14px/21px 'Raleway', sans-serif;
+    margin-top: 10px;
+    /* Adjusted margin for spacing */
+    font: 12px/18px 'Raleway', sans-serif;
+    /* Adjusted font size and line height */
 }
 
 .div-14 {
     display: flex;
-    margin-top: 77px;
+    margin-top: 30px;
+    /* Adjusted margin for spacing */
     padding-right: 10px;
-    justify-content: space-between;
+    justify-content: center;
     gap: 20px;
     font-weight: 400;
     text-align: center;
+    width: 80%;
 }
 
 @media (max-width: 991px) {
     .div-14 {
         max-width: 100%;
         flex-wrap: wrap;
-        margin-top: 40px;
+        margin-top: 20px;
+        /* Adjusted margin for spacing */
     }
 }
 
@@ -165,22 +157,13 @@ header {
     z-index: 1000;
 }
 
-.body {
-    margin: 0;
-    padding: 0;
-}
-
-.div-2 {
-    position: relative;
-}
-
 .background-image {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('images/LandigPageBackground.png');
+    background-image: url('images/BackgroundLanding.jpeg');
     background-size: cover;
     background-position: top left;
     z-index: -1;
@@ -204,27 +187,106 @@ header {
 
 .textbox {
     display: flex;
-    margin-top: 100px;
-    width: 1110px;
-    max-width: 100%;
+    margin-top: 40px;
+    width: 100%;
+    max-width: 1110px;
     flex-direction: column;
     padding: 0 20px;
+    backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.div-51,
+.div-52,
+.TicketButton {
+    color: #ffffff;
+    letter-spacing: 0.25px;
+    align-self: center;
 }
 
 .div-51 {
-    color: #1e1e1e;
-    letter-spacing: 0.25px;
-    align-self: end;
-    margin-right: 169px;
+    margin-right: 10px;
+    /* Adjusted for responsiveness */
     white-space: nowrap;
-    font: 500 24px/175% Raleway, sans-serif;
+    font: 500 24px/175% 'Raleway', sans-serif;
 }
 
 .div-52 {
-    color: #777;
-    letter-spacing: 1px;
-    align-self: end;
-    margin-top: 45px;
-    font: 400 16px/28px Raleway, sans-serif;
+    margin-top: 20px;
+    /* Adjusted for responsiveness */
+    font: 400 16px/28px 'Raleway', sans-serif;
 }
 
+.TicketButton {
+    margin-right: 10px;
+    /* Adjusted for responsiveness */
+    white-space: nowrap;
+    font: 500 24px/175% 'Raleway', sans-serif;
+    width: 100%;
+    /* Adjusted for responsiveness */
+    max-width: 220px;
+    /* Added max-width for responsiveness */
+    height: 50px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.TicketButton:before {
+    content: '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 10px;
+}
+
+.TicketButton:active {
+    color: #000;
+}
+
+.TicketButton:active:after {
+    background: transparent;
+}
+
+.TicketButton:hover:before {
+    opacity: 1;
+}
+
+.TicketButton:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+
+@keyframes glowing {
+    0% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 400% 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+}

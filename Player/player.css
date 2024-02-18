@@ -1,0 +1,161 @@
+/* Reset CSS */
+body,
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+li {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.Navbar {
+    border-radius: 40px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 20px;
+    font-size: 1rem;
+    color: #1e1e1e;
+    font-weight: 500;
+    text-align: center;
+    letter-spacing: 1px;
+    line-height: 1.5;
+    padding: 1em 2em;
+    align-items: center;
+    flex-direction: row;
+}
+
+.navbar-image {
+    max-height: 70px;
+    width: auto;
+    height: auto;
+    object-position: center;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: auto;
+    width: 80%; /* Adjusted width for responsiveness */
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    width: 60%;
+    align-items: top;
+    justify-content: center;
+    justify-items: center;
+}
+
+.sidebar {
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    backdrop-filter: blur(400px);
+    background: rgba(88, 88, 88, 0.2);
+}
+
+.character-list {
+    width: 100%;
+    padding: 20px;
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 8px;
+    text-align: center;
+}
+
+.character {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.character-name {
+    flex: 1;
+    padding: 5px;
+    margin-right: 5px;
+    backdrop-filter: blur(400px);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.player-info {
+    background-color: #f0f0f0;
+    padding: 10px;
+    color: #333;
+    margin: 10px;
+}
+
+header {
+    margin-bottom: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 300;
+}
+
+a:visited {
+    color: #fff;
+}
+
+h2 {
+    min-width: 100%;
+}
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/BackgroundLanding.jpeg');
+    background-size: cover;
+    background-position: top left;
+    z-index: -1;
+}
+
+.div-2 {
+    display: flex;
+    justify-content: flex-start;
+    overflow: hidden;
+    align-self: stretch;
+    position: relative;
+    min-height: 998px;
+    width: 100%;
+    margin: 0;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+/* Media Query for responsive adjustments */
+@media only screen and (max-width: 768px) {
+    .container {
+        width: 90%; /* Adjusted width for smaller screens */
+    }
+
+    .character-list {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjusted for smaller screens */
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 15px;
+    }
+}
