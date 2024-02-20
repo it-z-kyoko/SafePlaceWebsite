@@ -108,8 +108,10 @@ a:visited {
 .page-content {
     display: grid;
     grid-template-columns: 30% 70%;
+    max-width: 80%;
     backdrop-filter: blur(10px);
-    background: rgba(88, 88, 88, 0.2);
+    background: rgb(0 0 0 / 49%);
+    border-radius: 65px;
 }
 
 .table {
@@ -118,5 +120,13 @@ a:visited {
     justify-content: center;
     flex-direction: column;
     flex-wrap: nowrap;
+    padding: 50px;
+}
 
+.additional {
+    padding: 50px;
+}
+
+.character-info {
+    text-align: center;
 }

@@ -17,6 +17,9 @@
         font-family: 'Raleway', sans-serif;
         margin: 0;
         padding: 0;
+        color: #fff;
+        line-height: 120%;
+        font-size: 18px;
     }
 
     .Navbar {

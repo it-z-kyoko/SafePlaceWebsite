@@ -46,7 +46,7 @@ body {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: auto;
-    width: 80%; /* Adjusted width for responsiveness */
+    width: 80%;
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(2, 1fr);

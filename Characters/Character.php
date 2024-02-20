@@ -1,11 +1,10 @@
-<?php 
+<?php
 $id = $_GET["id"];
 
 include_once("../Classes/DBConnection.php");
 
 $character = DBConnection::SelectCharacterbyCharacterid($id);
-switch ($character->getPlayer())
-{
+switch ($character->getPlayer()) {
     case '1':
         $path = '../images/KyoGalaxy.jpg';
         $id = 1;
@@ -26,6 +25,7 @@ switch ($character->getPlayer())
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Character Placeholder</title>
@@ -44,18 +44,18 @@ switch ($character->getPlayer())
 
 <body>
     <div class="div-2">
-    <div class="background-image"></div>
-        <?php include("../GlobalResources/Navbar.php")?>
-            <h1 class="page-header">
-                Character Placeholder
-                <form method="post" action="">
-                    <button class="edit" type="submit" name="redirect">
-                        <i class="fas fa-edit" style="color:black; background-color:#fff;border:0;"></i>
-                    </button>
-                </form>
-            </h1>
-            <div class="page-content">
-                <div class="table">
+        <div class="background-image"></div>
+        <?php include("../GlobalResources/Navbar.php") ?>
+        <h1 class="page-header">
+            <?php echo $character->getFirstname() . " " . $character->getLastname() ?>
+            <form method="post" action="">
+                <button class="edit" type="submit" name="redirect">
+                    <i class="fas fa-edit" style="color:black; background-color:#fff;border:0;"></i>
+                </button>
+            </form>
+        </h1>
+        <div class="page-content">
+            <div class="table">
                 <!-- Character Information -->
                 <section class="character-info">
                     <h2>Character Information</h2>
@@ -149,26 +149,57 @@ switch ($character->getPlayer())
                         </tr>
                     </table>
                 </section>
-                </div>
-                <div class="additional">
-<!-- Personality -->
-<section class="personality">
+            </div>
+            <div class="additional">
+                <!-- Personality -->
+                <section class="personality">
                     <h2>Persönlichkeit</h2>
                     <p>
-                        <b>Vorlieben: </b> Vorlieben Placeholder <br><br>
-                        <b>Abneigungen: </b> Abneigungen Placeholder <br><br>
-                        Persönlichkeit Placeholder
+                        <b>Vorlieben: </b>
+                        <?php
+                        if ($character->getLikes() == "") {
+                            echo "Keine Vorlieben angegeben";
+                        } else {
+                            echo $character->getLikes();
+                        }
+                        ?>
+                        <br><br>
+                        <b>Abneigungen: </b>
+                        <?php
+                        if ($character->getDislikes() == "") {
+                            echo "Keine Abneigungen angegeben";
+                        } else {
+                            echo $character->getDislikes();
+                        }
+                        ?>
+                        <br><br>
+                        <?php
+                        if ($character->getPersonality() == "") {
+                            echo "Keine Persönlichkeit angegeben";
+                        } else {
+                            echo $character->getPersonality();
+                        }
+                        ?>
                     </p>
                 </section>
 
                 <!-- Background -->
                 <section class="background">
                     <h2>Background</h2>
-                    <p>Background Placeholder</p>
+                    <p>
+                        <?php
+                        if ($character->getBackground() == "") {
+                            echo "Keinen Hintergrund angegeben";
+                        } else {
+                            echo $character->getBackground();
+                        }
+                        ?>
+                    </p>
                 </section>
 
                 <!-- Abilities -->
                 <section class="abilities">
+                    <h2>Abilities</h2>
                     Abilities Placeholder
                 </section>
 
@@ -187,14 +218,14 @@ switch ($character->getPlayer())
                     <input type="submit" value="Bild hochladen" name="submit">
                 </form>
             </div>
-                </div>
+        </div>
 
 
-                
+
     </div>
-        
 
-    
+
+
 </body>
 
 </html>
