@@ -22,6 +22,7 @@ function CreateDatabase()
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         character_id INTEGER,
         Describtion TEXT NOT NULL,
+        Inherit INTEGER,
         FOREIGN KEY (character_id) REFERENCES characters(character_id) ON DELETE CASCADE
     )');
 
