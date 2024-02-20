@@ -7,15 +7,15 @@ $character = DBConnection::SelectCharacterbyCharacterid($id);
 switch ($character->getPlayer()) {
     case '1':
         $path = '../images/KyoGalaxy.jpg';
-        $id = 1;
+        $pid = 1;
         break;
     case '3':
         $path = '../images/AnniGalaxy.jpg';
-        $id = 3;
+        $pid = 3;
         break;
     case '2':
         $path = '../images/LeaGalaxy.jpg';
-        $id = 2;
+        $pid = 2;
         break;
     default:
         $path = '../images/BackgroundLanding.jpg';
@@ -149,9 +149,12 @@ switch ($character->getPlayer()) {
                         </tr>
                     </table>
                 </section>
+                <section class="Family">
+                    <h2>Family</h2>
+                    <?php include("Family.php")?>
+                </section>
             </div>
             <div class="additional">
-                <!-- Personality -->
                 <section class="personality">
                     <h2>Persönlichkeit</h2>
                     <p>
@@ -183,7 +186,6 @@ switch ($character->getPlayer()) {
                     </p>
                 </section>
 
-                <!-- Background -->
                 <section class="background">
                     <h2>Background</h2>
                     <p>
@@ -197,21 +199,14 @@ switch ($character->getPlayer()) {
                     </p>
                 </section>
 
-                <!-- Abilities -->
                 <section class="abilities">
                     <h2>Abilities</h2>
-                    Abilities Placeholder
+                    <?php include("Abilities.php") ?>
                 </section>
 
-                <section class="Family">
-                    <h2>Family</h2>
-                    Family Placeholder
-                </section>
-
-                <!-- Image Gallery -->
                 <section class="image-gallery">
                     <h2>Image Gallery</h2>
-                    Image Gallery Placeholder
+                    <?php include("ImageGallery.php") ?>
                 </section>
                 <form action="" method="post" enctype="multipart/form-data">
                     <input type="file" name="fileToUpload" id="fileToUpload">
