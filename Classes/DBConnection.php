@@ -1,8 +1,8 @@
 <?php
 class DBConnection
 {
-    private static string $databaseFile = '../Database/SafePlace.db';
-
+    private static string $databaseFile = 'C:\Users\jugue\Documents\xampp\htdocs\SafePlaceWebsite\Database\SafePlace.db';
+//TODO: Pfad Austauschen!
     public static function getConnection()
     {
         $path = self::$databaseFile;
