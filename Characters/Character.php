@@ -85,6 +85,8 @@ if (isset($_POST['submit'])) {
 <style>
     .background-image {
         background-image: url('<?php echo $path; ?>');
+        background-size: cover;
+    background-position: top left;
     }
 </style>
 
@@ -124,7 +126,7 @@ if (isset($_POST['submit'])) {
                                 <?php
                                 if ($character->getChild() == 1) {
                                     echo "<p>Altert im RP</p>";
-                                } elseif ($character->getAge() == "") {
+                                } elseif ($character->getAge() == 0) {
                                     echo "unbekannt";
                                 } else {
                                     echo $character->getAge();
@@ -244,11 +246,6 @@ if (isset($_POST['submit'])) {
 
                 <section class="background">
                     <h2>Background</h2>
-                    <form method="post" action="">
-                    <button class="edit" type="submit" name="back">
-                    <i class="fas fa-edit" style="color:black; background-color:#fff;border:0;"></i>
-                </button>
-                </form>
                     <p>
                         <?php
                         if ($character->getBackground() == "") {
