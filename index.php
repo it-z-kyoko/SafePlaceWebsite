@@ -29,7 +29,7 @@ CreateDatabase();
                         Ersteller der Website
                     </div>
                 </div>
-                </a>
+                
             </div>
             <div class="div-15">
             <a href="Player/Player.php?name=Anni">
@@ -54,6 +54,7 @@ CreateDatabase();
             </a>
             </div>
             <div class="div-15">
+            <a href="calender.php">
                 <div class="div-16">
                     <img loading="lazy"
                         srcset="images/BirthdayIcon.png"
@@ -63,6 +64,7 @@ CreateDatabase();
                         You want to view upcoming Birthdays?
                     </div>
                 </div>
+                </a>
             </div>
             <div class="div-15">
                 <div class="div-16">
