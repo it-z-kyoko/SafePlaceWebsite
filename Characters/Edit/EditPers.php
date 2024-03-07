@@ -89,6 +89,7 @@ if (isset($_POST["update3"])) {
     <div class="background-image"></div>
     <?php include("../../GlobalResources/Navbar.php") ?>
     <div class="flex">
+    <h1><?php echo ($character->getFirstName() . " " . $character->getLastName()) ?></h1>
         <form action="<?php echo 'EditPers.php?id=' . $searching ?>" method="POST">
             <label for="Likes">Likes:</label>
             <textarea id="Likes" name="Likes"><?php echo $character->getLikes(); ?></textarea>

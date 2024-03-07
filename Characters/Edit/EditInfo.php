@@ -94,6 +94,7 @@ if (isset($_POST["update2"])) {
     <div class="background-image"></div>
     <?php include("../../GlobalResources/Navbar.php") ?>
     <div class="flex">
+    <h1><?php echo ($character->getFirstName() . " " . $character->getLastName()) ?></h1>
         <form action="<?php echo 'EditInfo.php?id=' . $_GET['id'] ?>" method="POST">
             <label for="nickname">Spitzname:</label>
             <input type="text" id="nickname" name="nickname" value="<?php echo $character->getNickname(); ?>">
