@@ -20,6 +20,18 @@ switch ($name) {
 
 include_once("../Classes/DBConnection.php");
 $ca = DBConnection::SelectAllCharactersbyPlayerid($id);
+
+function showList($id)
+{
+    $ca = DBConnection::ShowAllPlayerCharactersWithoutPartners($id);
+    $output = "";
+    foreach ($ca as $c) {
+        $output .= $c->getfirstname();
+    }
+    var_dump($output);
+    return $output;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -79,8 +91,36 @@ $ca = DBConnection::SelectAllCharactersbyPlayerid($id);
                         <p><strong>Weibliche Charaktere: </strong><?php echo $w ?></p>
                         <p><strong>Männliche Charaktere: </strong><?php echo $m ?></p>
                         <p><strong>Geschlechtslose Charaktere: </strong><?php echo $d ?></p>
+                        <button id="showListButton" onclick="loadList()">Liste anzeigen</button>
                     </div>
                 </div>
+                <div id="popup">
+                            <span id="closePopup">X</span>
+                            <div id="listContainer"></div>
+                        </div>
+
+
+                        <script>
+                            document.getElementById('showListButton').addEventListener('click', function() {
+                                document.getElementById('popup').style.display = 'block';
+                            });
+
+                            function loadList() {
+                                var xhr = new XMLHttpRequest();
+                                xhr.onreadystatechange = function() {
+                                    if (xhr.readyState == 4 && xhr.status == 200) {
+                                        document.getElementById("listContainer").innerHTML = xhr.responseText;
+                                    }
+                                };
+                                xhr.open("GET", "showList.php?id=<?php echo $id; ?>", true);
+                                xhr.send();
+                            }
+
+                            document.getElementById('closePopup').addEventListener('click', function() {
+                                // Pop-Up ausblenden
+                                document.getElementById('popup').style.display = 'none';
+                            });
+                        </script>
             </div>
             <div class="character-list">
                 <?php
@@ -101,3 +141,52 @@ $ca = DBConnection::SelectAllCharactersbyPlayerid($id);
 </body>
 
 </html>
+
+<style>
+    #popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        height: 80%;
+        width: 50%;
+        overflow: scroll;
+        background-color: #1a1a1a;
+        color: #fff;
+    }
+
+    #closePopup {
+        cursor: pointer;
+        font-size: 20px;
+        font-weight: bold;
+        color: #fff;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    #closePopup:hover {
+        color: #555;
+        /* Textfarbe bei Hover anpassen */
+    }
+
+    ::-webkit-scrollbar {
+        width: 12px;
+        /* Breite der Scrollbar */
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #888;
+        /* Farbe des Scrollbar-Griffs */
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+        /* Farbe des Scrollbar-Griffs bei Hover */
+    }
+</style>
