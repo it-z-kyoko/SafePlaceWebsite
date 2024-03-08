@@ -1,7 +1,7 @@
 <?php
 class DBConnection
 {
-    private static string $databaseFile = 'C:\Users\jugue\Documents\xampp\htdocs\SafePlaceWebsite\Database\SafePlace.db';
+    private static string $databaseFile = 'C:\xampp\htdocs\SafePlaceWebsite\Database\SafePlace.db';
 //TODO: Pfad Austauschen!
     public static function getConnection()
     {
@@ -137,41 +137,41 @@ class DBConnection
         $character = self::character($result);
         return $character;
     }
-
-    public static function ShowallBirthdaysofThisMonth()
+    public static function ShowallBirthdaysofThisMonth($month)
     {
         include_once('fullcharacter.php');
         $conn = self::getConnection();
-
+    
         $sql = "SELECT
-            c.character_id AS Character_ID,
-            c.First_Name AS First_Name,
-            c.Last_Name AS Last_Name,
-            c.Player_id AS Player_ID,
-            c.Posted AS Posted,
-            cpn.Nickname AS Nickname,
-            cpn.Age AS Age,
-            cpn.Race AS Race,
-            cpn.Birthday AS Birthday,
-            cpn.Gender AS Gender,
-            cpn.Height AS Height,
-            cpn.Weight AS Weight,
-            cpn.Child AS Child,
-            cp.Likes AS Likes,
-            cp.Dislikes AS Dislikes,
-            cp.Personality AS Personality,
-            cp.Background AS Background
-            FROM `characters` AS c
-            LEFT JOIN `character_personality` AS cp ON c.character_id = cp.character_id
-            LEFT JOIN `character_profiles` AS cpn ON c.character_id = cpn.characters_id 
-            WHERE MONTH(cpn.Birthday) = MONTH(CURRENT_DATE()) AND DAY(cpn.Birthday) >= DAY(CURRENT_DATE()) 
-            ORDER BY cpn.Birthday";
+        c.character_id AS Character_ID,
+        c.First_Name AS First_Name,
+        c.Last_Name AS Last_Name,
+        c.Player_id AS Player_ID,
+        c.Posted AS Posted,
+        cpn.Nickname AS Nickname,
+        cpn.Age AS Age,
+        cpn.Race AS Race,
+        cpn.Birthday AS Birthday,
+        cpn.Gender AS Gender,
+        cpn.Height AS Height,
+        cpn.Weight AS Weight,
+        cpn.Child AS Child,
+        cp.Likes AS Likes,
+        cp.Dislikes AS Dislikes,
+        cp.Personality AS Personality,
+        cp.Background AS Background
+        FROM `characters` AS c
+        LEFT JOIN `character_personality` AS cp ON c.character_id = cp.character_id
+        LEFT JOIN `character_profiles` AS cpn ON c.character_id = cpn.characters_id
+        WHERE cpn.Birthday IS NOT '0000-00-00' AND cpn.Birthday IS NOT null AND strftime('%m', cpn.Birthday) = '" . $month . "'
+        ORDER BY cpn.Birthday";
 
         $result = $conn->query($sql);
-
+    
         return self::characterlist($result);
     }
-
+    
+    
 
     public static function ShownewestCharacters()
     {

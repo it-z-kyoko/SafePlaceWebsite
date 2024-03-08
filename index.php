@@ -54,7 +54,7 @@ CreateDatabase();
             </a>
             </div>
             <div class="div-15">
-            <a href="calender.php">
+            <a href="calendar.php">
                 <div class="div-16">
                     <img loading="lazy"
                         srcset="images/BirthdayIcon.png"
