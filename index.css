@@ -9,7 +9,23 @@ ol,
 li {
     margin: 0;
     padding: 0;
+    height: 100vh;
 }
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    overflow: hidden;
+}
+
 
 .img {
     position: absolute;
@@ -157,18 +173,26 @@ header {
     z-index: 1000;
 }
 
-.background-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('images/BackgroundLanding.jpeg');
-    background-size: cover;
-    background-position: top left;
-    z-index: -1;
-}
-
+    .background-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('images/BackgroundLanding.jpeg');
+        background-size: cover;
+        background-position: top left;
+        z-index: -1;
+        background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the wimage */
+    background-size: fill;
+    }
+    body {
+        margin: 0;
+        height: 100vh;
+        overflow: hidden; /* Optional, um sicherzustellen, dass kein Scrollen möglich ist */
+    }
+    
 .Navbar {
     display: flex;
     justify-content: space-between;
@@ -289,4 +313,8 @@ header {
     100% {
         background-position: 0 0;
     }
+}
+
+.spacer {
+    height: 1000px
 }

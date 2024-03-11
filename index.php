@@ -96,6 +96,9 @@ CreateDatabase();
             </div>
             <button class="TicketButton" type="button">Write a Ticket!</button>
         </div>
+    <div class="spacer">
+        <input type="hidden">
+    </div>
     </div>
 
 </body>
