@@ -54,7 +54,7 @@ if (isset($_POST['update4'])) {
     <div class="flex">
         <form action="Editab.php?id=<?php echo htmlspecialchars($_GET['id']); ?>" method="POST">
             <label>Fähigkeiten:</label>
-            <input type="button" class="noticemebutton" value="Neue Fähigkeit?" onclick="location.href = 'AddAbilities.php?id=<?php echo htmlspecialchars($searching); ?>'">
+            <input type="button" class="noticemebutton" value="Neue Fähigkeit?" onclick="location.href = '../Add/Addab.php?id=<?php echo htmlspecialchars($searching); ?>'">
             <?php
             $i = 0;
             foreach ($abilities as $description) {

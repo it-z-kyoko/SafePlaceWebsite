@@ -106,7 +106,7 @@ if (isset($_POST["update2"])) {
             <input type="text" id="race" name="race" value="<?php echo $character->getRace(); ?>">
 
             <label for="birthday">Geburtstag:</label>
-            <input type="text" id="birthday" name="birthday" value="<?php echo $character->getBirthday(); ?>">
+            <input type="date" id="birthday" name="birthday" value="<?php echo $character->getBirthday(); ?>">
 
             <label for="gender">Geschlecht:</label>
             <input type="text" id="gender" name="gender" value="<?php echo $character->getGender(); ?>">

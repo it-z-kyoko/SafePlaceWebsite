@@ -58,11 +58,11 @@
     <?php include("../../GlobalResources/Navbar.php") ?>
     <div class="flex">
         <div class="container">
-            <form action="<?php echo 'AddAbilities.php?id=' . $_GET['id'] ?>" method="POST">
+            <form action="<?php echo 'Addab.php?id=' . $_GET['id'] ?>" method="POST">
                 <label>Fähigkeiten:</label>
                 <input type="text" name="new-ability" placeholder="Neue Fähigkeit">
                 <input type="submit" name="add" value="Feld hinzufügen">
-                <input type="button" class="noticemebutton" value="Fertig" onclick="location.href = 'Edit.php?id=<?php echo htmlspecialchars($searching); ?>'">
+                <input type="button" class="noticemebutton" value="Fertig" onclick="location.href = '../Character.php?id=<?php echo htmlspecialchars($searching); ?>'">
             </form>
         </div>
         <div class="abilities-list">
