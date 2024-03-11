@@ -82,15 +82,17 @@ function renderBirthdays($birthdays)
     <title>Geburtstagskalender</title>
     <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
     <div class="div-2">
         <div class="background-image"></div>
         <?php include("GlobalResources/Navbar.php") ?>
-        <input id="currentMonth" value="<?php echo $currentMonth; ?>">
+        <input type="hidden" id="currentMonth" value="<?php echo $currentMonth; ?>">
         <div class="month-slider">
-            
+            <div class="spacer2">
             <button id="prevMonth">Previous Month</button>
             <button id="nextMonth">Next Month</button>
+            </div>
             <div id="birthdaysContainer">
                 <?php echo renderBirthdays($birthdays); ?>
             </div>
@@ -102,50 +104,60 @@ function renderBirthdays($birthdays)
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <!-- ... -->
-<script>
-    $(document).ready(function () {
-        // Initial load
-        loadBirthdays(<?php echo $currentMonth; ?>);
+    <script>
+        $(document).ready(function() {
+            // Initial load
+            loadBirthdays(<?php echo $currentMonth; ?>);
 
-        // Click event for next month
-        $('#nextMonth').on('click', function () {
-            var nextMonth = parseInt($('#currentMonth').val()) + 1;
-            if (nextMonth > 12) {
-                nextMonth = 1;
-            }
-            loadBirthdays(nextMonth);
-        });
-
-        // Click event for previous month
-        $('#prevMonth').on('click', function () {
-            var prevMonth = parseInt($('#currentMonth').val()) - 1;
-            if (prevMonth < 1) {
-                prevMonth = 12;
-            }
-            loadBirthdays(prevMonth);
-        });
-
-        // Function to load birthdays for the selected month
-        function loadBirthdays(month) {
-            $.ajax({
-                url: 'birthdays.php',
-                type: 'POST',
-                data: { month: month },
-                success: function (data) {
-                    $('#birthdaysContainer').html(data);
-                    $('#currentMonth').val(month);
+            // Click event for next month
+            $('#nextMonth').on('click', function() {
+                var nextMonth = parseInt($('#currentMonth').val()) + 1;
+                if (nextMonth > 12) {
+                    nextMonth = 1;
                 }
+                loadBirthdays(nextMonth);
             });
-        }
-    });
-</script>
-<!-- ... -->
+
+            // Click event for previous month
+            $('#prevMonth').on('click', function() {
+                var prevMonth = parseInt($('#currentMonth').val()) - 1;
+                if (prevMonth < 1) {
+                    prevMonth = 12;
+                }
+                loadBirthdays(prevMonth);
+            });
+
+            // Function to load birthdays for the selected month
+            function loadBirthdays(month) {
+                $.ajax({
+                    url: 'birthdays.php',
+                    type: 'POST',
+                    data: {
+                        month: month
+                    },
+                    success: function(data) {
+                        $('#birthdaysContainer').html(data);
+                        $('#currentMonth').val(month);
+                    }
+                });
+            }
+        });
+    </script>
+    <!-- ... -->
 
 
 </html>
 
 
 <style>
+    .spacer2{
+        display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    margin: 20px;
+    }
     body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -153,6 +165,7 @@ function renderBirthdays($birthdays)
         display: flex;
         justify-content: center;
         align-items: center;
+        overflow: scroll;
     }
 
     .calendar {
@@ -196,6 +209,15 @@ function renderBirthdays($birthdays)
     }
 
     .birthday {
-        background-color: #ffc0cb;
+        background-color: #252525;
+    }
+
+    button {
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        background-color: #0e3a8a;
+        color: #fff;
+        border-width: 0;
+        margin: 10px
     }
 </style>

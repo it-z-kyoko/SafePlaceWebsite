@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 function renderBirthdays($birthdays)
 {
     $htmlContent = '<div class="calendar">';
+    
     $daysInMonth = cal_days_in_month(CAL_GREGORIAN, date('m'), date('Y'));
 
     for ($day = 1; $day <= $daysInMonth; $day++) {

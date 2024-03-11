@@ -21,14 +21,6 @@
         line-height: 120%;
         font-size: 18px;
     }
-
-    body {
-    margin: 0;
-    height: 100vh;
-    overflow: hidden; /* Optional, um sicherzustellen, dass kein Scrollen möglich ist */
-}
-
-
     .Navbar {
         border-radius: 40px;
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
