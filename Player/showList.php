@@ -2,9 +2,10 @@
 include_once("../Classes/DBConnection.php");
 $id = $_GET["id"];
 $ca = DBConnection::ShowAllPlayerCharactersWithoutPartners($id);
-$output = "";
+$output = "<h3>Charaktere ohne eingetragenen Partner</h3>";
+echo $output;
 foreach ($ca as $c) {
     echo "<p>". $c->getFirstname() . " " . $c->getlastname()."</p>";
 }
-echo $output;
+
 ?>

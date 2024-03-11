@@ -95,32 +95,32 @@ function showList($id)
                     </div>
                 </div>
                 <div id="popup">
-                            <span id="closePopup">X</span>
-                            <div id="listContainer"></div>
-                        </div>
+                    <span id="closePopup">X</span>
+                    <div id="listContainer"></div>
+                </div>
 
 
-                        <script>
-                            document.getElementById('showListButton').addEventListener('click', function() {
-                                document.getElementById('popup').style.display = 'block';
-                            });
+                <script>
+                    document.getElementById('showListButton').addEventListener('click', function() {
+                        document.getElementById('popup').style.display = 'block';
+                    });
 
-                            function loadList() {
-                                var xhr = new XMLHttpRequest();
-                                xhr.onreadystatechange = function() {
-                                    if (xhr.readyState == 4 && xhr.status == 200) {
-                                        document.getElementById("listContainer").innerHTML = xhr.responseText;
-                                    }
-                                };
-                                xhr.open("GET", "showList.php?id=<?php echo $id; ?>", true);
-                                xhr.send();
+                    function loadList() {
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState == 4 && xhr.status == 200) {
+                                document.getElementById("listContainer").innerHTML = xhr.responseText;
                             }
+                        };
+                        xhr.open("GET", "showList.php?id=<?php echo $id; ?>", true);
+                        xhr.send();
+                    }
 
-                            document.getElementById('closePopup').addEventListener('click', function() {
-                                // Pop-Up ausblenden
-                                document.getElementById('popup').style.display = 'none';
-                            });
-                        </script>
+                    document.getElementById('closePopup').addEventListener('click', function() {
+                        // Pop-Up ausblenden
+                        document.getElementById('popup').style.display = 'none';
+                    });
+                </script>
             </div>
             <div class="character-list">
                 <?php
@@ -188,5 +188,14 @@ function showList($id)
     ::-webkit-scrollbar-thumb:hover {
         background-color: #555;
         /* Farbe des Scrollbar-Griffs bei Hover */
+    }
+
+    #listContainer {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-content: center;
+        justify-content: space-evenly;
+        align-items: center;
     }
 </style>
