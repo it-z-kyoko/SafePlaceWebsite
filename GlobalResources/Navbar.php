@@ -5,7 +5,7 @@
             <div class="Nav-Element">Home</div>
             <div class="Nav-Element">Spieler</div>
             <div class="Nav-Element">Charaktere</div>
-            <div class="Nav-Element">Universum und Lore</div>
+            <div class="Nav-Element">Erstelle einen Charakter</div>
             <div class="Nav-Element">Login</div>
             <div class="Nav-Element">Register</div>
         </div>
