@@ -88,6 +88,8 @@ if (isset($_POST["update5"])) {
         if ($result) {
             // Update erfolgreich
             $updateStmt->close();
+            header("Location: ../Character.php?id=" . $id);
+            exit();
         } else {
             // Fehler beim Update
             echo "Fehler beim Update: " . $conn->lastErrorMsg();
@@ -114,6 +116,8 @@ if (isset($_POST["update5"])) {
         if ($result) {
             // Neuer Datensatz erfolgreich eingefügt
             $insertStmt->close();
+            header("Location: ../Character.php?id=" . $id);
+            exit();
         } else {
             // Fehler beim Einfügen
             echo "Fehler beim Einfügen: " . $conn->lastErrorMsg();
@@ -138,7 +142,7 @@ if (isset($_POST["update5"])) {
 <?php include_once("../../GlobalResources/Search.php"); ?>
     <h1><?php echo ($ca->getFirstName() . " " . $ca->getLastName()) ?></h1>
     <div class="flex">
-        <form action="<?php echo 'Edit.php?id=' . $_GET['id'] ?>" method="POST">
+        <form action="<?php echo 'EditFamily.php?id=' . $_GET['id'] ?>" method="POST">
             <label for="Elternteil1">Elternteil 1:</label>
             <input type="text" id="Elternteil1" name="Elternteil1" value="<?php echo !empty($row['Parent1']) ? $row['Parent1'] : ''; ?>">
 
