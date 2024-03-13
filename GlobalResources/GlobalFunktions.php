@@ -21,7 +21,7 @@ function CreateDatabase()
         $db->exec('CREATE TABLE IF NOT EXISTS character_ability (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         character_id INTEGER,
-        Describtion TEXT NOT NULL,
+        Description TEXT NOT NULL,
         Inherit INTEGER,
         FOREIGN KEY (character_id) REFERENCES characters(character_id) ON DELETE CASCADE
     )');
@@ -99,7 +99,7 @@ function CreateDatabase()
         $db->exec('CREATE TABLE IF NOT EXISTS wishlist (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         Player_id INTEGER,
-        Describtion TEXT NOT NULL,
+        Description TEXT NOT NULL,
         FOREIGN KEY (Player_id) REFERENCES players(id)
     )');
 
@@ -219,7 +219,7 @@ function ShowAbilities($id)
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             $ability = new Abilities(
                 $row["character_id"],
-                $row["Describtion"]
+                $row["Description"]
             );
             array_push($ab, $ability);
         }

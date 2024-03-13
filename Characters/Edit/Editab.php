@@ -16,7 +16,7 @@ $result_abilities = $stmt_abilities->execute();
 
 if ($result_abilities) {
     while ($row = $result_abilities->fetchArray(SQLITE3_ASSOC)) {
-        $abilities[] = new Abilities($row['id'], $row['Describtion']);
+        $abilities[] = new Abilities($row['id'], $row['Description']);
     }
 } else {
     // Handle the error, for example:
@@ -30,7 +30,7 @@ if (isset($_POST['update4'])) {
         $escaped_description = $conn->escapeString($description);
 
         // Aktualisiere die Fähigkeit basierend auf der ID
-        $sql_update = "UPDATE character_ability SET Describtion = '$escaped_description' WHERE id = $id";
+        $sql_update = "UPDATE character_ability SET Description = '$escaped_description' WHERE id = $id";
         $conn->query($sql_update);
     }
     header('Location: ../Character.php?id=' . $searching);

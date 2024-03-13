@@ -13,7 +13,7 @@
         $description = $_POST['new-ability'];
 
         // Verwende vorbereitete Anweisungen, um SQL-Injection zu verhindern
-        $sql = "INSERT INTO character_ability (character_id, Describtion) VALUES (?, ?)";
+        $sql = "INSERT INTO character_ability (character_id, Description) VALUES (?, ?)";
 
         $statement = $conn->prepare($sql);
         $statement->bindValue(1, $id, SQLITE3_INTEGER);
@@ -35,7 +35,7 @@
 
     if ($result_abilities) {
         while ($row = $result_abilities->fetchArray(SQLITE3_ASSOC)) {
-            $abilities[] = $row['Describtion'];
+            $abilities[] = $row['Description'];
         }
     } else {
         // Handle the error, for example:

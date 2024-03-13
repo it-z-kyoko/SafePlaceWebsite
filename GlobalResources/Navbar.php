@@ -1,13 +1,17 @@
+<head>
+    <link rel="shortcut icon" href="https://safeplace.infinityfreeapp.com/images/Logo.png" type="image/x-icon">
+</head>
+
 <header>
     <nav>
         <div class="Navbar">
             <img loading="lazy" srcset="images\Logo.png" class="navbar-image" />
-            <div class="Nav-Element">Home</div>
-            <div class="Nav-Element">Spieler</div>
-            <div class="Nav-Element">Charaktere</div>
-            <div class="Nav-Element">Erstelle einen Charakter</div>
-            <div class="Nav-Element">Login</div>
-            <div class="Nav-Element">Register</div>
+            <div class="Nav-Element"><a href="#" style="color: #000000">Home</a></div>
+            <div class="Nav-Element"><a href="#" style="color: #000000">Spieler</a></div>
+            <div class="Nav-Element"><a href="#" style="color: #000000">Charaktere</a></div>
+            <div class="Nav-Element"><a href="#" style="color: #000000">Erstelle einen Charakter</a></div>
+            <div class="Nav-Element"><a href="#" style="color: #000000">Login</a></div>
+            <div class="Nav-Element"><a href="#" style="color: #000000">Register</a></div>
         </div>
     </nav>
 </header>
