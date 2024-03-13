@@ -22,7 +22,7 @@ if (isset($_POST["update2"])) {
         $conn = DBConnection::getConnection();
 
         // Überprüfe, ob Datensatz existiert
-        $check_sql = "SELECT * FROM `character_profiles` WHERE `characters_id` = ?";
+        $check_sql = "SELECT * FROM `character_profile` WHERE `characters_id` = ?";
         $check_stmt = $conn->prepare($check_sql);
         $check_stmt->bindValue(1, $id, SQLITE3_INTEGER);
         $stmtres = $check_stmt->execute();
@@ -30,7 +30,7 @@ if (isset($_POST["update2"])) {
 
         if (!$result) {
             // Datensatz existiert nicht, führe ein INSERT aus
-            $insert_sql = "INSERT INTO `character_profiles` (`characters_id`, `Nickname`, `Age`, `Race`, `Birthday`, `Gender`, `Height`, `Weight`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $insert_sql = "INSERT INTO `character_profile` (`characters_id`, `Nickname`, `Age`, `Race`, `Birthday`, `Gender`, `Height`, `Weight`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $insert_stmt = $conn->prepare($insert_sql);
             $insert_stmt->bindValue(1, $id, SQLITE3_INTEGER);
             $insert_stmt->bindValue(2, $nickname, SQLITE3_TEXT);
@@ -51,7 +51,7 @@ if (isset($_POST["update2"])) {
             }
         } else {
             // Datensatz existiert, führe ein UPDATE aus
-            $update_sql = "UPDATE `character_profiles` SET `Nickname`=?,`Age`=?,`Race`=?,`Birthday`=?,`Gender`=?,`Height`=?,`Weight`=? WHERE `characters_id` = ?";
+            $update_sql = "UPDATE `character_profile` SET `Nickname`=?,`Age`=?,`Race`=?,`Birthday`=?,`Gender`=?,`Height`=?,`Weight`=? WHERE `characters_id` = ?";
             $update_stmt = $conn->prepare($update_sql);
             $update_stmt->bindValue(1, $nickname, SQLITE3_TEXT);
             $update_stmt->bindValue(2, $Alter, SQLITE3_INTEGER);

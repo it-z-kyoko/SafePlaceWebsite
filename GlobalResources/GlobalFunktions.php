@@ -53,7 +53,7 @@ function CreateDatabase()
     )');
 
         // character_personality Tabelle
-        $db->exec('CREATE TABLE IF NOT EXISTS character_profiles (
+        $db->exec('CREATE TABLE IF NOT EXISTS character_profile (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         characters_id INTEGER,
         Nickname TEXT,
@@ -67,7 +67,7 @@ function CreateDatabase()
         FOREIGN KEY (characters_id) REFERENCES characters(character_id) ON DELETE NO ACTION
     )');
 
-        // character_profiles Tabelle
+        // character_profile Tabelle
         $db->exec('CREATE TABLE IF NOT EXISTS players (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         Name TEXT NOT NULL,

@@ -100,9 +100,9 @@ class DBConnection
         cp.Dislikes AS Dislikes,
         cp.Personality AS Personality,
         cp.Background AS Background
-        FROM `characters` AS c
+        FROM `character` AS c
         LEFT JOIN `character_personality` AS cp ON c.character_id = cp.character_id
-        LEFT JOIN `character_profiles` AS cpn ON c.character_id = cpn.characters_id
+        LEFT JOIN `character_profile` AS cpn ON c.character_id = cpn.characters_id
         WHERE c.Player_id = $id;";
         $result = $conn->query($sql);
         $ca = self::characterlist($result);
@@ -130,9 +130,9 @@ class DBConnection
         cp.Dislikes AS Dislikes,
         cp.Personality AS Personality,
         cp.Background AS Background
-        FROM `characters` AS c
+        FROM `character` AS c
         LEFT JOIN `character_personality` AS cp ON c.character_id = cp.character_id
-        LEFT JOIN `character_profiles` AS cpn ON c.character_id = cpn.characters_id WHERE c.character_id = $id";
+        LEFT JOIN `character_profile` AS cpn ON c.character_id = cpn.characters_id WHERE c.character_id = $id";
         $result = $conn->query($sql);
         $character = self::character($result);
         return $character;
@@ -160,9 +160,9 @@ class DBConnection
         cp.Dislikes AS Dislikes,
         cp.Personality AS Personality,
         cp.Background AS Background
-        FROM `characters` AS c
+        FROM `character` AS c
         LEFT JOIN `character_personality` AS cp ON c.character_id = cp.character_id
-        LEFT JOIN `character_profiles` AS cpn ON c.character_id = cpn.characters_id
+        LEFT JOIN `character_profile` AS cpn ON c.character_id = cpn.characters_id
         WHERE cpn.Birthday IS NOT '0000-00-00' AND cpn.Birthday IS NOT null AND strftime('%m', cpn.Birthday) = '" . $month . "'
         ORDER BY cpn.Birthday";
 
@@ -198,9 +198,9 @@ class DBConnection
         cp.Dislikes AS Dislikes,
         cp.Personality AS Personality,
         cp.Background AS Background
-        FROM `characters` AS c
+        FROM `character` AS c
         LEFT JOIN `character_personality` AS cp ON c.character_id = cp.character_id
-        LEFT JOIN `character_profiles` AS cpn ON c.character_id = cpn.characters_id ORDER BY c.Posted DESC LIMIT 5";
+        LEFT JOIN `character_profile` AS cpn ON c.character_id = cpn.characters_id ORDER BY c.Posted DESC LIMIT 5";
         $result = $conn->query($sql);
 
         $ca = self::characterlist($result);
@@ -234,9 +234,9 @@ class DBConnection
         cp.Dislikes AS Dislikes,
         cp.Personality AS Personality,
         cp.Background AS Background
-        FROM `characters` AS c
+        FROM `character` AS c
         LEFT JOIN `character_personality` AS cp ON c.character_id = cp.character_id
-        LEFT JOIN `character_profiles` AS cpn ON c.character_id = cpn.characters_id 
+        LEFT JOIN `character_profile` AS cpn ON c.character_id = cpn.characters_id 
         ORDER BY Posted
         DESC
         LIMIT 5;";
@@ -270,9 +270,9 @@ class DBConnection
         cp.Dislikes AS Dislikes,
         cp.Personality AS Personality,
         cp.Background AS Background
-        FROM `characters` AS c
+        FROM `character` AS c
         LEFT JOIN `character_personality` AS cp ON c.character_id = cp.character_id
-        LEFT JOIN `character_profiles` AS cpn ON c.character_id = cpn.characters_id
+        LEFT JOIN `character_profile` AS cpn ON c.character_id = cpn.characters_id
         LEFT JOIN `character_family` AS cf ON c.character_id = cf.character_id
         WHERE cf.Partner is null AND Player_ID =" . $id;
 
