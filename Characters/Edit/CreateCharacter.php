@@ -26,7 +26,7 @@ if (isset($_POST['voll'])) {
     try {
         $conn->exec('BEGIN TRANSACTION');
 
-        $sql = "INSERT INTO characters (First_Name, Last_Name, Player_id, Posted) VALUES (?,?,?,?)";
+        $sql = "INSERT INTO `character` (First_Name, Last_Name, Player_id, Posted) VALUES (?,?,?,?)";
         $sql = $conn->prepare($sql);
         $sql->bindValue(1, $fn, SQLITE3_TEXT);
         $sql->bindValue(2, $ln, SQLITE3_TEXT);

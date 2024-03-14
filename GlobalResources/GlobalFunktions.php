@@ -6,8 +6,8 @@ function CreateDatabase()
     try {
         $db = new SQLite3($databaseFile);
 
-        // characters Tabelle
-        $db->exec('CREATE TABLE IF NOT EXISTS characters (
+        // `character` Tabelle
+        $db->exec('CREATE TABLE IF NOT EXISTS character (
         character_id INTEGER PRIMARY KEY AUTOINCREMENT,
         First_Name TEXT,
         Last_Name TEXT,
@@ -23,7 +23,7 @@ function CreateDatabase()
         character_id INTEGER,
         Description TEXT NOT NULL,
         Inherit INTEGER,
-        FOREIGN KEY (character_id) REFERENCES characters(character_id) ON DELETE CASCADE
+        FOREIGN KEY (character_id) REFERENCES `character`(character_id) ON DELETE CASCADE
     )');
 
         // character_family Tabelle
@@ -42,14 +42,14 @@ function CreateDatabase()
         Child TEXT,
         Partner INTEGER,
         Married INTEGER,
-        FOREIGN KEY (character_id) REFERENCES characters(character_id) ON DELETE CASCADE,
-        FOREIGN KEY (Parent1) REFERENCES characters(character_id) ON DELETE CASCADE,
-        FOREIGN KEY (Parent2) REFERENCES characters(character_id) ON DELETE CASCADE,
-        FOREIGN KEY (Grandparent1) REFERENCES characters(character_id) ON DELETE CASCADE,
-        FOREIGN KEY (Grandparent2) REFERENCES characters(character_id) ON DELETE CASCADE,
-        FOREIGN KEY (Grandparent3) REFERENCES characters(character_id),
-        FOREIGN KEY (Grandparent4) REFERENCES characters(character_id),
-        FOREIGN KEY (Partner) REFERENCES characters(character_id) ON DELETE CASCADE
+        FOREIGN KEY (character_id) REFERENCES `character`(character_id) ON DELETE CASCADE,
+        FOREIGN KEY (Parent1) REFERENCES `character`(character_id) ON DELETE CASCADE,
+        FOREIGN KEY (Parent2) REFERENCES `character`(character_id) ON DELETE CASCADE,
+        FOREIGN KEY (Grandparent1) REFERENCES `character`(character_id) ON DELETE CASCADE,
+        FOREIGN KEY (Grandparent2) REFERENCES `character`(character_id) ON DELETE CASCADE,
+        FOREIGN KEY (Grandparent3) REFERENCES `character`(character_id),
+        FOREIGN KEY (Grandparent4) REFERENCES `character`(character_id),
+        FOREIGN KEY (Partner) REFERENCES `character`(character_id) ON DELETE CASCADE
     )');
 
         // character_personality Tabelle
@@ -64,7 +64,7 @@ function CreateDatabase()
         Height INTEGER,
         Weight INTEGER,
         Child INTEGER,
-        FOREIGN KEY (characters_id) REFERENCES characters(character_id) ON DELETE NO ACTION
+        FOREIGN KEY (characters_id) REFERENCES `character`(character_id) ON DELETE NO ACTION
     )');
 
         // character_profile Tabelle
@@ -111,7 +111,7 @@ function CreateDatabase()
         Dislikes TEXT,
         Personality TEXT,
         Background TEXT,
-        FOREIGN KEY (character_id) REFERENCES characters(character_id) ON DELETE CASCADE
+        FOREIGN KEY (character_id) REFERENCES `character`(character_id) ON DELETE CASCADE
     )');
     } catch (Exception $e) {
         die('Fehler beim Erstellen der Tabellen: ' . $e->getMessage());
@@ -143,7 +143,7 @@ function ShowFamily($id)
 
             foreach ($names as $id) {
                 if ($id != "") {
-                    $sql = "SELECT `First_Name` FROM characters WHERE character_id = ?";
+                    $sql = "SELECT `First_Name` FROM `character` WHERE character_id = ?";
 
                     $stmt = $conn->prepare($sql);
                     $stmt->bindValue(1, $id, SQLITE3_NUM);
