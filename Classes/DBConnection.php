@@ -2,7 +2,7 @@
 class DBConnection
 {
     private static string $databaseFile = 'C:\xampp\htdocs\SafePlaceWebsite\Database\SafePlace.db';
-//TODO: Pfad Austauschen!
+    //TODO: Pfad Austauschen!
     public static function getConnection()
     {
         $path = self::$databaseFile;
@@ -141,7 +141,7 @@ class DBConnection
     {
         include_once('fullcharacter.php');
         $conn = self::getConnection();
-    
+
         $sql = "SELECT
         c.character_id AS Character_ID,
         c.First_Name AS First_Name,
@@ -167,11 +167,11 @@ class DBConnection
         ORDER BY cpn.Birthday";
 
         $result = $conn->query($sql);
-    
+
         return self::characterlist($result);
     }
-    
-    
+
+
 
     public static function ShownewestCharacters()
     {
@@ -251,7 +251,7 @@ class DBConnection
     {
         include_once('fullcharacter.php');
         $conn = self::getConnection();
-    
+
         $sql = "SELECT
         c.character_id AS Character_ID,
         c.First_Name AS First_Name,
@@ -278,7 +278,48 @@ class DBConnection
 
 
         $result = $conn->query($sql);
-    
+
         return self::characterlist($result);
+    }
+
+    public static function getallEvents()
+    {
+        $conn = self::getConnection();
+
+        $sql = "SELECT le.event_id as ID, 
+        le.Lore_id as LoreID, 
+        le.Name as `Name`, 
+        le.Description as `Description`,
+        le.Short_Description as `Short_Description`, 
+        le.Player_id as Player 
+        FROM `lore_event` as le";
+
+        $result = $conn->query($sql);
+
+        return self::createEventList($result);
+    }
+
+    public static function createEventList($result)
+    {
+        $Ea = array();
+        include_once('Event.php');
+        if ($result->numColumns() > 0) {
+            while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+                array_push(
+                    $Ea,
+                    $event = new Event(
+                        $row["ID"],
+                        $row["LoreID"],
+                        $row["Name"],
+                        $row["Short_Description"],
+                        $row["Description"],
+                        $row["Player"],
+                    )
+                );
+            }
+        } else {
+            echo "0 results";
+        }
+        return $Ea;
     }
 }
