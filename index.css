@@ -1,308 +1,319 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-html, body {
-    height: 100%;
+html,
+body {
+  height: 100%;
 }
 
 body {
-    overflow: hidden;
+  overflow: hidden;
 }
 
-
 .img {
-    position: absolute;
-    inset: 0;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    object-position: center;
-    z-index: -100;
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: -100;
 }
 
 .div-2 {
-    display: flex;
-    justify-content: flex-start;
-    overflow: hidden;
-    align-self: stretch;
-    position: relative;
-    min-height: 998px;
-    width: 100%;
-    margin: 0;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: center;
+  display: flex;
+  justify-content: flex-start;
+  overflow: hidden;
+  align-self: stretch;
+  position: relative;
+  min-height: 998px;
+  width: 100%;
+  margin: 0;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
 }
 
 /* Media Query for responsive adjustments */
 @media only screen and (max-width: 768px) {
-    .navbar-image {
-        max-height: 80px;
-    }
+  .navbar-image {
+    max-height: 80px;
+  }
 
-    .Navbar {
-        flex-direction: column;
-        padding: 1em;
-    }
+  .Navbar {
+    flex-direction: column;
+    padding: 1em;
+  }
 
-    .div-14 {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        /* Adjusted gap for smaller screens */
-    }
+  .div-14 {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    /* Adjusted gap for smaller screens */
+  }
 
-    .div-15,
-    .div-16 {
-        width: 100%;
-        /* Full width on smaller screens */
-        margin-top: 20px;
-        /* Adjusted margin for spacing */
-    }
+  .div-15,
+  .div-16 {
+    width: 100%;
+    /* Full width on smaller screens */
+    margin-top: 20px;
+    /* Adjusted margin for spacing */
+  }
 
-    .textbox {
-        margin-top: 20px;
-        /* Adjusted margin for spacing */
-    }
+  .textbox {
+    margin-top: 20px;
+    /* Adjusted margin for spacing */
+  }
 }
 
 .div-15,
 .div-16 {
-    border-radius: 20px;
-    background-color: #fff;
+  border-radius: 20px;
+  background-color: #fff;
 }
 
 .div-15 {
-    width: 20%;
-    /* Adjusted width for responsiveness */
+  width: 20%;
+  /* Adjusted width for responsiveness */
 }
 
 .div-16 {
-    box-shadow: 0px 2px 48px 0px rgba(0, 0, 0, 0.08);
-    z-index: 10;
-    display: flex;
-    margin-top: -10px;
-    flex-direction: column;
-    padding: 24px 33px;
-    flex-wrap: nowrap;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
+  box-shadow: 0px 2px 48px 0px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+  display: flex;
+  margin-top: -10px;
+  flex-direction: column;
+  padding: 24px 33px;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
 
 @media (max-width: 991px) {
-    .div-16 {
-        padding: 0 20px;
-    }
+  .div-16 {
+    padding: 0 20px;
+  }
 }
 
 .img-3 {
-    aspect-ratio: 1;
-    object-fit: auto;
-    object-position: center;
-    width: 60px;
-    align-self: center;
+  aspect-ratio: 1;
+  object-fit: auto;
+  object-position: center;
+  width: 60px;
+  align-self: center;
 }
 
 .div-17 {
-    color: #1e1e1e;
-    letter-spacing: 0.25px;
-    margin-top: 20px;
-    /* Adjusted margin for spacing */
-    white-space: nowrap;
-    font: 15px/130% 'Raleway', sans-serif;
-    /* Adjusted font size and line height */
+  color: #1e1e1e;
+  letter-spacing: 0.25px;
+  margin-top: 20px;
+  /* Adjusted margin for spacing */
+  white-space: nowrap;
+  font: 15px/130% "Raleway", sans-serif;
+  /* Adjusted font size and line height */
 }
 
 @media (max-width: 991px) {
-    .div-17 {
-        white-space: initial;
-    }
+  .div-17 {
+    white-space: initial;
+  }
 }
 
 .div-18 {
-    color: #777;
-    letter-spacing: 0.75px;
-    margin-top: 10px;
-    /* Adjusted margin for spacing */
-    font: 12px/18px 'Raleway', sans-serif;
-    /* Adjusted font size and line height */
+  color: #777;
+  letter-spacing: 0.75px;
+  margin-top: 10px;
+  /* Adjusted margin for spacing */
+  font: 12px/18px "Raleway", sans-serif;
+  /* Adjusted font size and line height */
 }
 
 .div-14 {
-    display: flex;
-    margin-top: 30px;
-    /* Adjusted margin for spacing */
-    padding-right: 10px;
-    justify-content: center;
-    gap: 20px;
-    font-weight: 400;
-    text-align: center;
-    width: 80%;
+  display: flex;
+  margin-top: 30px;
+  /* Adjusted margin for spacing */
+  padding-right: 10px;
+  justify-content: center;
+  gap: 20px;
+  font-weight: 400;
+  text-align: center;
+  width: 80%;
 }
 
 @media (max-width: 991px) {
-    .div-14 {
-        max-width: 100%;
-        flex-wrap: wrap;
-        margin-top: 20px;
-        /* Adjusted margin for spacing */
-    }
+  .div-14 {
+    max-width: 100%;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    /* Adjusted margin for spacing */
+  }
 }
 
 header {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-    .background-image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: url('images/BackgroundLanding.jpeg');
-        background-size: cover;
-        background-position: top left;
-        z-index: -1;
-        background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Do not repeat the wimage */
-    background-size: fill;
-    background-size: cover;
-    background-position: top left;
-    }
-    body {
-        margin: 0;
-        height: 100vh;
-        overflow: hidden; /* Optional, um sicherzustellen, dass kein Scrollen möglich ist */
-    }
-    
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("images/BackgroundLanding.jpeg");
+  background-size: cover;
+  background-position: top left;
+  z-index: -1;
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the wimage */
+  background-size: fill;
+  background-size: cover;
+  background-position: top left;
+}
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden; /* Optional, um sicherzustellen, dass kein Scrollen möglich ist */
+}
+
 .Navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
 }
 
 .navbar-image {
-    height: 50px;
+  height: 50px;
 }
 
 .div-15:hover {
-    margin-top: -5px;
-    box-shadow: 0px 0px 10px #ff00f2;
+  margin-top: -5px;
+  box-shadow: 0px 0px 10px #ff00f2;
 }
 
 .textbox {
-    display: flex;
-    margin-top: 40px;
-    width: 100%;
-    max-width: 1110px;
-    flex-direction: column;
-    padding: 0 20px;
-    backdrop-filter: blur(15px);
-    background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  margin-top: 40px;
+  width: 100%;
+  max-width: 1110px;
+  flex-direction: column;
+  padding: 0 20px;
+  backdrop-filter: blur(15px);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .div-51,
 .div-52,
 .TicketButton {
-    color: #ffffff;
-    letter-spacing: 0.25px;
-    align-self: center;
+  color: #ffffff;
+  letter-spacing: 0.25px;
+  align-self: center;
 }
 
 .div-51 {
-    margin-right: 10px;
-    /* Adjusted for responsiveness */
-    white-space: nowrap;
-    font: 500 24px/175% 'Raleway', sans-serif;
+  margin-right: 10px;
+  /* Adjusted for responsiveness */
+  white-space: nowrap;
+  font: 500 24px/175% "Raleway", sans-serif;
 }
 
 .div-52 {
-    margin-top: 20px;
-    /* Adjusted for responsiveness */
-    font: 400 16px/28px 'Raleway', sans-serif;
+  margin-top: 20px;
+  /* Adjusted for responsiveness */
+  font: 400 16px/28px "Raleway", sans-serif;
 }
 
 .TicketButton {
-    margin-right: 10px;
-    /* Adjusted for responsiveness */
-    white-space: nowrap;
-    font: 500 24px/175% 'Raleway', sans-serif;
-    width: 100%;
-    /* Adjusted for responsiveness */
-    max-width: 220px;
-    /* Added max-width for responsiveness */
-    height: 50px;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    position: relative;
-    z-index: 0;
-    border-radius: 10px;
-    margin: 10px;
+  margin-right: 10px;
+  /* Adjusted for responsiveness */
+  white-space: nowrap;
+  font: 500 24px/175% "Raleway", sans-serif;
+  width: 100%;
+  /* Adjusted for responsiveness */
+  max-width: 220px;
+  /* Added max-width for responsiveness */
+  height: 50px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+  margin: 10px;
 }
 
 .TicketButton:before {
-    content: '';
-    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    background-size: 400%;
-    z-index: -1;
-    filter: blur(5px);
-    width: calc(100% + 4px);
-    height: calc(100% + 4px);
-    animation: glowing 20s linear infinite;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-    border-radius: 10px;
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing 20s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
 }
 
 .TicketButton:active {
-    color: #000;
+  color: #000;
 }
 
 .TicketButton:active:after {
-    background: transparent;
+  background: transparent;
 }
 
 .TicketButton:hover:before {
-    opacity: 1;
+  opacity: 1;
 }
 
 .TicketButton:after {
-    z-index: -1;
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: #111;
-    left: 0;
-    top: 0;
-    border-radius: 10px;
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #111;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
 }
 
 @keyframes glowing {
-    0% {
-        background-position: 0 0;
-    }
+  0% {
+    background-position: 0 0;
+  }
 
-    50% {
-        background-position: 400% 0;
-    }
+  50% {
+    background-position: 400% 0;
+  }
 
-    100% {
-        background-position: 0 0;
-    }
+  100% {
+    background-position: 0 0;
+  }
 }
 
 .spacer {
-    height: 1000px
+  height: 1000px;
 }
