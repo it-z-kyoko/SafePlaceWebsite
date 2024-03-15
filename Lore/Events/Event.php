@@ -27,11 +27,6 @@ $event = DBConnection::getEventbyId($id);
             <div class="table">
                 <section class="character-info">
                     <h2>Event Information</h2>
-                    <form method="post" action="">
-                        <button class="edit" type="submit" name="info">
-                            <i class="fas fa-edit" style="color:black; background-color:#fff;border:0;"></i>
-                        </button>
-                    </form>
                     <h3>Kurz-Beschreibung</h3>
                     <p class="break">
                         <?php
@@ -42,9 +37,20 @@ $event = DBConnection::getEventbyId($id);
                         }
                         ?>
                     </p>
-
-
                 </section>
+                <section class="character-info">
+                    <h3>Involvierte oder Betroffene Charaktere</h3>
+                </section>
+            </div>
+            <div class="additional">
+                <section class="personality">
+                    <h2>Beschreibung</h2>
+                    <form method="post" action="">
+                        <button class="edit" type="submit" name="pers">
+                            <i class="fas fa-edit" style="color:black; background-color:#fff;border:0;"></i>
+                        </button>
+                    </form>
+                    <p><?php echo $event->getDescription()?></p>
             </div>
         </div>
 
@@ -58,6 +64,12 @@ $event = DBConnection::getEventbyId($id);
 </html>
 
 <style type="text/css">
+    h1,
+    h2,
+    h3 {
+        padding: 20px;
+    }
+
     .position {
         width: 80%;
         display: flex !important;
@@ -89,8 +101,8 @@ $event = DBConnection::getEventbyId($id);
 
     .break {
         word-wrap: break-word;
-        width: 30%;
-        margin-left: 80px;
+        width: 20%;
+        margin-left: 20px;
     }
 
     .table {
@@ -106,5 +118,52 @@ $event = DBConnection::getEventbyId($id);
         flex-direction: column;
         align-content: center;
         align-items: center;
+    }
+
+    /* Gemeinsame Stile für verschiedene Bildschirmgrößen */
+    h1,
+    h2,
+    h3 {
+        padding: 10px;
+    }
+
+    .break {
+        word-wrap: break-word;
+        margin-left: 10px;
+        margin-right: 10px;
+        text-align: center;
+    }
+
+    /* Tablet- und Desktop-Stile */
+    @media only screen and (min-width: 768px) {
+        .page-content {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .div-2 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .table {
+            flex: 1;
+            max-width: 50%;
+        }
+
+        .additional {
+            flex: 1;
+            max-width: 50%;
+        }
+    }
+
+    /* Mobile-Stile */
+    @media only screen and (max-width: 767px) {
+        .break {
+            width: 100%;
+        }
     }
 </style>
