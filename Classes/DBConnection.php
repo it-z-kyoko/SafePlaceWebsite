@@ -322,4 +322,42 @@ class DBConnection
         }
         return $Ea;
     }
+
+    public static function getEventbyId($id)
+    {
+        $conn = self::getConnection();
+
+        $sql = "SELECT le.event_id as ID, 
+        le.Lore_id as LoreID, 
+        le.Name as `Name`, 
+        le.Description as `Description`,
+        le.Short_Description as `Short_Description`, 
+        le.Player_id as Player 
+        FROM `lore_event` as le
+        WHERE le.event_id = $id";
+
+        $result = $conn->query($sql);
+
+        return self::createEvent($result);
+    }
+
+    public static function createEvent($result)
+    {
+        $Ea = array();
+        include_once('Event.php');
+        if ($result->numColumns() > 0) {
+            $row = $result->fetchArray(SQLITE3_ASSOC);
+            $event = new Event(
+                $row["ID"],
+                $row["LoreID"],
+                $row["Name"],
+                $row["Short_Description"],
+                $row["Description"],
+                $row["Player"],
+            );
+        } else {
+            echo "0 results";
+        }
+        return $event;
+    }
 }

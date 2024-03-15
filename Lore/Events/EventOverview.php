@@ -17,28 +17,30 @@ $test = DBConnection::getallEvents();
 
 <body>
     <div class="div-2">
-
         <?php include("../../GlobalResources/Navbar.php") ?>
         <div class="background-image"></div>
         <div class="position">
             <img src="../../images/Event-Image.png" alt="" class="landscape">
             <div class="grid">
-            <?php
-            foreach ($test as $t) {
-            ?>
-                <div class="div-14">
-                    <div class="div-15">
-                        <a href="#">
-                            <div class="div-16">
-                                <div class="div-17"><?php echo $t->getName(); ?></div>
-                                <div class="div-18"><?php echo $t->getShortDescription(); ?></div>
-                            </div>
-                        </a>
+                <?php
+                foreach ($test as $t) {
+                ?>
+                    <div class="div-14">
+                        <div class="div-15">
+                            <a href="Event.php?id=<?php echo $t->getid(); ?>">
+                                <div class="div-16">
+                                    <div class="div-17"><?php echo $t->getName(); ?></div>
+                                    <div class="div-18"><?php echo $t->getShortDescription(); ?></div>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                </div>
-            <?php }
-            ?>
+                <?php }
+                ?>
             </div>
+        </div>
+        <div class="spacer">
+            <input type="hidden" name="">
         </div>
     </div>
 </body>
@@ -69,6 +71,7 @@ $test = DBConnection::getallEvents();
     .div-14 {
         width: 100% !important;
     }
+
     .div-15 {
         width: 100% !important;
         min-height: 100px;

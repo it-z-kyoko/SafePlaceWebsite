@@ -47,6 +47,8 @@ function showList($id)
 <style>
     .background-image {
         background-image: url('<?php echo $path; ?>');
+        background-size: cover;
+    background-position: top left;
     }
 </style>
 

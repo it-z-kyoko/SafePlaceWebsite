@@ -78,6 +78,8 @@ a:visited {
     background-position: top left;
     z-index: -1;
     background-size: auto 100%;
+    background-size: cover;
+    background-position: top left;
 }
 
 .div-2 {

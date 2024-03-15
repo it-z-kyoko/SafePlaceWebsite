@@ -23,6 +23,8 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: fill;
+  background-size: cover;
+  background-position: top left;
 }
 
 .div-2 {
