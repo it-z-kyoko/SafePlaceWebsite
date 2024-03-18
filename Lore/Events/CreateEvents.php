@@ -1,6 +1,7 @@
 <?php
 include_once("../../GlobalResources/SQLStuffis.php");
 include_once("../../Classes/DBConnection.php");
+include_once("../../GlobalResources/ToolTips.php");
 $conn = DBConnection::getConnection();
 
 $Lore = getallEvents();
@@ -16,11 +17,11 @@ if (isset($_POST['event'])) {
 
 
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':lore_id',$Lore);
-    $stmt->bindParam(':Name',$Name);
-    $stmt->bindParam(':Short_Description',$Kurzbeschreibung);
-    $stmt->bindParam(':Description',$Beschreibung);
-    $stmt->bindParam(':Player',$Player);
+    $stmt->bindParam(':lore_id', $Lore);
+    $stmt->bindParam(':Name', $Name);
+    $stmt->bindParam(':Short_Description', $Kurzbeschreibung);
+    $stmt->bindParam(':Description', $Beschreibung);
+    $stmt->bindParam(':Player', $Player);
 
     $result = $stmt->execute();
 
@@ -57,7 +58,7 @@ if (isset($_POST['event'])) {
                         echo "<option value='" . $l->getId() . "'>" . $l->getName() . "</option>";
                     } ?>
                 </select>
-                <label for="Kurzbeschreibung">Kurzbeschreibung:</label>
+                <?php ToolTip("Kurzbeschreibung_Event",'<label for="Kurzbeschreibung">Kurzbeschreibung:</label>')?>
                 <textarea name="Kurzbeschreibung" id="Kurzbeschreibung"></textarea>
                 <label for="Beschreibung">Beschreibung:</label>
                 <textarea name="Beschreibung" id="Beschreibung"></textarea>
@@ -83,6 +84,7 @@ if (isset($_POST['event'])) {
     h1 {
         margin: 20px
     }
+
     select {
         padding: 10px;
         margin: 5px 0;
@@ -93,4 +95,59 @@ if (isset($_POST['event'])) {
         font-size: inherit;
         width: 100%;
     }
+
+    .tooltip {
+    display:inline-block;
+    position:relative;
+    border-bottom:1px dotted #666;
+    text-align:left;
+}
+
+.tooltip h3 {margin:12px 0;}
+
+.tooltip .top {
+    min-width:200px;
+    max-width:400px;
+    top:-20px;
+    left:50%;
+    transform:translate(-30%,-100%);
+    padding:10px 20px;
+    color:#ffffff;
+    background-color:#009cdc;
+    font-weight:normal;
+    font-size:14px;
+    border-radius:8px;
+    position:absolute;
+    z-index:99999999;
+    box-sizing:border-box;
+    box-shadow:0 1px 8px rgba(0,0,0,0.5);
+    display:none;
+}
+
+.tooltip:hover .top {
+    display:block;
+}
+
+.tooltip .top i {
+    position:absolute;
+    top:100%;
+    left:30%;
+    margin-left:-15px;
+    width:30px;
+    height:15px;
+    overflow:hidden;
+}
+
+.tooltip .top i::after {
+    content:'';
+    position:absolute;
+    width:15px;
+    height:15px;
+    left:50%;
+    transform:translate(-50%,-50%) rotate(45deg);
+    background-color:#009cdc;
+    box-shadow:0 1px 8px rgba(0,0,0,0.5);
+}
+
+
 </style>
