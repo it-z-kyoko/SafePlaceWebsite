@@ -50,9 +50,9 @@ if (isset($_POST['event'])) {
         <div class="flex">
             <h1>Erstelle ein Event</h1>
             <form action="CreateEvents.php" method="post">
-                <label for="Name">Name:</label>
+                <?php ToolTip("NameEvent", '<label for="Name">Name:</label>') ?>
                 <input type="text" name="Name" id="Name">
-                <label for="Lore">Lore:</label>
+                <?php ToolTip("LoreID", '<label for="Lore">Lore:</label>') ?>
                 <select name="Lore" id="Lore" style="color: black;">
                     <?php foreach ($Lore as $l) {
                         echo "<option value='" . $l->getId() . "'>" . $l->getName() . "</option>";
@@ -60,9 +60,9 @@ if (isset($_POST['event'])) {
                 </select>
                 <?php ToolTip("Kurzbeschreibung_Event", '<label for="Kurzbeschreibung">Kurzbeschreibung:</label>') ?>
                 <textarea name="Kurzbeschreibung" id="Kurzbeschreibung"></textarea>
-                <label for="Beschreibung">Beschreibung:</label>
+                <?php ToolTip("Beschreibung", '<label for="Beschreibung">Beschreibung:</label>') ?>
                 <textarea name="Beschreibung" id="Beschreibung"></textarea>
-                <label for="Player">Zugehöriger Spieler:</label>
+                <?php ToolTip("Player", '<label for="Player">Zugehöriger Spieler:</label>') ?>
                 <select name="Player" id="Player">
                     <option value="1">Kyo</option>
                     <option value="3">Anni</option>
@@ -115,7 +115,7 @@ if (isset($_POST['event'])) {
         transform: translate(-30%, -100%);
         padding: 10px 20px;
         color: #ffffff;
-        background-color: #009cdc;
+        background-color: #009;
         font-weight: normal;
         font-size: 14px;
         border-radius: 8px;
@@ -147,7 +147,7 @@ if (isset($_POST['event'])) {
         height: 15px;
         left: 50%;
         transform: translate(-50%, -50%) rotate(45deg);
-        background-color: #009cdc;
+        background-color: #009;
         box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
     }
 </style>
