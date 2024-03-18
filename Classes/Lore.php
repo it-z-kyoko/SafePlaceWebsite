@@ -19,5 +19,3 @@ class Lore
     public function getName() { return $this->name; }
     public function getDescription() { return $this->description; }
 }
-
-?>

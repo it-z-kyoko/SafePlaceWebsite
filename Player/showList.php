@@ -8,4 +8,3 @@ foreach ($ca as $c) {
     echo "<p>". $c->getFirstname() . " " . $c->getlastname()."</p>";
 }
 
-?>
