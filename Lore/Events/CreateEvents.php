@@ -9,8 +9,8 @@ $Lore = getallEvents();
 if (isset($_POST['event'])) {
     $Name = $_POST['Name'];
     $Lore = $_POST['Lore'];
-    $Kurzbeschreibung = $_POST['Kurzbeschreibung'];
-    $Beschreibung = $_POST['Beschreibung'];
+    nl2br($Kurzbeschreibung = $_POST['Kurzbeschreibung']);
+    nl2br($Beschreibung = $_POST['Beschreibung']);
     $Player = $_POST['Player'];
 
     $sql = "INSERT INTO lore_event (lore_id,Name, Short_Description, Description, Player_id) VALUES (:lore_id, :Name, :Short_Description, :Description ,:Player)";
@@ -58,7 +58,7 @@ if (isset($_POST['event'])) {
                         echo "<option value='" . $l->getId() . "'>" . $l->getName() . "</option>";
                     } ?>
                 </select>
-                <?php ToolTip("Kurzbeschreibung_Event",'<label for="Kurzbeschreibung">Kurzbeschreibung:</label>')?>
+                <?php ToolTip("Kurzbeschreibung_Event", '<label for="Kurzbeschreibung">Kurzbeschreibung:</label>') ?>
                 <textarea name="Kurzbeschreibung" id="Kurzbeschreibung"></textarea>
                 <label for="Beschreibung">Beschreibung:</label>
                 <textarea name="Beschreibung" id="Beschreibung"></textarea>
@@ -97,57 +97,57 @@ if (isset($_POST['event'])) {
     }
 
     .tooltip {
-    display:inline-block;
-    position:relative;
-    border-bottom:1px dotted #666;
-    text-align:left;
-}
+        display: inline-block;
+        position: relative;
+        border-bottom: 1px dotted #666;
+        text-align: left;
+    }
 
-.tooltip h3 {margin:12px 0;}
+    .tooltip h3 {
+        margin: 12px 0;
+    }
 
-.tooltip .top {
-    min-width:200px;
-    max-width:400px;
-    top:-20px;
-    left:50%;
-    transform:translate(-30%,-100%);
-    padding:10px 20px;
-    color:#ffffff;
-    background-color:#009cdc;
-    font-weight:normal;
-    font-size:14px;
-    border-radius:8px;
-    position:absolute;
-    z-index:99999999;
-    box-sizing:border-box;
-    box-shadow:0 1px 8px rgba(0,0,0,0.5);
-    display:none;
-}
+    .tooltip .top {
+        min-width: 200px;
+        max-width: 400px;
+        top: -20px;
+        left: 50%;
+        transform: translate(-30%, -100%);
+        padding: 10px 20px;
+        color: #ffffff;
+        background-color: #009cdc;
+        font-weight: normal;
+        font-size: 14px;
+        border-radius: 8px;
+        position: absolute;
+        z-index: 99999999;
+        box-sizing: border-box;
+        box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+        display: none;
+    }
 
-.tooltip:hover .top {
-    display:block;
-}
+    .tooltip:hover .top {
+        display: block;
+    }
 
-.tooltip .top i {
-    position:absolute;
-    top:100%;
-    left:30%;
-    margin-left:-15px;
-    width:30px;
-    height:15px;
-    overflow:hidden;
-}
+    .tooltip .top i {
+        position: absolute;
+        top: 100%;
+        left: 30%;
+        margin-left: -15px;
+        width: 30px;
+        height: 15px;
+        overflow: hidden;
+    }
 
-.tooltip .top i::after {
-    content:'';
-    position:absolute;
-    width:15px;
-    height:15px;
-    left:50%;
-    transform:translate(-50%,-50%) rotate(45deg);
-    background-color:#009cdc;
-    box-shadow:0 1px 8px rgba(0,0,0,0.5);
-}
-
-
+    .tooltip .top i::after {
+        content: '';
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(45deg);
+        background-color: #009cdc;
+        box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+    }
 </style>
