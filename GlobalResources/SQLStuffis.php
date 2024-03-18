@@ -1,7 +1,7 @@
 <?php
 
-include_once("../Classes/DBConnection.php");
-include_once("../Classes/Event.php");
+include_once("C:/xampp/htdocs/SafePlaceWebsite/Classes/Event.php");
+include_once("C:/xampp/htdocs/SafePlaceWebsite/Classes/DBConnection.php");
 
 function getCharacterRelatedToLore($id)
 {
@@ -46,4 +46,23 @@ function getRaceRelatedToLore($id)
     }
 
     return $RaceNames;
+}
+
+function getallEvents() {
+
+    include_once("C:/xampp/htdocs/SafePlaceWebsite/Classes/Lore.php");
+
+    $conn = DBCOnnection::getConnection();
+
+    $sql = "SELECT * FROM lore";
+
+    $stmt = $conn->prepare($sql);
+    $result = $stmt->execute();
+
+    $Lore = array();
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        array_push($Lore, $l = new Lore($row["id"],$row["Name"],$row["Description"]));
+    }
+
+    return $Lore;
 }
