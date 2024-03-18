@@ -1,5 +1,6 @@
-<?php 
-function ToolTip($Name,$Anzeigetext) {
+<?php
+function ToolTip($Name, $Anzeigetext)
+{
     include_once("C:/xampp/htdocs/SafePlaceWebsite/Classes/DBConnection.php");
     $conn = DBConnection::getConnection();
 
@@ -12,8 +13,8 @@ function ToolTip($Name,$Anzeigetext) {
         $row = $result->fetchArray(SQLITE3_ASSOC);
         $output = '<div class="tooltip">';
         $output .= $Anzeigetext;
-        $output .= '<div class="top"><h3>' . $row['Name']. '</h3>';
-        $output .= '<p>' . $row['Description'] .'</p>';
+        $output .= '<div class="top"><h3>' . $row['Name'] . '</h3>';
+        $output .= '<p>' . $row['Description'] . '</p>';
         $output .= '<i></i></div></div>';
         $output .= '<style>
         h1 {
