@@ -49,20 +49,23 @@ function getRaceRelatedToLore($id)
 }
 
 function getallEvents() {
+    include_once("../../GlobalResources/SQLStuffis.php");
+    include_once("../../Classes/DBConnection.php");
+    include_once("../../Classes/Lore.php");
 
-    include_once("C:/xampp/htdocs/SafePlaceWebsite/Classes/Lore.php");
-
-    $conn = DBCOnnection::getConnection();
+    $conn = DBConnection::getConnection();
 
     $sql = "SELECT * FROM lore";
 
     $stmt = $conn->prepare($sql);
-    $result = $stmt->execute();
+    $restult = $stmt->execute();
 
     $Lore = array();
-    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-        array_push($Lore, $l = new Lore($row["id"],$row["Name"],$row["Description"]));
+    while ($row = $restult->fetchArray(SQLITE3_ASSOC)) {
+        $lore = new Lore($row["id"], $row["Name"], $row["Description"]);
+        $Lore[] = $lore;
     }
 
     return $Lore;
 }
+
