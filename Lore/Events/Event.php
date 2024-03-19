@@ -23,6 +23,22 @@ if (isset($_POST['submit'])) {
     }
 }
 
+if (isset($_POST['edit'])) {
+    header('Location: EditEvents.php?id=' . $id);
+}
+
+if (isset($_POST['create'])) {
+    header('Location: CreateEvents.php');
+}
+
+if (isset($_POST['sortc'])) {
+    header('Location: SortEventCharacter.php?id=' . $id);
+}
+
+if (isset($_POST['sortr'])) {
+    // Code für den Fall, dass der "Ordne Völker zu" Button gedrückt wurde
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -44,6 +60,12 @@ if (isset($_POST['submit'])) {
         <h1 class="page-header">
             <?php echo $event->getName() ?>
         </h1>
+        <form action="" method="post" enctype="multipart/form-data">
+            <input type="submit" value="Event Bearbeiten" name="edit">
+            <input type="submit" value="Event Erstellen" name="create">
+            <input type="submit" value="Ordne Charaktere zu" name="sortc">
+            <input type="submit" value="Ordne Völker zu" name="sortr">
+        </form>
         <div class="page-content">
             <div class="table">
                 <section class="character-info">
