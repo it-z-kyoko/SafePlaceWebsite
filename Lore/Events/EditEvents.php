@@ -24,26 +24,32 @@ if (isset($id)) {
 if (isset($_POST['event'])) {
     $Name = $_POST['Name'];
     $Lore = $_POST['Lore'];
-    nl2br($Kurzbeschreibung = $_POST['Kurzbeschreibung']);
-    nl2br($Beschreibung = $_POST['Beschreibung']);
+    $Kurzbeschreibung = nl2br($_POST['Kurzbeschreibung']);
+    $Beschreibung = nl2br($_POST['Beschreibung']);
     $Player = $_POST['Player'];
 
-    $sql = "INSERT INTO lore_event (lore_id,Name, Short_Description, Description, Player_id) VALUES (:lore_id, :Name, :Short_Description, :Description ,:Player)";
-
+    $sql = "UPDATE lore_event SET Name = :Name, Short_Description = :Short_Description, Description = :Description, Player_id = :Player WHERE event_id = :event_id";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':lore_id', $Lore);
+
+    // Parameter binden
     $stmt->bindParam(':Name', $Name);
     $stmt->bindParam(':Short_Description', $Kurzbeschreibung);
     $stmt->bindParam(':Description', $Beschreibung);
     $stmt->bindParam(':Player', $Player);
+    $stmt->bindParam(':event_id', $id);
 
+    // Ausführung des Statements
     $result = $stmt->execute();
 
+    // Überprüfen auf Fehler
     if (!$result) {
         echo "Error: " . $conn->lastErrorMsg();
     }
+
+    header('location: EventOverview.php');
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -64,13 +70,13 @@ if (isset($_POST['event'])) {
         <?php include("../../GlobalResources/Navbar.php") ?>
         <div class="flex">
             <h1>Erstelle ein Event</h1>
-            <form action="CreateEvents.php" method="post">
+            <form action="EditEvents.php?id=<?php echo $id ?>" method="post">
                 <?php ToolTip("NameEvent", '<label for="Name">Name:</label>') ?>
                 <input type="text" name="Name" id="Name" value="<?php echo $event->getName(); ?>">
                 <?php ToolTip("LoreID", '<label for="Lore">Lore:</label>') ?>
                 <select name="Lore" id="Lore" style="color: black;">
                     <?php
-                   
+
                     $selectedId = 2;
 
                     foreach ($Lore as $l) {

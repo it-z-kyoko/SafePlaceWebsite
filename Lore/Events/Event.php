@@ -2,9 +2,10 @@
 include_once("../../Classes/DBConnection.php");
 include_once("../../GlobalResources/SQLStuffis.php");
 $id = $_GET['id'];
+
 $event = DBConnection::getEventbyId($id);
-$chars = getCharacterRelatedToEvent($event->getLoreId());
-$race = getRacesRelatedToEvent($event->getLoreId());
+$chars = getCharacterRelatedToEvent($id);
+$race = getRacesRelatedToEvent($id);
 
 if (isset($_POST['submit'])) {
     $uploadDirectory = "../../images/Events/";
