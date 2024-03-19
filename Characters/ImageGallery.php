@@ -1,5 +1,5 @@
 <?php
-$dir = '../images/' . $id; // Verzeichnispfad zu den Bildern
+$dir = '../images/Characters/' . $id; // Verzeichnispfad zu den Bildern
 $images = glob($dir . '/*.{jpg,jpeg,png,gif,webp}', GLOB_BRACE); // Akzeptiert jpg, jpeg, png, gif
 
 if (empty($images)) {
