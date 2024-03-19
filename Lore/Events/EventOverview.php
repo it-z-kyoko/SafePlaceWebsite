@@ -64,7 +64,7 @@ $test = DBConnection::getallEvents();
 
     .grid {
         display: grid !important;
-        grid-template-columns: auto auto auto auto;
+        grid-template-columns: 25% 25% 25% 25%;
         width: 100%;
     }
 
