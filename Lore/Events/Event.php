@@ -1,7 +1,27 @@
 <?php
 include_once("../../Classes/DBConnection.php");
+include_once("../../GlobalResources/SQLStuffis.php");
 $id = $_GET['id'];
 $event = DBConnection::getEventbyId($id);
+$chars = getCharacterRelatedToEvent($event->getLoreId());
+$race = getRacesRelatedToEvent($event->getLoreId());
+
+if (isset($_POST['submit'])) {
+    $uploadDirectory = "../../images/Events/";
+
+    $characterFolder = $uploadDirectory . $id;
+    if (!is_dir($characterFolder)) {
+        mkdir($characterFolder);
+    }
+
+    $targetFile = $characterFolder . '/' . basename($_FILES['fileToUpload']['name']);
+
+    if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $targetFile)) {
+    } else {
+        echo "Beim Hochladen der Datei ist ein Fehler aufgetreten.";
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -40,6 +60,17 @@ $event = DBConnection::getEventbyId($id);
                 </section>
                 <section class="character-info">
                     <h3>Involvierte oder Betroffene Charaktere</h3>
+                    <?php
+                    foreach ($chars as $ch) {
+                        echo "<p>" . $ch . "</p>";
+                    }
+                    ?>
+                    <h3>Involvierte oder Betroffene Völker</h3>
+                    <?php
+                    foreach ($race as $r) {
+                        echo "<p>" . $r . "</p>";
+                    }
+                    ?>
                 </section>
             </div>
             <div class="additional">
@@ -50,11 +81,17 @@ $event = DBConnection::getEventbyId($id);
                             <i class="fas fa-edit" style="color:black; background-color:#fff;border:0;"></i>
                         </button>
                     </form>
-                    <p><?php echo $event->getDescription()?></p>
+                    <p><?php echo $event->getDescription() ?></p>
+                    <section class="image-gallery">
+                        <h2>Image Gallery</h2>
+                        <?php include("ImageGallery.php") ?>
+                    </section>
+                    <form action="" method="post" enctype="multipart/form-data">
+                    <input type="file" name="fileToUpload" id="fileToUpload">
+                    <input type="submit" value="Bild hochladen" name="submit">
+                </form>
             </div>
         </div>
-
-
         <div class="spacer">
             <input type="hidden" name="">
         </div>

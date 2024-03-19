@@ -48,7 +48,8 @@ function getRaceRelatedToLore($id)
     return $RaceNames;
 }
 
-function getallEvents() {
+function getallEvents()
+{
     include_once("../../GlobalResources/SQLStuffis.php");
     include_once("../../Classes/DBConnection.php");
     include_once("../../Classes/Lore.php");
@@ -69,3 +70,43 @@ function getallEvents() {
     return $Lore;
 }
 
+function getCharacterRelatedToEvent($event)
+{
+
+    $conn = DBConnection::getConnection();
+
+    $sql = "SELECT c.First_Name as name FROM character c
+    JOIN sort_event_character sec on c.character_id = sec.character_id
+    WHERE sec.event_id = ?";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(1, $event, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    $CharacterName = array();
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $CharacterName[] = $row['name'];
+    }
+
+    return $CharacterName;
+}
+
+function getRacesRelatedToEvent($event)
+{
+    $conn = DBConnection::getConnection();
+
+    $sql = "SELECT r.Name From lore_race r
+    JOIN sort_race_event sre on r.race_id = sre.race_id
+    WHERE event_id = ?";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(1, $event, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    $RaceArray = array();
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $RaceArray[] = $row['Name'];
+    }
+
+    return $RaceArray;
+}

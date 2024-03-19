@@ -54,7 +54,7 @@ if (isset($_POST["ab"])) {
 }
 
 if (isset($_POST['submit'])) {
-    $uploadDirectory = "../images/";
+    $uploadDirectory = "../images/Characters/";
 
     $characterFolder = $uploadDirectory . $id;
     if (!is_dir($characterFolder)) {
