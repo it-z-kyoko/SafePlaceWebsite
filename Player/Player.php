@@ -28,7 +28,6 @@ function showList($id)
     foreach ($ca as $c) {
         $output .= $c->getfirstname();
     }
-    var_dump($output);
     return $output;
 }
 

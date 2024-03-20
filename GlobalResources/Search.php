@@ -11,7 +11,6 @@ $result = $conn->query($sql);
 
 // Überprüfen, ob ein Datensatz gefunden wurde
 if ($result) {
-    var_dump($result);
     $row = $result->fetchArray(SQLITE3_ASSOC);
 }
 ?>
