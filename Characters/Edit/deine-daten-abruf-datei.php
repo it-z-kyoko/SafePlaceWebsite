@@ -7,9 +7,11 @@ if (!$conn) {
     die("Connection failed: " . $conn->lastErrorMsg());
 }
 
+
 // SQL-Abfrage
-$sql = "SELECT `character_id`,`First_Name`,`Last_Name` FROM `characters`";
+$sql = "SELECT `character_id`,`First_Name`,`Last_Name` FROM `character`";
 $result = $conn->query($sql);
+var_dump($result);
 
 // Daten in ein assoziatives Array umwandeln
 $data = array();

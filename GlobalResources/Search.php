@@ -11,6 +11,7 @@ $result = $conn->query($sql);
 
 // Überprüfen, ob ein Datensatz gefunden wurde
 if ($result) {
+    var_dump($result);
     $row = $result->fetchArray(SQLITE3_ASSOC);
 }
 ?>
@@ -62,6 +63,13 @@ if ($result) {
         background-color: #555;
         /* Farbe des Scrollbar-Griffs bei Hover */
     }
+
+    /* Media Query for responsive adjustments */
+    @media only screen and (max-width: 768px) {
+        #popup {
+            width: 90%;
+        }
+    }
 </style>
 
 <button id="openPopup">Nach Id suchen</button>
@@ -74,27 +82,28 @@ if ($result) {
     </table>
 </div>
 
-
-
-
-
-</html>
-
 <script>
     document.getElementById('openPopup').addEventListener('click', function() {
         // Pop-Up anzeigen
         document.getElementById('popup').style.display = 'block';
 
         // Fetch data from the server TODO: Pfad Ändern
-        fetch('C:/Users/jugue/Documents/xampp/htdocs/SafePlaceWebsite/GlobalResources/deine-daten-abruf-datei.php')
+        fetch('deine-daten-abruf-datei.php')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.json();
+                return response.text(); // Hier den Textinhalt der Antwort erhalten
+            })
+            .then(text => {
+                // Hier isolieren wir den JSON-Teil des Textinhalts
+                const jsonStartIndex = text.indexOf("[");
+                const jsonString = text.substring(jsonStartIndex); // JSON-Teil isolieren
+                return JSON.parse(jsonString); // JSON-String parsen
             })
             .then(data => updateDataTable(data))
             .catch(error => console.error('Fetch error:', error));
+
     });
 
     document.getElementById('closePopup').addEventListener('click', function() {
@@ -136,6 +145,7 @@ if ($result) {
 
 
     function updateDataTable(data) {
+        console.log(data);
         var dataTable = document.getElementById('dataTable');
         dataTable.innerHTML = ''; // Tabelle leeren
 
@@ -155,3 +165,5 @@ if ($result) {
         }
     }
 </script>
+
+</html>
