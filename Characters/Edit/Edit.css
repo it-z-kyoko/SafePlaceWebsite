@@ -1,5 +1,4 @@
 body {
-    display: flex;
     align-items: center;
     justify-content: center;
     margin: 0;
@@ -40,7 +39,7 @@ label {
 }
 
 input,
-textarea {
+textarea, select {
     padding: 10px;
     margin: 5px 0;
     border: 1px solid #ccc;

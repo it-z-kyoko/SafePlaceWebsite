@@ -76,9 +76,6 @@ if (isset($_POST['event'])) {
                 <?php ToolTip("LoreID", '<label for="Lore">Lore:</label>') ?>
                 <select name="Lore" id="Lore" style="color: black;">
                     <?php
-
-                    $selectedId = 2;
-
                     foreach ($Lore as $l) {
                         $id = $l->getId();
                         $name = $l->getName();
@@ -108,7 +105,7 @@ if (isset($_POST['event'])) {
                     ?>
                 </select>
 
-                <input type="submit" value="Event Erstellen" name="event">
+                <input type="submit" value="Event Bearbeiten" name="event">
             </form>
             <div class="spacer">
                 <input type="hidden" name="">

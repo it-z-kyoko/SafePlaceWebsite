@@ -16,16 +16,31 @@ if (isset($id)) {
     if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $event = new Event($row['event_id'], $row['lore_id'], $row['Name'], $row['Short_Description'], $row['Description'], $row['Player_id']);
     }
+
+    $sql = "SELECT character_id as id, First_Name as name FROM character order by name";
+    $stmt = $conn->prepare($sql);
+    $result = $stmt->execute();
+
+    $output = array();
+    if ($result->numColumns() > 0) {
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $output[] = array("id" => $row['id'], "name" => $row['name']);
+        }
+    }
 }
 
-$sql = "SELECT character_id as id, First_Name as name FROM character";
-$stmt = $conn->prepare($sql);
-$result = $stmt->execute();
+if (isset($_POST['connect'])) {
+    $char = $_POST['Character'];
 
-$output = array();
-if ($result->numColumns() > 0) {
-    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-        $output[] = array("id" => $row['id'], "name" => $row['name']);
+    $sql = "INSERT INTO sort_event_character (Event_id, Character_id) VALUES (:id, :character_id)";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':id',$id);
+    $stmt->bindValue(':character_id',$char);
+    $result = $stmt->execute();
+
+    if (!$result) {
+        echo "Error";
     }
 }
 ?>
@@ -39,6 +54,7 @@ if ($result->numColumns() > 0) {
     <link rel="stylesheet" href="../../index.css">
     <link rel="stylesheet" href="../Lore.css">
     <link rel="stylesheet" href="../../Characters/Characters.css">
+    <link rel="stylesheet" href="../../Characters/Edit/Edit.css">
     <title>Zuordnen</title>
 </head>
 
@@ -49,8 +65,13 @@ if ($result->numColumns() > 0) {
         <div class="flex">
             <form action="SortEventCharacter.php?id=<?php echo $id ?>" method="post">
                 <label for="event">Event:</label>
-                <input type="text" name="event" id="event" readonly value="<?php echo $event->getName()?>">
-                <input type="hidden" name="eventid" value="<?php echo $event->getId() ?>">
+                <input type="text" name="event" id="event" readonly value="<?php echo $event->getName() ?>">
+                <select name="Character" id="Character" style="color: black;">
+                    <?php foreach ($output as $o) {
+                        echo "<option value='" . $o['id'] . "'>" . $o['name'] . "</option>";
+                    } ?>
+                </select>
+                <input type="submit" value="Verbindung erschaffen" name="connect">
             </form>
         </div>
     </div>
