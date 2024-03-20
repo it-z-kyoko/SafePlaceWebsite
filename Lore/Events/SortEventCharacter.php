@@ -40,7 +40,7 @@ if (isset($_POST['connect'])) {
     $result = $stmt->execute();
 
     if (!$result) {
-        echo "Error";
+        echo "Error" . $conn->lastErrorMsg();
     }
 }
 ?>
