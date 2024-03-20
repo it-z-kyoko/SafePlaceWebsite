@@ -1,4 +1,4 @@
-<?php 
+<?php
 include_once("../../Classes/DBConnection.php");
 $searching = $_GET['id'];
 
@@ -129,6 +129,7 @@ if (isset($_POST["update5"])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -136,10 +137,12 @@ if (isset($_POST["update5"])) {
     <link rel="stylesheet" href="../Characters.css">
     <link rel="stylesheet" href="Edit.css">
 </head>
+
 <body>
-<div class="background-image"></div>
+    <div class="div-2">
+    <div class="background-image"></div>
     <?php include("../../GlobalResources/Navbar.php") ?>
-<?php include_once("../../GlobalResources/Search.php"); ?>
+    <?php include_once("../../GlobalResources/Search.php"); ?>
     <h1><?php echo ($ca->getFirstName() . " " . $ca->getLastName()) ?></h1>
     <div class="flex">
         <form action="<?php echo 'EditFamily.php?id=' . $_GET['id'] ?>" method="POST">
@@ -182,5 +185,7 @@ if (isset($_POST["update5"])) {
             <input type="submit" name="update5" value="Edit">
         </form>
     </div>
+    </div>
 </body>
+
 </html>
