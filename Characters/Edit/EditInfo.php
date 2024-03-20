@@ -91,37 +91,39 @@ if (isset($_POST["update2"])) {
 </head>
 
 <body>
-    <div class="background-image"></div>
-    <?php include("../../GlobalResources/Navbar.php") ?>
-    <div class="flex">
-    <h1><?php echo ($character->getFirstName() . " " . $character->getLastName()) ?></h1>
-        <form action="<?php echo 'EditInfo.php?id=' . $_GET['id'] ?>" method="POST">
-            <label for="nickname">Spitzname:</label>
-            <input type="text" id="nickname" name="nickname" value="<?php echo $character->getNickname(); ?>">
+    <div class="div-2">
+        <div class="background-image"></div>
+        <?php include("../../GlobalResources/Navbar.php") ?>
+        <div class="flex">
+            <h1><?php echo ($character->getFirstName() . " " . $character->getLastName()) ?></h1>
+            <form action="<?php echo 'EditInfo.php?id=' . $_GET['id'] ?>" method="POST">
+                <label for="nickname">Spitzname:</label>
+                <input type="text" id="nickname" name="nickname" value="<?php echo $character->getNickname(); ?>">
 
-            <label for="age">Alter:</label>
-            <input type="number" id="age" name="age" value="<?php echo $character->getAge(); ?>">
+                <label for="age">Alter:</label>
+                <input type="number" id="age" name="age" value="<?php echo $character->getAge(); ?>">
 
-            <label for="race">Volk:</label>
-            <input type="text" id="race" name="race" value="<?php echo $character->getRace(); ?>">
+                <label for="race">Volk:</label>
+                <input type="text" id="race" name="race" value="<?php echo $character->getRace(); ?>">
 
-            <label for="birthday">Geburtstag:</label>
-            <input type="date" id="birthday" name="birthday" value="<?php echo $character->getBirthday(); ?>">
+                <label for="birthday">Geburtstag:</label>
+                <input type="date" id="birthday" name="birthday" value="<?php echo $character->getBirthday(); ?>">
 
-            <label for="gender">Geschlecht:</label>
-            <input type="text" id="gender" name="gender" value="<?php echo $character->getGender(); ?>">
+                <label for="gender">Geschlecht:</label>
+                <input type="text" id="gender" name="gender" value="<?php echo $character->getGender(); ?>">
 
-            <label for="height">Größe:</label>
-            <input type="number" id="height" name="height" value="<?php echo $character->getHeight(); ?>">
+                <label for="height">Größe:</label>
+                <input type="number" id="height" name="height" value="<?php echo $character->getHeight(); ?>">
 
-            <label for="weight">Gewicht:</label>
-            <input type="number" id="weight" name="weight" value="<?php echo $character->getWeight(); ?>">
+                <label for="weight">Gewicht:</label>
+                <input type="number" id="weight" name="weight" value="<?php echo $character->getWeight(); ?>">
 
-            <label for="child">Ist der Charakter ein Kind?</label>
-            <input type="checkbox" name="child" id="child" <?php echo ($character->getChild() == 1) ? 'checked' : '' ?>>
+                <label for="child">Ist der Charakter ein Kind?</label>
+                <input type="checkbox" name="child" id="child" <?php echo ($character->getChild() == 1) ? 'checked' : '' ?>>
 
-            <input type="submit" name="update2" value="Edit">
-        </form>
+                <input type="submit" name="update2" value="Edit">
+            </form>
+        </div>
     </div>
 </body>
 

@@ -79,4 +79,8 @@ textarea {
     form {
         width: 100%;
     }
+
+    .div-2 {
+        display: flex;
+    }
 }
