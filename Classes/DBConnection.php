@@ -252,31 +252,19 @@ class DBConnection
         include_once('fullcharacter.php');
         $conn = self::getConnection();
 
-        $sql = "SELECT
-        c.character_id AS Character_ID,
-        c.First_Name AS First_Name,
-        c.Last_Name AS Last_Name,
-        c.Player_id AS Player_ID,
-        c.Posted AS Posted,
-        cpn.Nickname AS Nickname,
-        cpn.Age AS Age,
-        cpn.Race AS Race,
-        cpn.Birthday AS Birthday,
-        cpn.Gender AS Gender,
-        cpn.Height AS Height,
-        cpn.Weight AS Weight,
-        cpn.Child AS Child,
-        cp.Likes AS Likes,
-        cp.Dislikes AS Dislikes,
-        cp.Personality AS Personality,
-        cp.Background AS Background
-        FROM `character` AS c
-        LEFT JOIN `character_personality` AS cp ON c.character_id = cp.character_id
-        LEFT JOIN `character_profile` AS cpn ON c.character_id = cpn.characters_id
-        LEFT JOIN `character_family` AS cf ON c.character_id = cf.character_id
-        WHERE cf.Partner is null AND Player_ID =" . $id;
-
-
+        switch ($id) {
+            case 1:
+                $sql = "SELECT * FROM KyoSingleChars";
+                break;
+            case 2:
+                $sql = "SELECT * FROM LeaSingleChars";
+                break;
+            case 3:
+                $sql = "SELECT * FROM AnniSingleChars";
+                break;
+            default:
+                break;
+        }
         $result = $conn->query($sql);
 
         return self::characterlist($result);
