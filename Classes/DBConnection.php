@@ -93,7 +93,7 @@ class DBConnection
     public static function SelectCharacterbyCharacterid($id)
     {
         $conn = self::getConnection();
-        $sql = "SELECT * FROM CharacterOverview WHERE c.character_id = $id";
+        $sql = "SELECT * FROM CharacterOverview WHERE character_id = $id";
         $result = $conn->query($sql);
         $character = self::character($result);
         return $character;
@@ -103,8 +103,8 @@ class DBConnection
         include_once('fullcharacter.php');
         $conn = self::getConnection();
 
-        $sql = "SELECT * FROM CharacterOverview WHERE cpn.Birthday IS NOT '0000-00-00' AND cpn.Birthday IS NOT null AND strftime('%m', cpn.Birthday) = '" . $month . "'
-        ORDER BY cpn.Birthday";
+        $sql = "SELECT * FROM CharacterOverview WHERE Birthday IS NOT '0000-00-00' AND Birthday IS NOT null AND strftime('%m', Birthday) = '" . $month . "'
+        ORDER BY Birthday";
 
         $result = $conn->query($sql);
 
@@ -182,7 +182,7 @@ class DBConnection
         $conn = self::getConnection();
 
         $sql = "SELECT * from AllEvents
-        WHERE le.event_id = $id";
+        WHERE event_id = $id";
 
         $result = $conn->query($sql);
 
