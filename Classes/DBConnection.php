@@ -83,26 +83,7 @@ class DBConnection
         $ca = array();
         $conn = self::getConnection();
         $sql = "SELECT
-        c.character_id AS Character_ID,
-        c.First_Name AS First_Name,
-        c.Last_Name AS Last_Name,
-        c.Player_id AS Player_ID,
-        c.Posted AS Posted,
-        cpn.Nickname AS Nickname,
-        cpn.Age AS Age,
-        cpn.Race AS Race,
-        cpn.Birthday AS Birthday,
-        cpn.Gender AS Gender,
-        cpn.Height AS Height,
-        cpn.Weight AS Weight,
-        cpn.Child AS Child,
-        cp.Likes AS Likes,
-        cp.Dislikes AS Dislikes,
-        cp.Personality AS Personality,
-        cp.Background AS Background
-        FROM `character` AS c
-        LEFT JOIN `character_personality` AS cp ON c.character_id = cp.character_id
-        LEFT JOIN `character_profile` AS cpn ON c.character_id = cpn.characters_id
+        * from CharacterOverview
         WHERE c.Player_id = $id;";
         $result = $conn->query($sql);
         $ca = self::characterlist($result);
@@ -112,27 +93,7 @@ class DBConnection
     public static function SelectCharacterbyCharacterid($id)
     {
         $conn = self::getConnection();
-        $sql = "SELECT
-        c.character_id AS Character_ID,
-        c.First_Name AS First_Name,
-        c.Last_Name AS Last_Name,
-        c.Player_id AS Player_ID,
-        c.Posted AS Posted,
-        cpn.Nickname AS Nickname,
-        cpn.Age AS Age,
-        cpn.Race AS Race,
-        cpn.Birthday AS Birthday,
-        cpn.Gender AS Gender,
-        cpn.Height AS Height,
-        cpn.Weight AS Weight,
-        cpn.Child AS Child,
-        cp.Likes AS Likes,
-        cp.Dislikes AS Dislikes,
-        cp.Personality AS Personality,
-        cp.Background AS Background
-        FROM `character` AS c
-        LEFT JOIN `character_personality` AS cp ON c.character_id = cp.character_id
-        LEFT JOIN `character_profile` AS cpn ON c.character_id = cpn.characters_id WHERE c.character_id = $id";
+        $sql = "SELECT * FROM CharacterOverview WHERE c.character_id = $id";
         $result = $conn->query($sql);
         $character = self::character($result);
         return $character;
@@ -142,28 +103,7 @@ class DBConnection
         include_once('fullcharacter.php');
         $conn = self::getConnection();
 
-        $sql = "SELECT
-        c.character_id AS Character_ID,
-        c.First_Name AS First_Name,
-        c.Last_Name AS Last_Name,
-        c.Player_id AS Player_ID,
-        c.Posted AS Posted,
-        cpn.Nickname AS Nickname,
-        cpn.Age AS Age,
-        cpn.Race AS Race,
-        cpn.Birthday AS Birthday,
-        cpn.Gender AS Gender,
-        cpn.Height AS Height,
-        cpn.Weight AS Weight,
-        cpn.Child AS Child,
-        cp.Likes AS Likes,
-        cp.Dislikes AS Dislikes,
-        cp.Personality AS Personality,
-        cp.Background AS Background
-        FROM `character` AS c
-        LEFT JOIN `character_personality` AS cp ON c.character_id = cp.character_id
-        LEFT JOIN `character_profile` AS cpn ON c.character_id = cpn.characters_id
-        WHERE cpn.Birthday IS NOT '0000-00-00' AND cpn.Birthday IS NOT null AND strftime('%m', cpn.Birthday) = '" . $month . "'
+        $sql = "SELECT * FROM CharacterOverview WHERE cpn.Birthday IS NOT '0000-00-00' AND cpn.Birthday IS NOT null AND strftime('%m', cpn.Birthday) = '" . $month . "'
         ORDER BY cpn.Birthday";
 
         $result = $conn->query($sql);
@@ -180,66 +120,7 @@ class DBConnection
 
         $ca = array();
 
-        $sql = "SELECT
-        c.character_id AS Character_ID,
-        c.First_Name AS First_Name,
-        c.Last_Name AS Last_Name,
-        c.Player_id AS Player_ID,
-        c.Posted AS Posted,
-        cpn.Nickname AS Nickname,
-        cpn.Age AS Age,
-        cpn.Race AS Race,
-        cpn.Birthday AS Birthday,
-        cpn.Gender AS Gender,
-        cpn.Height AS Height,
-        cpn.Weight AS Weight,
-        cpn.Child AS Child,
-        cp.Likes AS Likes,
-        cp.Dislikes AS Dislikes,
-        cp.Personality AS Personality,
-        cp.Background AS Background
-        FROM `character` AS c
-        LEFT JOIN `character_personality` AS cp ON c.character_id = cp.character_id
-        LEFT JOIN `character_profile` AS cpn ON c.character_id = cpn.characters_id ORDER BY c.Posted DESC LIMIT 5";
-        $result = $conn->query($sql);
-
-        $ca = self::characterlist($result);
-
-        return $ca;
-    }
-
-    public static function ShowNewsSinceLastLogIn($id)
-    {
-        include_once("fullcharacter.php");
-        $conn = self::getConnection();
-
-        $ca = array();
-
-        $sql = "SELECT
-        c.character_id AS Character_ID,
-        c.First_Name AS First_Name,
-        c.Last_Name AS Last_Name,
-        c.Player_id AS Player_ID,
-        c.Posted AS Posted,
-        c.Created AS Created,
-        cpn.Nickname AS Nickname,
-        cpn.Age AS Age,
-        cpn.Race AS Race,
-        cpn.Birthday AS Birthday,
-        cpn.Gender AS Gender,
-        cpn.Height AS Height,
-        cpn.Weight AS Weight,
-        cpn.Child AS Child,
-        cp.Likes AS Likes,
-        cp.Dislikes AS Dislikes,
-        cp.Personality AS Personality,
-        cp.Background AS Background
-        FROM `character` AS c
-        LEFT JOIN `character_personality` AS cp ON c.character_id = cp.character_id
-        LEFT JOIN `character_profile` AS cpn ON c.character_id = cpn.characters_id 
-        ORDER BY Posted
-        DESC
-        LIMIT 5;";
+        $sql = "SELECT * FROM NewestCharacter";
         $result = $conn->query($sql);
 
         $ca = self::characterlist($result);
@@ -252,20 +133,11 @@ class DBConnection
         include_once('fullcharacter.php');
         $conn = self::getConnection();
 
-        switch ($id) {
-            case 1:
-                $sql = "SELECT * FROM KyoSingleChars";
-                break;
-            case 2:
-                $sql = "SELECT * FROM LeaSingleChars";
-                break;
-            case 3:
-                $sql = "SELECT * FROM AnniSingleChars";
-                break;
-            default:
-                break;
-        }
-        $result = $conn->query($sql);
+        $sql = "SELECT * FROM SingleChars WHERE Player_id = :player_id";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':player_id',$id);
+        $result = $stmt->execute();
 
         return self::characterlist($result);
     }
@@ -274,13 +146,7 @@ class DBConnection
     {
         $conn = self::getConnection();
 
-        $sql = "SELECT le.event_id as ID, 
-        le.Lore_id as LoreID, 
-        le.Name as `Name`, 
-        le.Description as `Description`,
-        le.Short_Description as `Short_Description`, 
-        le.Player_id as Player 
-        FROM `lore_event` as le";
+        $sql = "SELECT * FROM AllEvents";
 
         $result = $conn->query($sql);
 
@@ -315,13 +181,7 @@ class DBConnection
     {
         $conn = self::getConnection();
 
-        $sql = "SELECT le.event_id as ID, 
-        le.Lore_id as LoreID, 
-        le.Name as `Name`, 
-        le.Description as `Description`,
-        le.Short_Description as `Short_Description`, 
-        le.Player_id as Player 
-        FROM `lore_event` as le
+        $sql = "SELECT * from AllEvents
         WHERE le.event_id = $id";
 
         $result = $conn->query($sql);
