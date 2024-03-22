@@ -6,12 +6,12 @@
     <nav>
         <div class="Navbar">
             <img loading="lazy" srcset="images\Logo.png" class="navbar-image" />
-            <div class="Nav-Element"><a href="#" style="color: #000000">Home</a></div>
-            <div class="Nav-Element"><a href="#" style="color: #000000">Spieler</a></div>
+            <div class="Nav-Element"><a href="https://safeplace.infinityfreeapp.com" style="color: #000000">Home</a></div>
+            <div class="Nav-Element"><a href="https://safeplace.infinityfreeapp.com/Player/PlayerLanding.php" style="color: #000000">Spieler</a></div>
             <div class="Nav-Element"><a href="#" style="color: #000000">Charaktere</a></div>
-            <div class="Nav-Element"><a href="#" style="color: #000000">Erstelle einen Charakter</a></div>
+            <div class="Nav-Element"><a href="https://safeplace.infinityfreeapp.com/Characters/Edit/CreateCharacter.php" style="color: #000000">Erstelle einen Charakter</a></div>
+            <div class="Nav-Element"><a href="https://safeplace.infinityfreeapp.com/Lore/Lore.php" style="color: #000000">Lore</a></div>
             <div class="Nav-Element"><a href="#" style="color: #000000">Login</a></div>
-            <div class="Nav-Element"><a href="#" style="color: #000000">Register</a></div>
         </div>
     </nav>
 </header>
