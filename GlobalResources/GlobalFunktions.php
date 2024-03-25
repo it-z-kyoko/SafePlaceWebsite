@@ -1,18 +1,6 @@
 <?php
-function ShowFamily($id)
-{
-    $searching = $id;
 
-    $conn = DBConnection::getConnection();
-
-    // SQL-Abfrage für den gewünschten Datensatz (Using prepared statement to prevent SQL injection)
-    $sql = "SELECT * FROM character_family_role WHERE character_id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindValue(1, $searching, SQLITE3_TEXT);
-    $result = $stmt->execute();
-
-    if ($result) {
-        function extractNames($id, $conn)
+function extractNames($id, $conn)
         {
             if ($id != "") {
                 $sql = "SELECT `First_Name` FROM `character` WHERE character_id = ?";
@@ -34,6 +22,20 @@ function ShowFamily($id)
             }
             return $result;
         }
+function ShowFamily($id)
+{
+    $searching = $id;
+
+    $conn = DBConnection::getConnection();
+
+    // SQL-Abfrage für den gewünschten Datensatz (Using prepared statement to prevent SQL injection)
+    $sql = "SELECT * FROM character_family_role WHERE character_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(1, $searching, SQLITE3_TEXT);
+    $result = $stmt->execute();
+
+    if ($result) {
+        
 
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             switch ($row['Role']) {

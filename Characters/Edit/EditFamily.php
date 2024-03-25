@@ -1,19 +1,21 @@
 <?php
 include_once("../../Classes/DBConnection.php");
+include_once("../../GlobalResources/GlobalFunktions.php");
 $searching = $_GET['id'];
 
 // Datenbankverbindung herstellen
 $conn = DBConnection::getConnection();
 $ca = DBConnection::SelectCharacterbyCharacterid($searching);
 
-$sql = "SELECT * FROM character_family_role WHERE character_id = ?";
+$sql = "SELECT * FROM character_family_role WHERE character_id = ? GROUP BY Role";
 $stmt = $conn->prepare($sql);
 $stmt->bindValue(1, $searching, SQLITE3_INTEGER);
-$result = $stmt->execute();
+$resultFamily = $stmt->execute();
 
-if ($result) {
-    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-        $SelectList[] = $row['Role'];
+if ($resultFamily) {
+    while ($rowFamily = $resultFamily->fetchArray(SQLITE3_ASSOC)) {
+        $name = extractNames($rowFamily['Connected_Character'],$conn);
+        $output[] = array("id" => $rowFamily['ID'], "Character_Id" => $rowFamily['Character_Id'], "Connected_Character" => $name, "Role" => $rowFamily["Role"]);
     }
 }
 
@@ -63,6 +65,7 @@ if (isset($_POST['save'])) {
         <?php include("../../GlobalResources/Navbar.php") ?>
         <?php include_once("../../GlobalResources/Search.php"); ?>
         <h1><?php echo ($ca->getFirstName() . " " . $ca->getLastName()) ?></h1>
+        <h3>Neu:</h3>
         <div class="flex">
             <form action="EditFamily2.php?id=<?php echo $searching?>" method="post">
                 <label for="Charakter">Charakter</label>
@@ -80,6 +83,15 @@ if (isset($_POST['save'])) {
                 <input type="submit" value="Speichern" name="save">
             </form>
         </div>
+
+        <?php
+            foreach ($rowFamily as $row) {
+                $output = '';
+                $output .='<div class="flex"></div>';
+                
+                echo $output;
+            }
+        ?>
         <div class="spacer">
             <input type="hidden" name="">
         </div>
