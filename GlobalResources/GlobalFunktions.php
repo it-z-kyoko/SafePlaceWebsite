@@ -125,78 +125,89 @@ function ShowFamily($id)
     $conn = DBConnection::getConnection();
 
     // SQL-Abfrage für den gewünschten Datensatz (Using prepared statement to prevent SQL injection)
-    $sql = "SELECT * FROM character_family WHERE character_id = ?";
+    $sql = "SELECT * FROM character_family_role WHERE character_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bindValue(1, $searching, SQLITE3_TEXT);
     $result = $stmt->execute();
-    
 
-    // Überprüfen, ob ein Datensatz gefunden wurde
-    if ($result->numColumns() > 0) {
-        $row = $result->fetchArray(SQLITE3_ASSOC);
-
-        // Funktion zum Extrahieren von Namen aus komma-separierten Listen
-        function extractNames($list, $conn)
+    if ($result) {
+        function extractNames($id, $conn)
         {
-            $names = explode(",", $list);
-            $result = array();
+            if ($id != "") {
+                $sql = "SELECT `First_Name` FROM `character` WHERE character_id = ?";
 
-            foreach ($names as $id) {
-                if ($id != "") {
-                    $sql = "SELECT `First_Name` FROM `character` WHERE character_id = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindValue(1, $id, SQLITE3_NUM);
+                $nameResult = $stmt->execute();
 
-                    $stmt = $conn->prepare($sql);
-                    $stmt->bindValue(1, $id, SQLITE3_NUM);
-                    $nameResult = $stmt->execute();
-    
-                    if ($nameResult) {  // Check if the query execution was successful
-                        $row = $nameResult->fetchArray(SQLITE3_ASSOC);
-    
-                        if ($row !== false) {
-                            $name = $row['First_Name'];
-                            $result[] = "<a href='Character.php?id=$id'>$name</a>";
-                        } else {
-                            $result[] = "Name not found for ID: $id";
-                        }
+                if ($nameResult) {  // Check if the query execution was successful
+                    $row = $nameResult->fetchArray(SQLITE3_ASSOC);
+
+                    if ($row !== false) {
+                        $name = $row['First_Name'];
+                        $result = "<a href='Character.php?id=$id'>$name</a>";
+                    } else {
+                        $result = "Name not found for ID: $id";
                     }
                 }
-                }
-                
-
-            return implode(", ", $result);
+            }
+            return $result;
         }
 
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            switch ($row['Role']) {
+                case 'Parent':
+                    $Parent[] = extractNames($row["Connected_Character"], $conn);
+                    break;
+                case 'Sibling':
+                    $Sibling[] = extractNames($row["Connected_Character"], $conn);
+                    break;
+                case 'Child':
+                    $Child[] = extractNames($row["Connected_Character"], $conn);
+                    break;
+                case 'Partner':
+                    $Partner = extractNames($row["Connected_Character"], $conn);
+                    break;
+                default:
+                    break;
+            }
+        }
 
-        echo "<table class='character-info'>";
-        echo "<tr>";
-        echo "<th>Eltern</th>";
-        echo (!empty($row['Parent1'])) ? "<td>" . extractNames($row['Parent1'], $conn) . ", " . extractNames($row['Parent2'], $conn) . "</td>" : "<td>nicht bekannt</td>";
-        echo "</tr>";
-        echo "<tr>";
-        echo "<th>Großelternteil</th>";
-        echo (!empty($row['Grandparent1'])) ? "<td>" . extractNames($row['Grandparent1'], $conn) . ", " . extractNames($row['Grandparent2'], $conn) . "</td>" : "<td>nicht bekannt</td>";
-        echo "</tr>";
-        echo "<tr>";
-        echo "<th>Partner</th>";
-        echo (!empty($row['Partner'])) ? "<td>" . extractNames($row['Partner'], $conn) . "</td>" : "<td>-</td>";
-        echo "</tr>";
-        echo "<tr>";
-        echo "<th>Geschwister</th>";
-        echo (!empty($row['Sibling'])) ? "<td>" . extractNames($row['Sibling'], $conn) . "</td>" : "<td>-</td>";
-        echo "</tr>";
-        echo "<tr>";
-        echo "<th>Tanten</th>";
-        echo (!empty($row['Aunt'])) ? "<td>" . extractNames($row['Aunt'], $conn) . "</td>" : "<td>-</td>";
-        echo "</tr>";
-        echo "<tr>";
-        echo "<th>Onkel</th>";
-        echo (!empty($row['Uncle'])) ? "<td>" . extractNames($row['Uncle'], $conn) . "</td>" : "<td>-</td>";
-        echo "</tr>";
-        echo "<tr>";
-        echo "<th>Kinder</th>";
-        echo (!empty($row['Child'])) ? "<td>" . extractNames($row['Child'], $conn) . "</td>" : "<td>-</td>";
-        echo "</tr>";
-        echo "</table>";
+        $output = "<table class='character-info'>";
+
+        if (!empty($Parent)) {
+            $output .= "<tr><th>Eltern</th>";
+            foreach ($Parent as $p) {
+                $output .= "<td>$p</td>";
+            }
+            $output .= "</tr>";
+        }
+
+        if (!empty($Sibling)) {
+            $output .= "<tr><th>Geschwister</th>";
+            foreach ($Sibling as $s) {
+                $output .= "<td>$s</td>";
+            }
+            $output .= "</tr>";
+        }
+
+        if (!empty($Child)) {
+            $output .= "<tr><th>Kinder</th>";
+            foreach ($Child as $c) {
+                $output .= "<td>$c</td>";
+            }
+            $output .= "</tr>";
+        }
+
+        if (!empty($Partner)) {
+            $output .= "<tr><th>Partner</th>";
+            $output .= "<td>$Partner</td>";
+            $output .= "</tr>";
+        }
+
+        $output .= "</table>";
+
+        echo $output;
     } else {
         echo "Keine Daten gefunden.";
     }
@@ -204,6 +215,7 @@ function ShowFamily($id)
     // Datenbankverbindung schließen
     $conn->close();
 }
+
 
 function ShowAbilities($id)
 {
