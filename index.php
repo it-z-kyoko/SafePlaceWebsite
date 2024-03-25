@@ -1,7 +1,6 @@
 <?php
 include_once("GlobalResources/GlobalFunktions.php");
 
-CreateDatabase();
 ?>
 
 
