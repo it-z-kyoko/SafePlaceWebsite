@@ -7,7 +7,7 @@ $conn = DBConnection::getConnection();
 $ca = DBConnection::SelectCharacterbyCharacterid($searching);
 
 // SQL-Abfrage für den gewünschten Datensatz
-$sql = "SELECT * FROM character_family WHERE character_id = ?";
+$sql = "SELECT * FROM character_family_role WHERE character_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bindValue(1, $searching, SQLITE3_INTEGER);
 $result = $stmt->execute();

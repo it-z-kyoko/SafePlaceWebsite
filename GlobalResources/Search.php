@@ -4,15 +4,6 @@ $searching = $_GET['id'];
 
 // Datenbankverbindung herstellen
 $conn = DBConnection::getConnection();
-
-// SQL-Abfrage für den gewünschten Datensatz
-$sql = "SELECT * FROM character_family WHERE character_id = $searching";
-$result = $conn->query($sql);
-
-// Überprüfen, ob ein Datensatz gefunden wurde
-if ($result) {
-    $row = $result->fetchArray(SQLITE3_ASSOC);
-}
 ?>
 
 <style>
