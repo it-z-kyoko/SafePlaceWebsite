@@ -2,6 +2,7 @@
 class Character {
     private $id;
     private $First_Name;
+    private $Middle_Name;
     private $Last_Name;
     private $Player;
     private $Posted;
@@ -18,9 +19,10 @@ class Character {
     private $Personality;
     private $Background;
     
-    public function __construct($id, $First_Name, $Last_Name, $Player, $Posted, $Nickname, $Age, $Race, $Birthday, $Gender, $Height, $Weight, $Child, $Likes, $Dislikes, $Personality, $Background) {
+    public function __construct($id, $First_Name, $Middle_Name, $Last_Name, $Player, $Posted, $Nickname, $Age, $Race, $Birthday, $Gender, $Height, $Weight, $Child, $Likes, $Dislikes, $Personality, $Background) {
         $this->id = $id;
         $this->First_Name = $First_Name;
+        $this->Middle_Name = $Middle_Name;
         $this->Last_Name = $Last_Name;
         $this->Player = $Player;
         $this->Posted = $Posted;
@@ -44,6 +46,10 @@ class Character {
     
     public function getFirstName() {
         return $this->First_Name;
+    }
+
+    public function getMiddleName() {
+        return $this->Middle_Name;
     }
     
     public function getLastName() {

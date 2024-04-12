@@ -4,6 +4,7 @@ include_once("../../Classes/DBConnection.php");
 if (isset($_POST['voll'])) {
     $conn = DBConnection::getConnection();
     $fn = $_POST["Vorname"];
+    $mn = $_POST["Middlename"];
     $ln = $_POST["Nachname"];
     $p = date('Y-m-d', strtotime($_POST["Posted"]));
     $player = $_POST["Spieler"];
@@ -26,12 +27,13 @@ if (isset($_POST['voll'])) {
     try {
         $conn->exec('BEGIN TRANSACTION');
 
-        $sql = "INSERT INTO `character` (First_Name, Last_Name, Player_id, Posted) VALUES (?,?,?,?)";
+        $sql = "INSERT INTO `character` (First_Name, Middle_Name, Last_Name, Player_id, Posted) VALUES (?,?,?,?,?)";
         $sql = $conn->prepare($sql);
         $sql->bindValue(1, $fn, SQLITE3_TEXT);
-        $sql->bindValue(2, $ln, SQLITE3_TEXT);
-        $sql->bindValue(3, $pid, SQLITE3_INTEGER);
-        $sql->bindValue(4, $p, SQLITE3_TEXT);
+        $sql->bindValue(2, $mn, SQLITE3_TEXT);
+        $sql->bindValue(3, $ln, SQLITE3_TEXT);
+        $sql->bindValue(4, $pid, SQLITE3_INTEGER);
+        $sql->bindValue(5, $p, SQLITE3_TEXT);
 
         if ($sql->execute()) {
             $sql->close(); // Close the statement object
@@ -46,8 +48,6 @@ if (isset($_POST['voll'])) {
     }
 }
 
-if (isset($_POST['base'])) {
-}
 ?>
 
 <!DOCTYPE html>
@@ -69,6 +69,8 @@ if (isset($_POST['base'])) {
         <form action="<?php echo 'CreateCharacter.php' ?>" method="POST">
             <label for="Vorname">Vorname:</label>
             <input type="text" name="Vorname" id="Vorname">
+            <label for="Middlename">Zweitname/Middlename:</label>
+            <input type="text" name="Middlename" id="Middlename">
             <label for="Nachname">Nachname:</label>
             <input type="text" name="Nachname" id="Nachname">
             <label for="Posted">Geposted am: </label>

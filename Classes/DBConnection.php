@@ -1,11 +1,11 @@
 <?php
+
 class DBConnection
 {
-    private static string $databaseFile = 'C:\xampp\htdocs\SafePlaceWebsite\Database\SafePlace.db';
-    //TODO: Pfad Austauschen!
     public static function getConnection()
     {
-        $path = self::$databaseFile;
+        include('Credentials.php');
+        $path = $databaseFile;
         $db = new SQLite3($path);
         return $db;
     }
@@ -21,6 +21,7 @@ class DBConnection
                     $character = new Character(
                         $row["Character_ID"],
                         $row["First_Name"],
+                        $row["Middle_Name"],
                         $row["Last_Name"],
                         $row["Player_ID"],
                         $row["Posted"],
@@ -54,6 +55,7 @@ class DBConnection
             $character = new Character(
                 $row["Character_ID"],
                 $row["First_Name"],
+                $row["Middle_Name"],
                 $row["Last_Name"],
                 $row["Player_ID"],
                 $row["Posted"],
@@ -84,7 +86,7 @@ class DBConnection
         $conn = self::getConnection();
         $sql = "SELECT
         * from CharacterOverview
-        WHERE c.Player_id = $id;";
+        WHERE Player_id = $id;";
         $result = $conn->query($sql);
         $ca = self::characterlist($result);
         return $ca;
