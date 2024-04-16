@@ -155,6 +155,46 @@ class DBConnection
         return self::createEventList($result);
     }
 
+
+    public static function getallRaces()
+    {
+        $conn = self::getConnection();
+
+        $sql = "SELECT * FROM AllRaces";
+
+        $result = $conn->query($sql);
+
+        return self::createRaceList($result);
+    }
+
+    public static function createRaceList($result)
+    {
+        include_once("Race.php");
+        $raceArray = array();
+        if ($result->numColumns() > 0) {
+            while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+                $race = new Race(
+                    $row["RaceID"],
+                    $row["LoreID"],
+                    $row["Name"],
+                    $row["Personality"],
+                    $row["Body_Description"],
+                    $row["Relationships"],
+                    $row["Alignment"],
+                    $row["Land_Origin"],
+                    $row["Religion"],
+                    $row["Language"],
+                    $row["Names"]
+                );
+                array_push($raceArray, $race);
+            }
+        } else {
+            echo "0 results";
+        }
+        return $raceArray;
+    }
+    
+
     public static function createEventList($result)
     {
         $Ea = array();

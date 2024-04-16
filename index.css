@@ -9,9 +9,6 @@ body {
   height: 100%;
 }
 
-body {
-  overflow: hidden;
-}
 
 .img {
   position: absolute;
@@ -178,7 +175,6 @@ header {
 body {
   margin: 0;
   height: 100vh;
-  overflow: hidden; /* Optional, um sicherzustellen, dass kein Scrollen möglich ist */
 }
 
 .Navbar {

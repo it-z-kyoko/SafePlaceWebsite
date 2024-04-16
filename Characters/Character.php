@@ -137,7 +137,7 @@ if (isset($_POST['submit'])) {
                         <tr>
                             <th>Volk</th>
                             <td>
-                                <?php echo $character->getRace() ?>
+                                <?php showRace($id) ?>
                             </td>
                         </tr>
                         <tr>

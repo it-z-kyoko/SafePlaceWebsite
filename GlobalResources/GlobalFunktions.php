@@ -128,3 +128,30 @@ function ShowAbilities($id)
         echo "</ul>";
     }
 }
+
+function ShowRace($id)
+{
+    $conn = DBConnection::getConnection();
+
+    $sql = "SELECT r.Name from sort_race_character src 
+    Join lore_race r on  r.race_id = src.race_id
+    where src.character_id = $id;";
+
+    $result=$conn->query($sql);
+
+    $names = array();
+
+    if($result->numColumns() > 0) {
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            array_push($names, $row['Name']);
+    }
+}
+$string = '';
+if (!empty($names)) {
+    foreach($names as $name) {
+        $string = $string . $name . ',';
+    }
+}
+
+echo $string;
+}
