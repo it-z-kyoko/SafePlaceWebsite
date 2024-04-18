@@ -36,7 +36,7 @@ if (isset($_POST['sortc'])) {
 }
 
 if (isset($_POST['sortr'])) {
-    // Code für den Fall, dass der "Ordne Völker zu" Button gedrückt wurde
+    header('Location: SortEventRace.php?id=' . $id);
 }
 
 ?>

@@ -175,8 +175,9 @@ class DBConnection
             while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                 $race = new Race(
                     $row["RaceID"],
-                    $row["LoreID"],
+                    $row["PlayerID"],
                     $row["Name"],
+                    $row["Description"],
                     $row["Personality"],
                     $row["Body_Description"],
                     $row["Relationships"],
@@ -249,5 +250,42 @@ class DBConnection
             echo "0 results";
         }
         return $event;
+    }
+
+    public static function getRacebyId($id)
+    {
+        $conn = self::getConnection();
+
+        $sql = "SELECT * from AllRaces
+        WHERE RaceID = $id";
+
+        $result = $conn->query($sql);
+
+        return self::createRace($result);
+    }
+
+    public static function createRace($result)
+    {
+        include_once('Race.php');
+        if ($result->numColumns() > 0) {
+            $row = $result->fetchArray(SQLITE3_ASSOC);
+            $race = new Race(
+                $row["RaceID"],
+                $row["PlayerID"],
+                $row["Name"],
+                $row["Description"],
+                $row["Personality"],
+                $row["Body_Description"],
+                $row["Relationships"],
+                $row["Alignment"],
+                $row["Land_Origin"],
+                $row["Religion"],
+                $row["Language"],
+                $row["Names"]
+            );
+        } else {
+            echo "0 results";
+        }
+        return $race;
     }
 }

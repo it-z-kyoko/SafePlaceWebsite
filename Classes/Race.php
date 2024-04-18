@@ -2,8 +2,9 @@
 
 class Race {
     private $raceID;
-    private $loreID;
+    private $playerid;
     private $name;
+    private $description;
     private $personality;
     private $bodyDescription;
     private $relationships;
@@ -13,10 +14,11 @@ class Race {
     private $language;
     private $names;
 
-    public function __construct($raceID, $loreID, $name, $personality, $bodyDescription, $relationships, $alignment, $landOrigin, $religion, $language, $names) {
+    public function __construct($raceID, $playerID, $name,$description, $personality, $bodyDescription, $relationships, $alignment, $landOrigin, $religion, $language, $names) {
         $this->raceID = $raceID;
-        $this->loreID = $loreID;
+        $this->playerid = $playerID;
         $this->name = $name;
+        $this->description = $description;
         $this->personality = $personality;
         $this->bodyDescription = $bodyDescription;
         $this->relationships = $relationships;
@@ -35,12 +37,12 @@ class Race {
         $this->raceID = $raceID;
     }
     
-    public function getLoreID() {
-        return $this->loreID;
+    public function getPlayer() {
+        return $this->playerid;
     }
     
-    public function setLoreID($loreID) {
-        $this->loreID = $loreID;
+    public function setPlayer($playerID) {
+        $this->playerid = $playerID;
     }
     
     public function getName() {
@@ -113,6 +115,14 @@ class Race {
     
     public function setNames($names) {
         $this->names = $names;
+    }
+
+    public function getDescription() {
+        return $this->description;
+    }
+
+    public function setDescription($description) {
+        $this->description = $description;
     }
 }
 

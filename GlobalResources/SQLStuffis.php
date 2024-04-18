@@ -2,6 +2,7 @@
 
 include_once("C:/xampp/htdocs/SafePlaceWebsite/Classes/Event.php");
 include_once("C:/xampp/htdocs/SafePlaceWebsite/Classes/DBConnection.php");
+include_once("C:/xampp/htdocs/SafePlaceWebsite/Classes/Place.php");
 
 function getCharacterRelatedToLore($id)
 {
@@ -50,7 +51,6 @@ function getRaceRelatedToLore($id)
 
 function getallEvents()
 {
-    include_once("../../GlobalResources/SQLStuffis.php");
     include_once("../../Classes/DBConnection.php");
     include_once("../../Classes/Lore.php");
 
@@ -109,4 +109,74 @@ function getRacesRelatedToEvent($event)
     }
 
     return $RaceArray;
+}
+
+function getEventsRelatedtoRace($race)
+{
+    $conn = DBConnection::getConnection();
+
+    $sql = "SELECT e.Name FROM lore_event e
+    JOIN sort_race_event sre on e.event_id = sre.event_id
+    WHERE race_id = ?";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(1, $race, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    $RaceArray = array();
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $RaceArray[] = $row['Name'];
+    }
+
+    return $RaceArray;
+}
+
+function getCharacterRelatedToRace($race)
+{
+
+    $conn = DBConnection::getConnection();
+
+    $sql = "SELECT c.First_Name as name FROM character c
+    JOIN sort_race_character sec on c.character_id = sec.character_id
+    WHERE sec.race_id = ?";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(1, $race, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    $CharacterName = array();
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $CharacterName[] = $row['name'];
+    }
+
+    return $CharacterName;
+}
+
+function getallPlaces() {
+    $conn = DBConnection::getConnection();
+
+    $sql = "SELECT * from lore_place";
+
+    $stmt = $conn->prepare($sql);
+    $result = $stmt->execute();
+
+    return createPlaceList($result);
+}
+
+function createPlaceList($result) {
+    $placeArray = array();
+    if ($result->numColumns() > 0) {
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $place = new LorePlace(
+                $row["place_id"],
+                $row["Region_id"],
+                $row["Name"],
+                $row["Description"]
+            );
+            array_push($placeArray, $place);
+        }
+    } else {
+        echo "0 results";
+    }
+    return $placeArray;
 }
