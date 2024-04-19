@@ -1,11 +1,11 @@
 <head>
-    <link rel="shortcut icon" href="https://safeplace.infinityfreeapp.com/images/Logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="C:\xampp\htdocs\SafePlaceWebsite\images\Logo.png" type="image/x-icon">
 </head>
 
 <header>
     <nav>
         <div class="Navbar">
-            <img loading="lazy" srcset="images\Logo.png" class="navbar-image" />
+            <img loading="lazy" srcset="https://safeplace.infinityfreeapp.com/images/Logo.png" class="navbar-image" />
             <div class="Nav-Element"><a href="https://safeplace.infinityfreeapp.com" style="color: #000000">Home</a></div>
             <div class="Nav-Element"><a href="https://safeplace.infinityfreeapp.com/Player/PlayerLanding.php" style="color: #000000">Spieler</a></div>
             <div class="Nav-Element"><a href="#" style="color: #000000">Charaktere</a></div>

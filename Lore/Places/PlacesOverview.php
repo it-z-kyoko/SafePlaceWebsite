@@ -12,7 +12,7 @@ $test = getallPlaces();
     <title>Past Events</title>
     <link rel="stylesheet" href="../../index.css">
     <link rel="stylesheet" href="../Lore.css">
-    <link rel="shortcut icon" href="https://safeplace.infinityfreeapp.com/images/Logo.png" type="image/x-icon">
+    <link rel="icon" type="image/x-icon" href="C:\xampp\htdocs\SafePlaceWebsite\images\Logo.png">
 </head>
 
 <body>
@@ -27,7 +27,7 @@ $test = getallPlaces();
                 ?>
                     <div class="div-14">
                         <div class="div-15">
-                            <a href="Race.php?id=<?php echo $t->getPlaceId(); ?>">
+                            <a href="Place.php?id=<?php echo $t->getPlaceId(); ?>">
                                 <div class="div-16">
                                     <div class="div-17"><?php echo $t->getName(); ?></div>
                                 </div>

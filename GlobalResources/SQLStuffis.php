@@ -3,6 +3,8 @@
 include_once("C:/xampp/htdocs/SafePlaceWebsite/Classes/Event.php");
 include_once("C:/xampp/htdocs/SafePlaceWebsite/Classes/DBConnection.php");
 include_once("C:/xampp/htdocs/SafePlaceWebsite/Classes/Place.php");
+include_once('C:/xampp/htdocs/SafePlaceWebsite/Classes/fullcharacter.php');
+include_once('C:/xampp/htdocs/SafePlaceWebsite/Classes/Region.php');
 
 function getCharacterRelatedToLore($id)
 {
@@ -124,7 +126,7 @@ function getEventsRelatedtoRace($race)
     $result = $stmt->execute();
 
     $RaceArray = array();
-    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+    while ($row =$result = $stmt->execute()) {
         $RaceArray[] = $row['Name'];
     }
 
@@ -152,7 +154,8 @@ function getCharacterRelatedToRace($race)
     return $CharacterName;
 }
 
-function getallPlaces() {
+function getallPlaces()
+{
     $conn = DBConnection::getConnection();
 
     $sql = "SELECT * from lore_place";
@@ -163,7 +166,8 @@ function getallPlaces() {
     return createPlaceList($result);
 }
 
-function createPlaceList($result) {
+function createPlaceList($result)
+{
     $placeArray = array();
     if ($result->numColumns() > 0) {
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -179,4 +183,158 @@ function createPlaceList($result) {
         echo "0 results";
     }
     return $placeArray;
+}
+
+function getPlacebyId($placeId)
+{
+    $conn = DBConnection::getConnection();
+
+    $sql = "SELECT * FROM lore_place WHERE place_id = :id";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':id', $placeId);
+    $result = $stmt->execute();
+
+    return createPlace($result);
+}
+
+function createPlace($result)
+{
+
+    if ($result->numColumns() > 0) {
+        $row = $result->fetchArray(SQLITE3_ASSOC);
+        $place = new LorePlace(
+            $row["place_id"],
+            $row["Region_id"],
+            $row["Name"],
+            $row["Description"]
+        );
+    } else {
+        echo "0 results";
+    }
+    return $place;
+}
+
+function getCharactersRelatedtoPlace($id)
+{
+
+    $conn = DBConnection::getConnection();
+
+    $sql = "SELECT c.First_Name from character c
+    JOIN sort_place_ruler spr on spr.character_id = c.character_id
+    WHERE spr.place_id = :id";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':id', $id);
+    $result = $stmt->execute();
+
+    $CharacterName = array();
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $CharacterName[] = $row['First_Name'];
+    }
+
+    return $CharacterName;
+}
+
+function getAllCharacters()
+{
+
+    $conn = DBCOnnection::getConnection();
+
+    $sql = "SELECT * from CharacterOverview";
+
+    $stmt = $conn->prepare($sql);
+    $result = $stmt->execute();
+
+    return characterlist($result);
+}
+
+function characterlist($result)
+{
+    $ca = array();
+    if ($result->numColumns() > 0) {
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            array_push(
+                $ca,
+                $character = new Character(
+                    $row["Character_ID"],
+                    $row["First_Name"],
+                    $row["Middle_Name"],
+                    $row["Last_Name"],
+                    $row["Player_ID"],
+                    $row["Posted"],
+                    $row["Nickname"],
+                    $row["Age"],
+                    $row["Race"],
+                    $row["Birthday"],
+                    $row["Gender"],
+                    $row["Height"],
+                    $row["Weight"],
+                    $row["Child"],
+                    $row["Likes"],
+                    $row["Dislikes"],
+                    $row["Personality"],
+                    $row["Background"]
+                )
+            );
+        }
+    } else {
+        echo "0 results";
+    }
+    return $ca;
+}
+
+function getAllRegions()
+{
+
+    $conn = DBCOnnection::getConnection();
+
+    $sql = "SELECT * from AllRegions";
+
+    $stmt = $conn->prepare($sql);
+    $result = $stmt->execute();
+
+    return createRegionList($result);
+}
+
+function createRegion($result)
+{
+    if ($result->numColumns() > 0) {
+        $row = $result->fetchArray(SQLITE3_ASSOC);
+        if ($row) {
+            $region = new LoreRegion(
+                $row['region_id'],
+                $row['Name'],
+                $row['Description'],
+                $row['Player_id']
+            );
+            return $region;
+        } else {
+            echo "0 results";
+            return null;
+        }
+    } else {
+        echo "No columns in the result.";
+        return null;
+    }
+}
+
+function createRegionList($result)
+{
+    $regionArray = array();
+    if ($result->numColumns() > 0) {
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $region = new LoreRegion(
+                $row['region_id'],
+                $row['Name'],
+                $row['Description'],
+                $row['Player_id']
+            );
+            array_push($regionArray, $region);
+        }
+        return $regionArray;
+    } else {
+        echo "0 results";
+        return array();
+    }
 }
