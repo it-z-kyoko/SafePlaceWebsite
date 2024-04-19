@@ -126,7 +126,7 @@ function getEventsRelatedtoRace($race)
     $result = $stmt->execute();
 
     $RaceArray = array();
-    while ($row =$result = $stmt->execute()) {
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $RaceArray[] = $row['Name'];
     }
 
@@ -337,4 +337,46 @@ function createRegionList($result)
         echo "0 results";
         return array();
     }
+}
+
+function getRegionbyId($id)
+{
+
+    $conn = DBConnection::getConnection();
+
+    $sql = "SELECT * from AllRegions WHERE region_id = :id";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':id', $id);
+    $result = $stmt->execute();
+
+    return createRegion($result);
+}
+
+function getPlacesRelatedtoRegion($region)
+{
+    $conn = DBConnection::getConnection();
+
+    $sql = "SELECT * from lore_place WHERE region_id = :id;";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':id', $region);
+    $result = $stmt->execute();
+
+    return createPlaceList($result);
+}
+
+function getRulerRegion($region)
+{
+    $conn = DBConnection::getConnection();
+
+    $sql = "SELECT * FROM CharacterOverview co
+    JOIN sort_region_ruler srr on co.character_id = srr.character_id
+    WHERE region_id = :id;";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':id', $region);
+    $result = $stmt->execute();
+
+    return characterlist($result);
 }

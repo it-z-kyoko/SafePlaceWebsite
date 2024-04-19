@@ -3,12 +3,12 @@ include_once("../../Classes/DBConnection.php");
 include_once("../../GlobalResources/SQLStuffis.php");
 $id = $_GET['id'];
 
-$event = getPlacebyId($id);
-$chars = getCharactersRelatedtoPlace($id);
-$region = getRegionbyId($event->getRegionId());
+$event = getRegionbyId($id);
+$chars = getPlacesRelatedtoRegion($id);
+$ruler = getRulerRegion($id);
 
 if (isset($_POST['submit'])) {
-    $uploadDirectory = __DIR__ . '/../../images/Places/';
+    $uploadDirectory = __DIR__ . '/../../images/Region/';
 
     $characterFolder = $uploadDirectory . $id;
     if (!is_dir($characterFolder)) {
@@ -27,17 +27,19 @@ if (isset($_POST['submit'])) {
     }
 }
 
+
 if (isset($_POST['edit'])) {
-    header('Location: EditPlaces.php?id=' . $id);
+    header('Location: EditRegion.php?id=' . $id);
 }
 
 if (isset($_POST['create'])) {
-    header('Location: CreatePlaces.php');
+    header('Location: CreateRegion.php');
 }
 
 if (isset($_POST['sortc'])) {
-    header('Location: SortPLaceRuler.php?id=' . $id);
+    header('Location: SortRegionRuler.php?id=' . $id);
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -60,25 +62,29 @@ if (isset($_POST['sortc'])) {
             <?php echo $event->getName() ?>
         </h1>
         <form action="" method="post" enctype="multipart/form-data">
-            <input type="submit" value="Ort Bearbeiten" name="edit">
-            <input type="submit" value="Ort Erstellen" name="create">
+            <input type="submit" value="Region Bearbeiten" name="edit">
+            <input type="submit" value="Region Erstellen" name="create">
             <input type="submit" value="Ordne Herrscher/Besitzer zu" name="sortc">
         </form>
         <div class="page-content">
             <div class="table">
                 <section class="character-info">
-                    <h2>Ort Information</h2>
+                    <h2>Volk Information</h2>
                 </section>
                 <section class="character-info">
-                    <h3>Eigentümer oder Herrscher</h3>
+                    <h3>Orte dieser Region</h3>
                     <?php
                     foreach ($chars as $ch) {
-                        echo "<p>" . $ch . "</p>";
+                        echo "<p>" . $ch->getName() . "</p>";
                     }
                     ?>
-                    <h3>Gehört zur Region</h3>
+                </section>
+                <section class="character-info">
+                    <h3>Herrscher</h3>
                     <?php
-                    echo $region->getName()
+                    foreach ($ruler as $r) {
+                        echo "<p>" . $r->getFirstName() . "</p>";
+                    }
                     ?>
                 </section>
             </div>
