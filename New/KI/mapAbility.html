@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ability Mapper</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for better scrollbar aesthetics */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1a202c; /* Darker track for purple-950 */
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #553c9a; /* Purple thumb */
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #6b46c1; /* Lighter purple on hover */
+        }
+        /* Inter font from Google Fonts (for better typography) */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-rose-400 to-purple-950 min-h-screen flex items-center justify-center p-4 text-gray-100">
+
+    <div class="bg-gray-900 p-8 rounded-2xl shadow-xl w-full max-w-4xl border border-gray-800">
+        <h1 class="text-4xl font-extrabold text-center mb-8 tracking-tight">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-400">
+                Ability Mapper
+            </span>
+        </h1>
+
+        <!-- Unbearbeitete Fähigkeiten Datensätze (Dummy API) - Oben platziert -->
+        <div class="mb-8 p-6 bg-gray-800 rounded-xl border border-rose-700 shadow-sm">
+            <h2 class="text-xl font-semibold text-rose-400 mb-4 flex items-center">
+                <svg class="w-6 h-6 mr-2 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                Datensatz-Auswahl (API-Vorschau)
+            </h2>
+            <div class="flex items-center justify-between mb-4">
+                <button
+                    id="prevDatasetBtn"
+                    class="bg-purple-700 hover:bg-purple-600 text-purple-200 font-bold py-2 px-4 rounded-lg transition duration-200 ease-in-out transform hover:scale-105 active:scale-95"
+                    disabled
+                >
+                    Zurück
+                </button>
+                <span id="datasetIndexDisplay" class="text-lg font-medium text-gray-200">Datensatz 1 von 1</span>
+                <button
+                    id="nextDatasetBtn"
+                    class="bg-purple-700 hover:bg-purple-600 text-purple-200 font-bold py-2 px-4 rounded-lg transition duration-200 ease-in-out transform hover:scale-105 active:scale-95"
+                    disabled
+                >
+                    Weiter
+                </button>
+            </div>
+            <p id="apiCharacterName" class="text-gray-200 text-lg font-semibold mb-2">Charakter: -</p>
+            <!-- Removed apiIdentifiedAbilitiesList from here -->
+        </div>
+
+        <!-- Charaktername -->
+        <div class="mb-6">
+            <label for="characterName" class="block text-lg font-semibold text-gray-200 mb-2">Charaktername:</label>
+            <input
+                type="text"
+                id="characterName"
+                placeholder="Gib den Charakternamen ein (optional)"
+                class="w-full p-3 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 transition duration-200 shadow-sm bg-gray-800 text-gray-100"
+            />
+        </div>
+
+        <!-- Raster für Ausgelesene und Zugeordnete Fähigkeiten -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <!-- Aktuell ausgelesene Fähigkeiten (LEFT) -->
+            <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
+                <h2 class="text-xl font-semibold text-purple-400 mb-4 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    Aktuell ausgelesene Fähigkeiten
+                </h2>
+                <ul id="identifiedAbilitiesList" class="min-h-[120px] max-h-[250px] overflow-y-auto border border-gray-700 rounded-lg p-3 bg-gray-800 custom-scrollbar">
+                    <!-- Fähigkeiten aus dem aktuellen API-Datensatz, die zugewiesen werden können -->
+                </ul>
+            </div>
+
+            <!-- Zugeordnete Fähigkeiten (RIGHT) -->
+            <div class="bg-gray-800 p-6 rounded-xl border border-purple-700 shadow-md">
+                <h2 class="text-2xl font-bold text-purple-400 mb-4 flex items-center">
+                    <svg class="w-7 h-7 mr-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Zugeordnete Fähigkeiten
+                </h2>
+                <ul id="assignedAbilitiesList" class="min-h-[150px] max-h-[300px] overflow-y-auto border-2 border-purple-700 rounded-lg p-4 bg-gray-800 shadow-inner custom-scrollbar">
+                    <!-- Zugeordnete Fähigkeiten werden hier dynamisch hinzugefügt -->
+                    <li class="text-gray-400 italic p-2">Noch keine Fähigkeiten zugewiesen.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Liste der bereits erstellten Fähigkeiten (Masterliste) - Eigener Abschnitt -->
+        <div class="mb-8 p-6 bg-gray-800 rounded-xl border border-gray-700 shadow-sm">
+            <h2 class="text-xl font-semibold text-indigo-400 mb-4 flex items-center">
+                <svg class="w-6 h-6 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                Masterliste Fähigkeiten
+            </h2>
+            <select id="allAbilitiesDropdown" class="w-full p-3 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 transition duration-200 shadow-sm bg-gray-800 text-gray-100">
+                <option value="">Wähle eine Fähigkeit aus</option>
+                <!-- Optionen werden hier dynamisch hinzugefügt -->
+            </select>
+        </div>
+
+        <!-- Neue Fähigkeit erstellen - Ans Ende verschoben -->
+        <div class="mb-8 p-6 bg-gray-800 rounded-xl border border-gray-700 shadow-sm">
+            <label for="newAbilityInput" class="block text-lg font-semibold text-gray-200 mb-2">Neue Fähigkeit erstellen:</label>
+            <div class="flex flex-col sm:flex-row gap-3">
+                <input
+                    type="text"
+                    id="newAbilityInput"
+                    placeholder="Neue Fähigkeit hier eingeben"
+                    class="flex-grow p-3 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition duration-200 shadow-sm bg-gray-800 text-gray-100"
+                />
+                <button
+                    id="addNewAbilityBtn"
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 flex-shrink-0"
+                >
+                    Fähigkeit hinzufügen
+                </button>
+            </div>
+        </div>
+
+        <!-- Datensatz abschließen Button -->
+        <div class="text-center">
+            <button
+                id="finalizeDatasetBtn"
+                class="bg-gradient-to-r from-purple-700 to-rose-700 hover:from-purple-800 hover:to-rose-800 text-white font-extrabold py-4 px-10 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 text-xl tracking-wide"
+            >
+                Datensatz abschließen
+            </button>
+        </div>
+
+        <!-- Custom Alert Modal (instead of alert()) -->
+        <div id="customAlertModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center hidden p-4 z-50">
+            <div class="bg-gray-800 p-8 rounded-xl shadow-2xl max-w-sm w-full text-center border border-gray-700">
+                <h3 id="alertTitle" class="text-2xl font-bold text-gray-100 mb-4"></h3>
+                <p id="alertMessage" class="text-gray-200 mb-6"></p>
+                <button id="alertCloseBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200 ease-in-out transform hover:scale-105">
+                    OK
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Array für alle erstellten Fähigkeiten (Masterliste)
+        let allAbilities = [
+            'Nahkampf', 'Fernkampf', 'Magie', 'Heilung', 'Schleichen', 'Diplomatie',
+            'Taschendiebstahl', 'Alchemie', 'Schmieden', 'Verzauberung', 'Kräuterkunde',
+            'Überleben', 'Athletik', 'Tierführung', 'Sprachen', 'Ablenkung'
+        ];
+
+        // Dummy-Daten, die von einer API kommen könnten
+        // Jedes Objekt repräsentiert einen unbearbeiteten Fähigkeiten-Datensatz
+        const dummyApiDatasets = [
+            {
+                characterName: 'Aramis der Klingenmeister',
+                identifiedAbilities: ['Schwertkampf', 'Fechten', 'Ehrenkodex', 'Parade', 'Gefahrensinn']
+            },
+            {
+                characterName: 'Elara die Waldläuferin',
+                identifiedAbilities: ['Bogen schießen', 'Spuren lesen', 'Tierkunde', 'Tarnung', 'Fallenstellen']
+            },
+            {
+                characterName: 'Zylos der Arkanist',
+                identifiedAbilities: ['Feuerball', 'Eisstrahl', 'Teleportation', 'Runenmagie', 'Beschwörung']
+            },
+            {
+                characterName: 'Unnamed Character with basic skills',
+                identifiedAbilities: ['Laufen', 'Springen', 'Reden']
+            }
+        ];
+
+        let currentDatasetIndex = 0; // Aktueller Index des angezeigten Dummy-Datensatzes
+
+        // Array für die dem aktuellen Charakter zugewiesenen Fähigkeiten
+        let assignedAbilitiesForCharacter = [];
+
+        // DOM-Elemente als 'let' deklarieren, da sie später zugewiesen werden
+        let characterNameInput;
+        let newAbilityInput;
+        let addNewAbilityBtn;
+        let allAbilitiesDropdown;
+        let identifiedAbilitiesList;
+        let assignedAbilitiesList;
+        let finalizeDatasetBtn;
+
+        let prevDatasetBtn;
+        let nextDatasetBtn;
+        let datasetIndexDisplay;
+        let apiCharacterNameDisplay;
+        // let apiIdentifiedAbilitiesList; // This element is removed from HTML
+
+        let customAlertModal;
+        let alertTitle;
+        let alertMessage;
+        let alertCloseBtn;
+
+        /**
+         * Zeigt ein benutzerdefiniertes Modal anstelle von alert().
+         * @param {string} title - Der Titel des Modals.
+         * @param {string} message - Die Nachricht, die im Modal angezeigt werden soll.
+         */
+        function showCustomAlert(title, message) {
+            alertTitle.textContent = title;
+            alertMessage.textContent = message;
+            customAlertModal.classList.remove('hidden');
+        }
+
+        /**
+         * Rendert die Liste der Fähigkeiten in einem bestimmten Element.
+         * Passt sich an, ob es sich um eine UL-Liste oder ein SELECT-Dropdown handelt.
+         * @param {string[]} abilitiesArray - Das Array von Fähigkeiten, das gerendert werden soll.
+         * @param {HTMLElement} targetElement - Das HTML-Element, in das die Fähigkeiten gerendert werden sollen (UL oder SELECT).
+         * @param {boolean} isAssignable - Gibt an, ob die Fähigkeiten in dieser Liste zugewiesen werden können (nur für UL-Listen relevant).
+         * @param {boolean} isRemovable - Gibt an, ob die Fähigkeiten in dieser Liste entfernt werden können (nur für UL-Listen relevant).
+         */
+        function renderAbilityList(abilitiesArray, targetElement, isAssignable = false, isRemovable = false) {
+            targetElement.innerHTML = ''; // Vorhandene Einträge/Optionen löschen
+
+            // Spezielle Behandlung für das Dropdown
+            if (targetElement.tagName === 'SELECT') {
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = 'Wähle eine Fähigkeit aus';
+                defaultOption.disabled = true;
+                defaultOption.selected = true;
+                targetElement.appendChild(defaultOption);
+
+                abilitiesArray.forEach((ability) => {
+                    const option = document.createElement('option');
+                    option.value = ability;
+                    option.textContent = ability;
+                    targetElement.appendChild(option);
+                });
+            } else { // Behandlung für UL-Listen
+                if (abilitiesArray.length === 0) {
+                    const li = document.createElement('li');
+                    li.className = 'text-gray-400 italic p-2'; /* Changed text color for dark mode */
+                    li.textContent = 'Noch keine Fähigkeiten vorhanden.';
+                    targetElement.appendChild(li);
+                    return;
+                }
+
+                abilitiesArray.forEach((ability) => {
+                    const li = document.createElement('li');
+                    li.className = 'flex items-center justify-between p-2 my-1 bg-gray-800 border border-gray-700 rounded-md shadow-sm text-gray-100'; /* Changed colors for dark mode */
+                    li.textContent = ability;
+
+                    const buttonContainer = document.createElement('div');
+
+                    // "Hinzufügen"-Button für Ausgelesene Fähigkeiten (aus API-Liste)
+                    if (isAssignable) {
+                        const assignButton = document.createElement('button');
+                        assignButton.textContent = '+';
+                        assignButton.className = 'ml-2 bg-blue-600 hover:bg-blue-700 text-white text-sm py-1 px-3 rounded-md transition duration-200 ease-in-out transform hover:scale-105 active:scale-95'; /* Adjusted colors for dark mode */
+                        assignButton.onclick = () => assignAbility(ability);
+                        buttonContainer.appendChild(assignButton);
+                    }
+
+                    // "Entfernen"-Button für Zugeordnete Fähigkeiten
+                    if (isRemovable) {
+                        const removeButton = document.createElement('button');
+                        removeButton.textContent = 'Entfernen';
+                        removeButton.className = 'ml-2 bg-red-600 hover:bg-red-700 text-white text-sm py-1 px-3 rounded-md transition duration-200 ease-in-out transform hover:scale-105 active:scale-95'; /* Adjusted colors for dark mode */
+                        removeButton.onclick = () => removeAssignedAbility(ability);
+                        buttonContainer.appendChild(removeButton);
+                    }
+
+                    li.appendChild(buttonContainer);
+                    targetElement.appendChild(li);
+                });
+            }
+        }
+
+        /**
+         * Fügt eine Fähigkeit zu den zugewiesenen Fähigkeiten hinzu.
+         * Zeigt nur bei Duplikaten eine Nachricht an.
+         * @param {string} ability - Die hinzuzufügende Fähigkeit.
+         */
+        function assignAbility(ability) {
+            if (!assignedAbilitiesForCharacter.includes(ability)) {
+                assignedAbilitiesForCharacter.push(ability);
+                renderAbilityList(assignedAbilitiesForCharacter, assignedAbilitiesList, false, true);
+                // Keine Bestätigungsnachricht bei Erfolg
+            } else {
+                showCustomAlert('Bereits zugewiesen', `'${ability}' ist diesem Charakter bereits zugewiesen.`);
+            }
+        }
+
+        /**
+         * Entfernt eine Fähigkeit aus den zugewiesenen Fähigkeiten.
+         * Zeigt keine Nachricht an.
+         * @param {string} ability - Die zu entfernende Fähigkeit.
+         */
+        function removeAssignedAbility(ability) {
+            assignedAbilitiesForCharacter = assignedAbilitiesForCharacter.filter(item => item !== ability);
+            renderAbilityList(assignedAbilitiesForCharacter, assignedAbilitiesList, false, true);
+            // Keine Bestätigungsnachricht
+        }
+
+        /**
+         * Lädt einen unbearbeiteten Datensatz aus der Dummy-API und aktualisiert die UI.
+         * @param {number} index - Der Index des zu ladenden Datensatzes.
+         */
+        function loadUnprocessedDataset(index) {
+            if (dummyApiDatasets.length === 0) {
+                showCustomAlert('Keine API-Daten', 'Es sind keine Dummy-API-Datensätze verfügbar.');
+                datasetIndexDisplay.textContent = 'Keine Daten';
+                prevDatasetBtn.disabled = true;
+                nextDatasetBtn.disabled = true;
+                apiCharacterNameDisplay.textContent = 'Charakter: -';
+                // apiIdentifiedAbilitiesList.innerHTML = '<li>Keine ausgelesenen Fähigkeiten.</li>'; // Removed
+                characterNameInput.value = '';
+                assignedAbilitiesForCharacter = [];
+                renderAbilityList(assignedAbilitiesForCharacter, assignedAbilitiesList, false, true);
+                renderAbilityList([], identifiedAbilitiesList, true, false); // Leert die zugewiesenen Fähigkeiten
+                return;
+            }
+
+            // Sicherstellen, dass der Index innerhalb der gültigen Grenzen liegt
+            if (index < 0) {
+                currentDatasetIndex = 0;
+            } else if (index >= dummyApiDatasets.length) {
+                currentDatasetIndex = dummyApiDatasets.length - 1;
+            } else {
+                currentDatasetIndex = index;
+            }
+
+            const dataset = dummyApiDatasets[currentDatasetIndex];
+
+            // Setzt das Formular auf den Zustand des unbearbeiteten Datensatzes
+            characterNameInput.value = dataset.characterName || ''; // Charaktername aus API (optional)
+            assignedAbilitiesForCharacter = []; // Zugeordnete Fähigkeiten zurücksetzen für neuen Datensatz
+            renderAbilityList(assignedAbilitiesForCharacter, assignedAbilitiesList, false, true);
+
+            // Aktualisiere die Listen der ausgelesenen Fähigkeiten (Haupt- und API-Vorschau)
+            renderAbilityList(dataset.identifiedAbilities, identifiedAbilitiesList, true, false);
+            // renderAbilityList(dataset.identifiedAbilities, apiIdentifiedAbilitiesList, false, false); // Removed
+
+            apiCharacterNameDisplay.textContent = `Charakter: ${dataset.characterName || 'Unbenannt'}`;
+            datasetIndexDisplay.textContent = `Datensatz ${currentDatasetIndex + 1} von ${dummyApiDatasets.length}`;
+
+            // Aktiviere/Deaktiviere Navigationsbuttons
+            prevDatasetBtn.disabled = (currentDatasetIndex === 0);
+            nextDatasetBtn.disabled = (currentDatasetIndex === dummyApiDatasets.length - 1);
+        }
+
+        // Initiales Rendern der Listen und Laden des ersten API-Datensatzes beim Laden der Seite
+        window.onload = () => {
+            // DOM-Elemente abrufen - JETZT INNERHALB VON WINDOW.ONLOAD
+            characterNameInput = document.getElementById('characterName');
+            newAbilityInput = document.getElementById('newAbilityInput');
+            addNewAbilityBtn = document.getElementById('addNewAbilityBtn');
+            allAbilitiesDropdown = document.getElementById('allAbilitiesDropdown');
+            identifiedAbilitiesList = document.getElementById('identifiedAbilitiesList');
+            assignedAbilitiesList = document.getElementById('assignedAbilitiesList');
+            finalizeDatasetBtn = document.getElementById('finalizeDatasetBtn');
+
+            prevDatasetBtn = document.getElementById('prevDatasetBtn');
+            nextDatasetBtn = document.getElementById('nextDatasetBtn');
+            datasetIndexDisplay = document.getElementById('datasetIndexDisplay');
+            apiCharacterNameDisplay = document.getElementById('apiCharacterName');
+            // apiIdentifiedAbilitiesList = document.getElementById('apiIdentifiedAbilitiesList'); // Removed
+
+            customAlertModal = document.getElementById('customAlertModal');
+            alertTitle = document.getElementById('alertTitle');
+            alertMessage = document.getElementById('alertMessage');
+            alertCloseBtn = document.getElementById('alertCloseBtn');
+
+            // Event Listener für "Fähigkeit hinzufügen" Button
+            addNewAbilityBtn.addEventListener('click', () => {
+                const newAbility = newAbilityInput.value.trim();
+                if (newAbility) {
+                    if (!allAbilities.includes(newAbility)) {
+                        allAbilities.push(newAbility);
+                        newAbilityInput.value = ''; // Eingabefeld leeren
+                        renderAbilityList(allAbilities, allAbilitiesDropdown); // Masterliste Dropdown aktualisieren
+                        showCustomAlert('Fähigkeit erstellt', `'${newAbility}' wurde der Masterliste hinzugefügt.`);
+                    } else {
+                        showCustomAlert('Bereits vorhanden', `'${newAbility}' existiert bereits in der Masterliste.`);
+                    }
+                } else {
+                    showCustomAlert('Eingabe erforderlich', 'Bitte gib einen Namen für die neue Fähigkeit ein.');
+                }
+            });
+
+            // Event Listener für das Masterliste Dropdown
+            allAbilitiesDropdown.addEventListener('change', (event) => {
+                const selectedAbility = event.target.value;
+                if (selectedAbility) { // Sicherstellen, dass keine leere Option ausgewählt wurde
+                    assignAbility(selectedAbility);
+                    event.target.value = ''; // Dropdown zurücksetzen auf die Standardoption
+                }
+            });
+
+            // Event Listener für "Datensatz abschließen" Button
+            finalizeDatasetBtn.addEventListener('click', () => {
+                const characterName = characterNameInput.value.trim();
+
+                if (assignedAbilitiesForCharacter.length === 0) {
+                    showCustomAlert('Keine Fähigkeiten zugewiesen', 'Diesem Charakter sind noch keine Fähigkeiten zugewiesen. Möchtest du trotzdem fortfahren?');
+                }
+
+                const finalDataset = {
+                    characterName: characterName || `Unbenannter Charakter (API-Datensatz ${currentDatasetIndex + 1})`, // Generischer Name, wenn keiner eingegeben wird
+                    assignedAbilities: assignedAbilitiesForCharacter
+                };
+
+                console.log('Finaler Datensatz:', finalDataset);
+                showCustomAlert('Datensatz abgeschlossen', `Der Datensatz für "${finalDataset.characterName}" wurde erfolgreich abgeschlossen und in der Konsole ausgegeben.`);
+
+                // Optional: Nach Abschluss des Datensatzes zum nächsten API-Datensatz springen
+                // loadUnprocessedDataset(currentDatasetIndex + 1);
+            });
+
+            // Event Listener für "Zurück" Button
+            prevDatasetBtn.addEventListener('click', () => {
+                loadUnprocessedDataset(currentDatasetIndex - 1);
+            });
+
+            // Event Listener für "Weiter" Button
+            nextDatasetBtn.addEventListener('click', () => {
+                loadUnprocessedDataset(currentDatasetIndex + 1);
+            });
+
+            // Event Listener für den Schließen-Button des Alert-Modals
+            alertCloseBtn.addEventListener('click', () => {
+                customAlertModal.classList.add('hidden');
+            });
+
+            renderAbilityList(allAbilities, allAbilitiesDropdown); // Masterliste als Dropdown
+            loadUnprocessedDataset(0); // Lade den ersten Dummy-API-Datensatz beim Start
+        };
+    </script>
+</body>
+</html>

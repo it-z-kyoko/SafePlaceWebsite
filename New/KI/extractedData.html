@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Character Profile Builder</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for better scrollbar aesthetics */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1a202c; /* Darker track for purple-950 */
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #553c9a; /* Purple thumb */
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #6b46c1; /* Lighter purple on hover */
+        }
+        /* Inter font from Google Fonts (for better typography) */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-rose-400 to-purple-950 min-h-screen flex items-center justify-center p-4 text-gray-100">
+
+    <div class="bg-gray-900 p-8 rounded-2xl shadow-xl w-full max-w-5xl border border-gray-800">
+        <h1 class="text-4xl font-extrabold text-center mb-8 tracking-tight">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-400">
+                Character Profile Builder
+            </span>
+        </h1>
+
+        <!-- Container for side-by-side layout on medium screens and up -->
+        <div class="flex flex-col md:flex-row gap-6 h-[70vh]"> <!-- Added fixed height to make columns same height -->
+            <!-- Plain Text Input (Left Column) -->
+            <div class="flex-1 p-6 bg-gray-800 rounded-xl border border-rose-700 shadow-sm flex flex-col">
+                <label for="plainTextInput" class="block text-lg font-semibold text-rose-400 mb-2 flex items-center">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                    Plain Text Input
+                </label>
+                <textarea
+                    id="plainTextInput"
+                    rows="8"
+                    placeholder="Paste or type any plain text about the character here, then select and drag text to the fields on the right."
+                    class="w-full flex-grow p-4 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 transition duration-200 shadow-sm bg-gray-800 text-gray-100 custom-scrollbar"
+                    draggable="true" 
+                ></textarea>
+                <!-- Make the textarea itself draggable -->
+            </div>
+
+            <!-- Character Details Section (Right Column) -->
+            <div class="flex-1 p-6 bg-gray-800 rounded-xl border border-purple-700 shadow-md flex flex-col">
+                <h2 class="text-2xl font-bold text-purple-400 mb-6 flex items-center">
+                    <svg class="w-7 h-7 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 112 0v1m-4 0h4m-4 0H9m7 0h-4"></path></svg>
+                    Character Details
+                </h2>
+                <!-- This div will scroll independently if its content is too long -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 flex-grow overflow-y-auto custom-scrollbar pr-2">
+                    <!-- Names -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="firstName" class="block text-sm font-medium text-gray-300">First Name:</label>
+                            <button class="clear-btn bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="firstName">X</button>
+                        </div>
+                        <input type="text" id="firstName" class="w-full p-3 border border-gray-700 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="middleName" class="block text-sm font-medium text-gray-300">Middle Name:</label>
+                            <button class="clear-btn bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="middleName">X</button>
+                        </div>
+                        <input type="text" id="middleName" class="w-full p-3 border border-gray-700 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="lastName" class="block text-sm font-medium text-gray-300">Last Name:</label>
+                            <button class="clear-btn bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="lastName">X</button>
+                        </div>
+                        <input type="text" id="lastName" class="w-full p-3 border border-gray-700 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="nicknames" class="block text-sm font-medium text-gray-300">Nicknames:</label>
+                            <button class="clear-btn bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="nicknames">X</button>
+                        </div>
+                        <input type="text" id="nicknames" class="w-full p-3 border border-gray-700 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+                    </div>
+
+                    <!-- Basic Info -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="age" class="block text-sm font-medium text-gray-300">Age:</label>
+                            <button class="clear-btn bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="age">X</button>
+                        </div>
+                        <input type="text" id="age" class="w-full p-3 border border-gray-700 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="heritage" class="block text-sm font-medium text-gray-300">Heritage:</label>
+                            <button class="clear-btn bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="heritage">X</button>
+                        </div>
+                        <input type="text" id="heritage" class="w-full p-3 border border-gray-700 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="birthday" class="block text-sm font-medium text-gray-300">Birthday:</label>
+                            <button class="clear-btn bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="birthday">X</button>
+                        </div>
+                        <input type="text" id="birthday" placeholder="e.g., January 1st" class="w-full p-3 border border-gray-700 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="gender" class="block text-sm font-medium text-gray-300">Gender:</label>
+                            <button class="clear-btn bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="gender">X</button>
+                        </div>
+                        <input type="text" id="gender" class="w-full p-3 border border-gray-700 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="sexuality" class="block text-sm font-medium text-gray-300">Sexuality:</label>
+                            <button class="clear-btn bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="sexuality">X</button>
+                        </div>
+                        <input type="text" id="sexuality" class="w-full p-3 border border-gray-700 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="height" class="block text-sm font-medium text-gray-300">Height:</label>
+                            <button class="clear-btn bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="height">X</button>
+                        </div>
+                        <input type="text" id="height" placeholder="e.g., 180cm / 5'11&quot;" class="w-full p-3 border border-gray-700 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="weight" class="block text-sm font-medium text-gray-300">Weight:</label>
+                            <button class="clear-btn bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="weight">X</button>
+                        </div>
+                        <input type="text" id="weight" placeholder="e.g., 75kg / 165 lbs" class="w-full p-3 border border-gray-700 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+                    </div>
+
+                    <!-- Longer Descriptions (integrated into the 2-column grid, spanning 2 columns) -->
+                    <div class="md:col-span-2">
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="visualAppearance" class="block text-sm font-medium text-gray-300">Visual Appearance:</label>
+                            <button class="clear-btn bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="visualAppearance">X</button>
+                        </div>
+                        <textarea id="visualAppearance" rows="4" class="w-full p-3 border border-gray-700 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400 custom-scrollbar"></textarea>
+                    </div>
+                    <div class="md:col-span-2">
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="personality" class="block text-sm font-medium text-gray-300">Personality:</label>
+                            <button class="clear-btn bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="personality">X</button>
+                        </div>
+                        <textarea id="personality" rows="4" class="w-full p-3 border border-gray-700 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400 custom-scrollbar"></textarea>
+                    </div>
+                    <div class="md:col-span-2">
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="likes" class="block text-sm font-medium text-gray-300">Likes:</label>
+                            <button class="clear-btn bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="likes">X</button>
+                        </div>
+                        <textarea id="likes" rows="3" class="w-full p-3 border border-gray-700 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400 custom-scrollbar"></textarea>
+                    </div>
+                    <div class="md:col-span-2">
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="dislikes" class="block text-sm font-medium text-gray-300">Dislikes:</label>
+                            <button class="clear-btn bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="dislikes">X</button>
+                        </div>
+                        <textarea id="dislikes" rows="3" class="w-full p-3 border border-gray-700 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400 custom-scrollbar"></textarea>
+                    </div>
+                    <div class="md:col-span-2">
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="abilities" class="block text-sm font-medium text-gray-300">Abilities:</label>
+                            <button class="clear-btn bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="abilities">X</button>
+                        </div>
+                        <textarea id="abilities" rows="4" class="w-full p-3 border border-gray-700 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400 custom-scrollbar"></textarea>
+                    </div>
+                    <div class="md:col-span-2">
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="strengths" class="block text-sm font-medium text-gray-300">Strengths:</label>
+                            <button class="clear-btn bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="strengths">X</button>
+                        </div>
+                        <textarea id="strengths" rows="3" class="w-full p-3 border border-gray-700 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400 custom-scrollbar"></textarea>
+                    </div>
+                    <div class="md:col-span-2">
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="weaknesses" class="block text-sm font-medium text-gray-300">Weaknesses:</label>
+                            <button class="clear-btn bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="weaknesses">X</button>
+                        </div>
+                        <textarea id="weaknesses" rows="3" class="w-full p-3 border border-gray-700 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400 custom-scrollbar"></textarea>
+                    </div>
+                    <div class="md:col-span-2">
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="additionalInformation" class="block text-sm font-medium text-gray-300">Additional Information:</label>
+                            <button class="clear-btn bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="additionalInformation">X</button>
+                        </div>
+                        <textarea id="additionalInformation" rows="4" class="w-full p-3 border border-gray-700 rounded-lg bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400 custom-scrollbar"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="text-center mt-8 flex justify-center gap-4">
+            <button
+                id="undoBtn"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 text-lg"
+            >
+                Undo Last Action
+            </button>
+            <button
+                id="saveProfileBtn"
+                class="bg-gradient-to-r from-purple-700 to-rose-700 hover:from-purple-800 hover:to-rose-800 text-white font-extrabold py-4 px-10 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 text-xl tracking-wide"
+            >
+                Save Profile
+            </button>
+        </div>
+
+        <!-- Custom Alert Modal (instead of alert()) -->
+        <div id="customAlertModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center hidden p-4 z-50">
+            <div class="bg-gray-800 p-8 rounded-xl shadow-2xl max-w-sm w-full text-center border border-gray-700">
+                <h3 id="alertTitle" class="text-2xl font-bold text-gray-100 mb-4"></h3>
+                <p id="alertMessage" class="text-gray-200 mb-6"></p>
+                <button id="alertCloseBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200 ease-in-out transform hover:scale-105">
+                    OK
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // DOM Elements
+        let plainTextInput;
+        let firstNameInput, middleNameInput, lastNameInput, nicknamesInput;
+        let ageInput, heritageInput, birthdayInput, genderInput, sexualityInput, heightInput, weightInput;
+        let visualAppearanceInput, personalityInput, likesInput, dislikesInput, abilitiesInput, strengthsInput, weaknessesInput, additionalInformationInput;
+        let saveProfileBtn;
+        let undoBtn;
+
+        let customAlertModal;
+        let alertTitle;
+        let alertMessage;
+        let alertCloseBtn;
+
+        // Undo stack to store previous states for undo functionality
+        const undoStack = [];
+        const MAX_UNDO_STACK_SIZE = 10; // Limit the undo history size
+
+        /**
+         * Displays a custom modal instead of alert().
+         * @param {string} title - The title of the modal.
+         * @param {string} message - The message to display in the modal.
+         */
+        function showCustomAlert(title, message) {
+            // This function is kept for the 'Save Profile' button, but not used for undo/clear
+            alertTitle.textContent = title;
+            alertMessage.textContent = message;
+            customAlertModal.classList.remove('hidden');
+        }
+
+        /**
+         * Pushes an action onto the undo stack.
+         * @param {string} targetId - The ID of the element that was modified.
+         * @param {string} oldValue - The value of the element BEFORE the modification.
+         */
+        function pushToUndoStack(targetId, oldValue) {
+            undoStack.push({ targetId, oldValue });
+            if (undoStack.length > MAX_UNDO_STACK_SIZE) {
+                undoStack.shift(); // Remove the oldest entry
+            }
+        }
+
+        /**
+         * Handles the 'dragstart' event for the plain text input.
+         * Stores the selected text.
+         * @param {Event} event - The dragstart event object.
+         */
+        function handlePlaintextDragStart(event) {
+            const textarea = event.target;
+            const selectedText = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
+
+            if (selectedText.length > 0) {
+                event.dataTransfer.setData('text/plain', selectedText);
+                event.dataTransfer.effectAllowed = 'copy'; // Indicate that a copy is intended
+            } else {
+                // If no text is selected, prevent drag
+                event.preventDefault();
+            }
+        }
+
+        /**
+         * Handles the 'dragover' event for target input/textarea elements.
+         * Prevents default to allow dropping and adds visual feedback.
+         * @param {Event} event - The dragover event object.
+         */
+        function handleTargetDragOver(event) {
+            event.preventDefault(); // Essential to allow a drop
+            if (event.dataTransfer.types.includes('text/plain')) {
+                event.dataTransfer.dropEffect = 'copy'; // Change cursor to 'copy'
+                event.currentTarget.classList.add('border-purple-400'); // Add visual highlight
+            }
+        }
+
+        /**
+         * Handles the 'dragleave' event for target input/textarea elements.
+         * Removes visual feedback.
+         * @param {Event} event - The dragleave event object.
+         */
+        function handleTargetDragLeave(event) {
+            event.currentTarget.classList.remove('border-purple-400'); // Remove visual highlight
+        }
+
+        /**
+         * Handles the 'drop' event for target input/textarea elements.
+         * Appends the dropped text and pushes the state to the undo stack.
+         * @param {Event} event - The drop event object.
+         * @param {HTMLElement} targetElement - The element where the text was dropped.
+         */
+        function handleTargetDrop(event, targetElement) {
+            event.preventDefault();
+            event.currentTarget.classList.remove('border-purple-400'); // Remove visual highlight
+
+            const droppedText = event.dataTransfer.getData('text/plain');
+
+            if (targetElement.tagName === 'INPUT' || targetElement.tagName === 'TEXTAREA') {
+                pushToUndoStack(targetElement.id, targetElement.value);
+
+                // Append the dropped text to the target field's value
+                let currentValue = targetElement.value;
+                if (currentValue.length > 0 && !currentValue.endsWith(' ') && !droppedText.startsWith(' ')) {
+                    targetElement.value += ' '; // Add a space only if needed
+                } else if (currentValue.length === 0 && droppedText.startsWith(' ')) {
+                    // If target is empty and dropped text starts with space, trim it
+                    targetElement.value += droppedText.trim();
+                } else {
+                    targetElement.value += droppedText;
+                }
+            }
+        }
+
+        /**
+         * Handles the 'click' event for the clear button.
+         * Clears the associated input/textarea and pushes the state to the undo stack.
+         * @param {Event} event - The click event object.
+         */
+        function handleClearButtonClick(event) {
+            const targetId = event.currentTarget.dataset.targetId;
+            const targetElement = document.getElementById(targetId);
+
+            if (targetElement) {
+                if (targetElement.value !== '') { // Only clear if there's content to clear
+                    pushToUndoStack(targetElement.id, targetElement.value);
+                    targetElement.value = '';
+                    // No alert message here
+                }
+            }
+        }
+
+        /**
+         * Handles the 'click' event for the undo button.
+         * Reverts the last text drop or clear operation.
+         */
+        function handleUndo() {
+            if (undoStack.length > 0) {
+                const lastAction = undoStack.pop();
+                const targetElement = document.getElementById(lastAction.targetId);
+                if (targetElement) {
+                    targetElement.value = lastAction.oldValue;
+                    // No alert message here
+                }
+            } else {
+                // Optionally, you could log to console or provide a subtle visual hint if no more undo actions.
+                console.log('No more actions to undo.');
+            }
+        }
+
+        // Initialize elements and event listeners when the window loads
+        window.onload = () => {
+            // Get references to DOM elements
+            plainTextInput = document.getElementById('plainTextInput');
+
+            firstNameInput = document.getElementById('firstName');
+            middleNameInput = document.getElementById('middleName');
+            lastNameInput = document.getElementById('lastName');
+            nicknamesInput = document.getElementById('nicknames');
+
+            ageInput = document.getElementById('age');
+            heritageInput = document.getElementById('heritage');
+            birthdayInput = document.getElementById('birthday');
+            genderInput = document.getElementById('gender');
+            sexualityInput = document.getElementById('sexuality');
+            heightInput = document.getElementById('height');
+            weightInput = document.getElementById('weight');
+
+            visualAppearanceInput = document.getElementById('visualAppearance');
+            personalityInput = document.getElementById('personality');
+            likesInput = document.getElementById('likes');
+            dislikesInput = document.getElementById('dislikes');
+            abilitiesInput = document.getElementById('abilities');
+            strengthsInput = document.getElementById('strengths');
+            weaknessesInput = document.getElementById('weaknesses');
+            additionalInformationInput = document.getElementById('additionalInformation');
+
+            saveProfileBtn = document.getElementById('saveProfileBtn');
+            undoBtn = document.getElementById('undoBtn');
+
+            customAlertModal = document.getElementById('customAlertModal');
+            alertTitle = document.getElementById('alertTitle');
+            alertMessage = document.getElementById('alertMessage');
+            alertCloseBtn = document.getElementById('alertCloseBtn');
+
+            // --- Event Listeners for Drag and Drop ---
+            plainTextInput.addEventListener('dragstart', handlePlaintextDragStart);
+
+            const dropTargets = [
+                firstNameInput, middleNameInput, lastNameInput, nicknamesInput,
+                ageInput, heritageInput, birthdayInput, genderInput, sexualityInput, heightInput, weightInput,
+                visualAppearanceInput, personalityInput, likesInput, dislikesInput,
+                abilitiesInput, strengthsInput, weaknessesInput, additionalInformationInput
+            ];
+
+            dropTargets.forEach(target => {
+                target.addEventListener('dragover', handleTargetDragOver);
+                target.addEventListener('dragleave', handleTargetDragLeave);
+                target.addEventListener('drop', (event) => handleTargetDrop(event, target));
+            });
+            // --- End Drag and Drop Event Listeners ---
+
+            // --- Event Listeners for Clear Buttons ---
+            // Select all buttons with the 'clear-btn' class
+            const clearButtons = document.querySelectorAll('.clear-btn');
+            clearButtons.forEach(button => {
+                button.addEventListener('click', handleClearButtonClick);
+            });
+            // --- End Clear Button Event Listeners ---
+
+
+            // Event Listener for the "Save Profile" button
+            saveProfileBtn.addEventListener('click', () => {
+                const characterProfile = {
+                    plainText: plainTextInput.value.trim(),
+                    names: {
+                        firstName: firstNameInput.value.trim(),
+                        middleName: middleNameInput.value.trim(),
+                        lastName: lastNameInput.value.trim(),
+                        nicknames: nicknamesInput.value.trim()
+                    },
+                    basicInfo: {
+                        age: ageInput.value.trim(),
+                        heritage: heritageInput.value.trim(),
+                        birthday: birthdayInput.value.trim(),
+                        gender: genderInput.value.trim(),
+                        sexuality: sexualityInput.value.trim(),
+                        height: heightInput.value.trim(),
+                        weight: weightInput.value.trim()
+                    },
+                    descriptions: {
+                        visualAppearance: visualAppearanceInput.value.trim(),
+                        personality: personalityInput.value.trim(),
+                        likes: likesInput.value.trim(),
+                        dislikes: dislikesInput.value.trim(),
+                        abilities: abilitiesInput.value.trim(),
+                        strengths: strengthsInput.value.trim(),
+                        weaknesses: weaknessesInput.value.trim(),
+                        additionalInformation: additionalInformationInput.value.trim()
+                    }
+                };
+
+                console.log('Character Profile Saved:', characterProfile);
+                showCustomAlert('Profile Saved!', 'The character profile data has been successfully saved (logged to console).');
+            });
+
+            // Event Listener for the undo button
+            undoBtn.addEventListener('click', handleUndo);
+
+            // Event Listener for the alert modal close button
+            alertCloseBtn.addEventListener('click', () => {
+                customAlertModal.classList.add('hidden');
+            });
+        };
+    </script>
+</body>
+</html>
