@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Character Heritage Zuordnung</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for better scrollbar aesthetics */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1a202c; /* Darker track for purple-950 */
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #553c9a; /* Purple thumb */
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #6b46c1; /* Lighter purple on hover */
+        }
+        /* Inter font from Google Fonts (for better typography) */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Basic styling for form elements to match the example */
+        .form-input {
+            @apply w-full p-3 bg-gray-700 rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200 ease-in-out;
+        }
+        .form-textarea {
+            @apply w-full p-3 bg-gray-700 rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 min-h-[120px] transition-all duration-200 ease-in-out;
+        }
+        .form-label {
+            @apply block text-sm font-medium text-gray-300;
+        }
+        /* Common action button styling */
+        .action-button-base {
+            @apply rounded-xl text-white transition-all duration-300 ease-in-out shadow-lg transform hover:scale-105 active:scale-95 hover:shadow-xl;
+        }
+        /* Specific styles for smaller buttons */
+        .action-button-small {
+            @apply px-6 py-3 font-semibold text-lg;
+        }
+        /* Specific styles for large primary button */
+        .action-button-large {
+            @apply px-10 py-4 font-extrabold text-xl tracking-wide;
+        }
+        /* Style for the clear 'X' button */
+        .clear-btn {
+            @apply bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-rose-400 to-purple-950 min-h-screen flex items-center justify-center p-4 text-gray-100">
+
+    <div class="bg-gray-900 p-8 rounded-2xl shadow-2xl w-full max-w-4xl border border-gray-800 backdrop-blur-sm bg-opacity-70">
+        <h1 class="text-4xl font-extrabold text-center mb-8 tracking-tight">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-400">
+                Character Heritage Zuordnung
+            </span>
+        </h1>
+
+        <!-- Dataset Selection and New Button -->
+        <div class="p-6 bg-gray-800 rounded-xl border border-purple-700 shadow-md mb-6">
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-4 space-y-4 sm:space-y-0">
+                <h2 class="text-xl font-bold text-purple-400">Zuordnung auswählen</h2>
+                <button id="newAssociationButton" type="button" class="px-4 py-2 rounded-lg bg-blue-700 text-white hover:bg-blue-600 transition-colors duration-300 ease-in-out shadow-md">
+                    Neue Zuordnung erstellen
+                </button>
+            </div>
+            <div>
+                <label for="associationSelect" class="block text-sm font-medium text-gray-300 mb-1">Bestehende Zuordnungen:</label>
+                <select id="associationSelect" class="w-full p-3 bg-gray-700 rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200 ease-in-out custom-scrollbar">
+                    <!-- Options will be populated by JavaScript -->
+                </select>
+            </div>
+        </div>
+
+        <!-- Main content area for the form, matching the section style -->
+        <div class="p-6 bg-gray-800 rounded-xl border border-purple-700 shadow-md">
+            <h2 class="text-2xl font-bold text-purple-400 mb-6 flex items-center">
+                <svg class="w-7 h-7 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 112 0v1m-4 0h4m-4 0H9m7 0h-4"></path></svg>
+                Zuordnungs-Details
+            </h2>
+            <form id="associationForm" class="space-y-6">
+                <!-- Association ID (Read-only for existing, auto-generated for new) -->
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label for="associationIdDisplay" class="block text-sm font-medium text-gray-300">Zuordnungs ID:</label>
+                        <button type="button" class="bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="associationIdDisplay">X</button>
+                    </div>
+                    <input type="text" id="associationIdDisplay" name="associationIdDisplay" value="" class="w-full p-3 bg-gray-700 rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200 ease-in-out opacity-75 cursor-not-allowed" readonly>
+                </div>
+
+                <!-- Character ID Dropdown with Autocomplete -->
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label for="characterNameInput" class="block text-sm font-medium text-gray-300">Charakter:</label>
+                        <button type="button" class="bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="characterNameInput">X</button>
+                    </div>
+                    <input type="text" id="characterNameInput" name="characterNameInput" list="characterOptions" placeholder="Charaktername eingeben" class="w-full p-3 bg-gray-700 rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200 ease-in-out" required>
+                    <datalist id="characterOptions">
+                        <!-- Options will be populated by JavaScript -->
+                    </datalist>
+                </div>
+
+                <!-- Heritage ID Dropdown with Autocomplete -->
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label for="heritageNameInput" class="block text-sm font-medium text-gray-300">Heritage:</label>
+                        <button type="button" class="bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="heritageNameInput">X</button>
+                    </div>
+                    <input type="text" id="heritageNameInput" name="heritageNameInput" list="heritageOptions" placeholder="Heritagenamen eingeben" class="w-full p-3 bg-gray-700 rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200 ease-in-out" required>
+                    <datalist id="heritageOptions">
+                        <!-- Options will be populated by JavaScript -->
+                    </datalist>
+                </div>
+            </form>
+        </div>
+
+        <!-- Action Buttons outside the main content box -->
+        <div class="flex flex-col sm:flex-row justify-end space-y-4 sm:space-y-0 sm:space-x-4 pt-8">
+            <button type="button" id="cancelButton" class="rounded-xl text-white transition-all duration-300 ease-in-out shadow-lg transform hover:scale-105 active:scale-95 hover:shadow-xl px-6 py-3 font-semibold text-lg bg-gradient-to-r from-gray-700 to-gray-900 hover:from-gray-600 hover:to-gray-800">Abbrechen</button>
+            <button type="button" id="deleteButton" class="rounded-xl text-white transition-all duration-300 ease-in-out shadow-lg transform hover:scale-105 active:scale-95 hover:shadow-xl px-6 py-3 font-semibold text-lg bg-gradient-to-r from-red-700 to-red-900 hover:from-red-600 hover:to-red-800">Löschen</button>
+            <button type="submit" form="associationForm" id="saveAssociationButton" class="rounded-xl text-white transition-all duration-300 ease-in-out shadow-lg transform hover:scale-105 active:scale-95 hover:shadow-xl px-10 py-4 font-extrabold text-xl tracking-wide bg-gradient-to-r from-purple-700 to-rose-700 hover:from-purple-800 hover:to-rose-800">Speichern</button>
+        </div>
+    </div>
+
+    <!-- Custom Alert Modal (instead of alert()) -->
+    <div id="customAlertModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center hidden p-4 z-50">
+        <div class="bg-gray-800 p-8 rounded-xl shadow-2xl max-w-sm w-full text-center border border-gray-700">
+            <h3 id="alertTitle" class="text-2xl font-bold text-gray-100 mb-4"></h3>
+            <p id="alertMessage" class="text-gray-200 mb-6"></p>
+            <button id="alertCloseBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200 ease-in-out transform hover:scale-105">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        let associationSelect, newAssociationButton;
+        let associationIdDisplay, characterNameInput, heritageNameInput;
+        let characterOptionsDatalist, heritageOptionsDatalist;
+        let saveAssociationButton, deleteButton, cancelButton;
+        let customAlertModal, alertTitle, alertMessage, alertCloseBtn;
+
+        // --- Simulated Data Stores ---
+        // Character data (Character_ID, Name)
+        let characterData = [
+            { characterId: "C001", name: "Aramis" },
+            { characterId: "C002", name: "Elara" },
+            { characterId: "C003", name: "Kael" },
+            { characterId: "C004", name: "Lira" },
+            { characterId: "C005", name: "Zoltan" }
+        ];
+
+        // Heritage data (Heritage_ID, Name) - Re-using from previous context
+        let heritageData = [
+            { heritageId: "H001", name: "Elfenwald-Erbe" },
+            { heritageId: "H002", name: "Bergbau-Zwergenstamm" },
+            { heritageId: "H003", name: "Seehandels-Clan" },
+            { heritageId: "H004", name: "Wüstenwanderer" },
+            { heritageId: "H005", name: "Magiergilde" }
+        ];
+
+        // Character_Heritage Associations (Association_ID, Character_ID, Heritage_ID)
+        let characterHeritageAssociations = [
+            { associationId: "A001", characterId: "C001", heritageId: "H001" }, // Aramis - Elfenwald-Erbe
+            { associationId: "A002", characterId: "C002", heritageId: "H001" }, // Elara - Elfenwald-Erbe
+            { associationId: "A003", characterId: "C003", heritageId: "H002" }  // Kael - Bergbau-Zwergenstamm
+        ];
+        let currentAssociationId = null; // Tracks the ID of the currently loaded association, or null for new
+
+        // --- Helper Functions ---
+
+        /**
+         * Displays a custom modal instead of alert().
+         * @param {string} title - The title of the modal.
+         * @param {string} message - The message to display in the modal.
+         */
+        function showCustomAlert(title, message) {
+            alertTitle.textContent = title;
+            alertMessage.textContent = message;
+            customAlertModal.classList.remove('hidden');
+        }
+
+        /**
+         * Populates a datalist element with options from a given data array.
+         * @param {HTMLElement} datalistElement - The <datalist> element to populate.
+         * @param {Array<Object>} dataArray - The array of data objects (e.g., characterData, heritageData).
+         * @param {string} displayKey - The key in data objects whose value should be displayed to the user.
+         * @param {string} valueKey - The key in data objects whose value should be used as the option's value.
+         */
+        function populateDatalist(datalistElement, dataArray, displayKey, valueKey) {
+            datalistElement.innerHTML = ''; // Clear existing options
+            dataArray.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item[displayKey]; // Display name to user
+                option.dataset.id = item[valueKey]; // Store the actual ID in a data attribute
+                datalistElement.appendChild(option);
+            });
+        }
+
+        /**
+         * Gets an ID from a name by searching in a data array.
+         * @param {string} name - The name to search for.
+         * @param {Array<Object>} dataArray - The array of data objects.
+         * @param {string} nameKey - The key for the name property in data objects.
+         * @param {string} idKey - The key for the ID property in data objects.
+         * @returns {string|null} The corresponding ID or null if not found.
+         */
+        function getIdByName(name, dataArray, nameKey, idKey) {
+            const item = dataArray.find(item => item[nameKey] === name);
+            return item ? item[idKey] : null;
+        }
+
+        /**
+         * Gets a name from an ID by searching in a data array.
+         * @param {string} id - The ID to search for.
+         * @param {Array<Object>} dataArray - The array of data objects.
+         * @param {string} nameKey - The key for the name property in data objects.
+         * @param {string} idKey - The key for the ID property in data objects.
+         * @returns {string|null} The corresponding name or null if not found.
+         */
+        function getNameById(id, dataArray, nameKey, idKey) {
+            const item = dataArray.find(item => item[idKey] === id);
+            return item ? item[nameKey] : null;
+        }
+
+        /**
+         * Clears all input fields in the form and sets the state to "new association".
+         */
+        function clearForm() {
+            associationIdDisplay.value = "Wird automatisch generiert";
+            associationIdDisplay.classList.add('opacity-75', 'cursor-not-allowed');
+            characterNameInput.value = "";
+            heritageNameInput.value = "";
+            currentAssociationId = null;
+            associationSelect.value = ""; // Deselect main dropdown
+        }
+
+        /**
+         * Loads an association dataset into the form fields.
+         * @param {string} id - The association ID to load.
+         */
+        function loadAssociation(id) {
+            const association = characterHeritageAssociations.find(a => a.associationId === id);
+            if (association) {
+                associationIdDisplay.value = association.associationId;
+                associationIdDisplay.classList.remove('opacity-75', 'cursor-not-allowed');
+                
+                characterNameInput.value = getNameById(association.characterId, characterData, 'name', 'characterId') || '';
+                heritageNameInput.value = getNameById(association.heritageId, heritageData, 'name', 'heritageId') || '';
+                
+                currentAssociationId = association.associationId;
+                associationSelect.value = association.associationId; // Ensure main dropdown reflects selection
+            } else {
+                showCustomAlert('Fehler', 'Zuordnung nicht gefunden.');
+                clearForm();
+            }
+        }
+
+        /**
+         * Populates the main dropdown list with existing associations.
+         */
+        function populateAssociationDropdown() {
+            associationSelect.innerHTML = '<option value="">-- Zuordnung auswählen --</option>'; // Default option
+            characterHeritageAssociations.forEach(assoc => {
+                const option = document.createElement('option');
+                option.value = assoc.associationId;
+                const characterName = getNameById(assoc.characterId, characterData, 'name', 'characterId');
+                const heritageName = getNameById(assoc.heritageId, heritageData, 'name', 'heritageId');
+                option.textContent = `${characterName || 'Unbekannter Charakter'} <-> ${heritageName || 'Unbekannte Heritage'}`;
+                associationSelect.appendChild(option);
+            });
+            // Reselect the current item if it exists
+            if (currentAssociationId) {
+                associationSelect.value = currentAssociationId;
+            } else if (characterHeritageAssociations.length > 0) {
+                // If no current ID, but associations exist, select the first one
+                associationSelect.value = characterHeritageAssociations[0].associationId;
+                loadAssociation(characterHeritageAssociations[0].associationId);
+            } else {
+                clearForm();
+            }
+        }
+
+        /**
+         * Generates a new unique ID for an association.
+         */
+        function generateNewAssociationId() {
+            const maxIdNum = characterHeritageAssociations.reduce((max, a) => {
+                const num = parseInt(a.associationId.replace('A', ''));
+                return isNaN(num) ? max : Math.max(max, num);
+            }, 0);
+            return `A${String(maxIdNum + 1).padStart(3, '0')}`;
+        }
+
+        /**
+         * Handles saving an association (either new or existing).
+         */
+        function saveAssociation() {
+            const characterName = characterNameInput.value.trim();
+            const heritageName = heritageNameInput.value.trim();
+
+            if (!characterName || !heritageName) {
+                showCustomAlert('Eingabefehler', 'Charakter und Heritage müssen ausgewählt sein.');
+                return;
+            }
+
+            const characterId = getIdByName(characterName, characterData, 'name', 'characterId');
+            const heritageId = getIdByName(heritageName, heritageData, 'name', 'heritageId');
+
+            if (!characterId) {
+                showCustomAlert('Fehler', 'Ungültiger Charaktername. Bitte wählen Sie aus der Liste oder geben Sie einen gültigen Namen ein.');
+                return;
+            }
+            if (!heritageId) {
+                showCustomAlert('Fehler', 'Ungültiger Heritagename. Bitte wählen Sie aus der Liste oder geben Sie einen gültigen Namen ein.');
+                return;
+            }
+
+            // Check for duplicate association if creating a new one
+            if (!currentAssociationId) {
+                const duplicate = characterHeritageAssociations.some(assoc => 
+                    assoc.characterId === characterId && assoc.heritageId === heritageId
+                );
+                if (duplicate) {
+                    showCustomAlert('Fehler', 'Diese Zuordnung existiert bereits.');
+                    return;
+                }
+            }
+
+
+            if (currentAssociationId) {
+                // Update existing association
+                const index = characterHeritageAssociations.findIndex(a => a.associationId === currentAssociationId);
+                if (index !== -1) {
+                    characterHeritageAssociations[index].characterId = characterId;
+                    characterHeritageAssociations[index].heritageId = heritageId;
+                    showCustomAlert('Erfolg', `Zuordnung "${associationIdDisplay.value}" aktualisiert.`);
+                } else {
+                    showCustomAlert('Fehler', 'Zuordnung zum Aktualisieren nicht gefunden.');
+                }
+            } else {
+                // Create new association
+                const newId = generateNewAssociationId();
+                characterHeritageAssociations.push({
+                    associationId: newId,
+                    characterId: characterId,
+                    heritageId: heritageId
+                });
+                currentAssociationId = newId; // Set newly created as current
+                showCustomAlert('Erfolg', `Neue Zuordnung (${characterName} <-> ${heritageName}) erstellt.`);
+            }
+            populateAssociationDropdown(); // Refresh main dropdown
+            loadAssociation(currentAssociationId); // Load the updated/newly created item
+        }
+
+        /**
+         * Handles deleting the currently loaded association.
+         */
+        function deleteAssociation() {
+            if (!currentAssociationId) {
+                showCustomAlert('Information', 'Keine Zuordnung zum Löschen ausgewählt.');
+                return;
+            }
+
+            if (window.confirm(`Möchten Sie diese Zuordnung wirklich löschen?`)) {
+                characterHeritageAssociations = characterHeritageAssociations.filter(a => a.associationId !== currentAssociationId);
+                showCustomAlert('Erfolg', 'Zuordnung erfolgreich gelöscht.');
+                clearForm();
+                populateAssociationDropdown();
+            }
+        }
+
+        // --- Event Listeners Initialization ---
+        window.onload = () => {
+            // Get DOM elements
+            associationSelect = document.getElementById('associationSelect');
+            newAssociationButton = document.getElementById('newAssociationButton');
+            associationIdDisplay = document.getElementById('associationIdDisplay');
+            characterNameInput = document.getElementById('characterNameInput');
+            heritageNameInput = document.getElementById('heritageNameInput');
+            characterOptionsDatalist = document.getElementById('characterOptions');
+            heritageOptionsDatalist = document.getElementById('heritageOptions');
+            saveAssociationButton = document.getElementById('saveAssociationButton');
+            deleteButton = document.getElementById('deleteButton');
+            cancelButton = document.getElementById('cancelButton');
+
+            customAlertModal = document.getElementById('customAlertModal');
+            alertTitle = document.getElementById('alertTitle');
+            alertMessage = document.getElementById('alertMessage');
+            alertCloseBtn = document.getElementById('alertCloseBtn');
+
+            // Set up event listeners
+            newAssociationButton.addEventListener('click', clearForm);
+            associationSelect.addEventListener('change', (event) => {
+                loadAssociation(event.target.value);
+            });
+            saveAssociationButton.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default form submission
+                saveAssociation();
+            });
+            deleteButton.addEventListener('click', deleteAssociation);
+            cancelButton.addEventListener('click', () => {
+                if (currentAssociationId) {
+                    loadAssociation(currentAssociationId);
+                } else {
+                    clearForm();
+                }
+            });
+
+            // Clear 'X' buttons for all relevant inputs
+            document.querySelectorAll('.clear-btn').forEach(button => {
+                button.addEventListener('click', handleClearButtonClick);
+            });
+
+            // Alert modal close button
+            alertCloseBtn.addEventListener('click', () => {
+                customAlertModal.classList.add('hidden');
+            });
+
+            // Initial population of datalists
+            populateDatalist(characterOptionsDatalist, characterData, 'name', 'characterId');
+            populateDatalist(heritageOptionsDatalist, heritageData, 'name', 'heritageId');
+
+            // Initial setup: Populate main dropdown and load first item or clear form
+            populateAssociationDropdown();
+        };
+    </script>
+</body>
+</html>

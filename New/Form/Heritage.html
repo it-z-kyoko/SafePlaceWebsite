@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Heritage Datensatz Editor</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for better scrollbar aesthetics */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1a202c; /* Darker track for purple-950 */
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #553c9a; /* Purple thumb */
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #6b46c1; /* Lighter purple on hover */
+        }
+        /* Inter font from Google Fonts (for better typography) */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Basic styling for form elements to match the example */
+        .form-input {
+            @apply w-full p-3 bg-gray-700 rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200 ease-in-out;
+        }
+        .form-textarea {
+            @apply w-full p-3 bg-gray-700 rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 min-h-[120px] transition-all duration-200 ease-in-out;
+        }
+        .form-label {
+            @apply block text-sm font-medium text-gray-300;
+        }
+        /* Common action button styling */
+        .action-button-base {
+            @apply rounded-xl text-white transition-all duration-300 ease-in-out shadow-lg transform hover:scale-105 active:scale-95 hover:shadow-xl;
+        }
+        /* Specific styles for smaller buttons */
+        .action-button-small {
+            @apply px-6 py-3 font-semibold text-lg;
+        }
+        /* Specific styles for large primary button */
+        .action-button-large {
+            @apply px-10 py-4 font-extrabold text-xl tracking-wide;
+        }
+        /* Style for the clear 'X' button */
+        .clear-btn {
+            @apply bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-rose-400 to-purple-950 min-h-screen flex items-center justify-center p-4 text-gray-100">
+
+    <div class="bg-gray-900 p-8 rounded-2xl shadow-2xl w-full max-w-4xl border border-gray-800 backdrop-blur-sm bg-opacity-70">
+        <h1 class="text-4xl font-extrabold text-center mb-8 tracking-tight">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-400">
+                Heritage-Datensatz bearbeiten
+            </span>
+        </h1>
+
+        <!-- Dataset Selection and New Button -->
+        <div class="p-6 bg-gray-800 rounded-xl border border-purple-700 shadow-md mb-6">
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-4 space-y-4 sm:space-y-0">
+                <h2 class="text-xl font-bold text-purple-400">Datensatz-Auswahl</h2>
+                <button id="newHeritageButton" type="button" class="px-4 py-2 rounded-lg bg-blue-700 text-white hover:bg-blue-600 transition-colors duration-300 ease-in-out shadow-md">
+                    Neuen Datensatz erstellen
+                </button>
+            </div>
+            <div>
+                <label for="heritageSelect" class="block text-sm font-medium text-gray-300 mb-1">Bestehende Datensätze:</label>
+                <select id="heritageSelect" class="w-full p-3 bg-gray-700 rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200 ease-in-out custom-scrollbar">
+                    <!-- Options will be populated by JavaScript -->
+                </select>
+            </div>
+        </div>
+
+
+        <!-- Main content area for the form, matching the section style -->
+        <div class="p-6 bg-gray-800 rounded-xl border border-purple-700 shadow-md">
+            <h2 class="text-2xl font-bold text-purple-400 mb-6 flex items-center">
+                <svg class="w-7 h-7 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 112 0v1m-4 0h4m-4 0H9m7 0h-4"></path></svg>
+                Datensatz-Details
+            </h2>
+            <form id="heritageForm" class="space-y-6">
+                <!-- Heritage_ID (Read-only for existing, auto-generated for new) -->
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label for="heritageId" class="block text-sm font-medium text-gray-300">Heritage ID:</label>
+                        <button type="button" class="bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="heritageId">X</button>
+                    </div>
+                    <!-- Value will be set by JS. Readonly always, new entries will have placeholder. -->
+                    <input type="text" id="heritageId" name="heritageId" value="" class="w-full p-3 bg-gray-700 rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200 ease-in-out opacity-75 cursor-not-allowed" readonly>
+                </div>
+
+                <!-- Name Field -->
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label for="heritageName" class="block text-sm font-medium text-gray-300">Name:</label>
+                        <button type="button" class="bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="heritageName">X</button>
+                    </div>
+                    <input type="text" id="heritageName" name="heritageName" placeholder="Namen eingeben" class="w-full p-3 bg-gray-700 rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200 ease-in-out" required>
+                </div>
+
+                <!-- Description Field -->
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label for="heritageDescription" class="block text-sm font-medium text-gray-300">Beschreibung:</label>
+                        <button type="button" class="bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="heritageDescription">X</button>
+                    </div>
+                    <textarea id="heritageDescription" name="heritageDescription" placeholder="Beschreibung eingeben" class="w-full p-3 bg-gray-700 rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 min-h-[120px] transition-all duration-200 ease-in-out" required></textarea>
+                </div>
+            </form>
+        </div>
+
+        <!-- Action Buttons outside the main content box, matching the character wiki style -->
+        <div class="flex flex-col sm:flex-row justify-end space-y-4 sm:space-y-0 sm:space-x-4 pt-8">
+            <button type="button" id="cancelButton" class="rounded-xl text-white transition-all duration-300 ease-in-out shadow-lg transform hover:scale-105 active:scale-95 hover:shadow-xl px-6 py-3 font-semibold text-lg bg-gradient-to-r from-gray-700 to-gray-900 hover:from-gray-600 hover:to-gray-800">Abbrechen</button>
+            <button type="button" id="deleteButton" class="rounded-xl text-white transition-all duration-300 ease-in-out shadow-lg transform hover:scale-105 active:scale-95 hover:shadow-xl px-6 py-3 font-semibold text-lg bg-gradient-to-r from-red-700 to-red-900 hover:from-red-600 hover:to-red-800">Löschen</button>
+            <button type="submit" form="heritageForm" id="saveHeritageButton" class="rounded-xl text-white transition-all duration-300 ease-in-out shadow-lg transform hover:scale-105 active:scale-95 hover:shadow-xl px-10 py-4 font-extrabold text-xl tracking-wide bg-gradient-to-r from-purple-700 to-rose-700 hover:from-purple-800 hover:to-rose-800">Speichern</button>
+        </div>
+    </div>
+
+    <!-- Custom Alert Modal (instead of alert()) - Needed for the showCustomAlert function if used elsewhere -->
+    <div id="customAlertModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center hidden p-4 z-50">
+        <div class="bg-gray-800 p-8 rounded-xl shadow-2xl max-w-sm w-full text-center border border-gray-700">
+            <h3 id="alertTitle" class="text-2xl font-bold text-gray-100 mb-4"></h3>
+            <p id="alertMessage" class="text-gray-200 mb-6"></p>
+            <button id="alertCloseBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200 ease-in-out transform hover:scale-105">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        let heritageIdInput, heritageNameInput, heritageDescriptionInput;
+        let newHeritageButton, heritageSelect, saveHeritageButton, deleteButton, cancelButton;
+        let customAlertModal, alertTitle, alertMessage, alertCloseBtn;
+
+        // Simulated data store
+        let heritageData = [
+            {
+                heritageId: "H001",
+                name: "Elfenwald-Erbe",
+                description: "Das uralte Wissen und die Verbindung zum Elfenwald, weitergegeben über Generationen von Waldläufern."
+            },
+            {
+                heritageId: "H002",
+                name: "Bergbau-Zwergenstamm",
+                description: "Die traditionellen Fertigkeiten des Bergbaus und der Schmiedekunst eines alten Zwergenstammes."
+            },
+            {
+                heritageId: "H003",
+                name: "Seehandels-Clan",
+                description: "Das Erbe eines Clans von Seefahrern und Händlern, bekannt für ihre Kenntnisse der Ozeane und Handelsrouten."
+            }
+        ];
+        let currentHeritageId = null; // Tracks the ID of the currently loaded heritage, or null for new
+
+        /**
+         * Displays a custom modal instead of alert().
+         * @param {string} title - The title of the modal.
+         * @param {string} message - The message to display in the modal.
+         */
+        function showCustomAlert(title, message) {
+            alertTitle.textContent = title;
+            alertMessage.textContent = message;
+            customAlertModal.classList.remove('hidden');
+        }
+
+        /**
+         * Clears all input fields in the form and sets the state to "new".
+         */
+        function clearForm() {
+            heritageIdInput.value = "Wird automatisch generiert";
+            heritageIdInput.classList.add('opacity-75', 'cursor-not-allowed'); // Keep it styled as readonly
+            heritageNameInput.value = "";
+            heritageDescriptionInput.value = "";
+            currentHeritageId = null;
+            heritageSelect.value = ""; // Deselect any chosen option
+        }
+
+        /**
+         * Loads a heritage dataset into the form fields.
+         * @param {string} id - The ID of the heritage to load.
+         */
+        function loadHeritage(id) {
+            const heritage = heritageData.find(h => h.heritageId === id);
+            if (heritage) {
+                heritageIdInput.value = heritage.heritageId;
+                heritageIdInput.classList.remove('opacity-75', 'cursor-not-allowed'); // Style as editable
+                heritageNameInput.value = heritage.name;
+                heritageDescriptionInput.value = heritage.description;
+                currentHeritageId = heritage.heritageId;
+            } else {
+                showCustomAlert('Fehler', 'Datensatz nicht gefunden.');
+                clearForm();
+            }
+        }
+
+        /**
+         * Populates the dropdown list with existing heritage names.
+         */
+        function populateDropdown() {
+            heritageSelect.innerHTML = '<option value="">-- Datensatz auswählen --</option>'; // Default option
+            heritageData.forEach(heritage => {
+                const option = document.createElement('option');
+                option.value = heritage.heritageId;
+                option.textContent = heritage.name;
+                heritageSelect.appendChild(option);
+            });
+            // Reselect the current item if it exists
+            if (currentHeritageId) {
+                heritageSelect.value = currentHeritageId;
+            }
+        }
+
+        /**
+         * Generates a new unique ID for a heritage dataset.
+         * For simplicity, this is just a sequential number.
+         */
+        function generateNewHeritageId() {
+            const maxIdNum = heritageData.reduce((max, h) => {
+                const num = parseInt(h.heritageId.replace('H', ''));
+                return isNaN(num) ? max : Math.max(max, num);
+            }, 0);
+            return `H${String(maxIdNum + 1).padStart(3, '0')}`;
+        }
+
+        /**
+         * Handles saving a heritage dataset (either new or existing).
+         */
+        function saveHeritage() {
+            const name = heritageNameInput.value.trim();
+            const description = heritageDescriptionInput.value.trim();
+
+            if (!name || !description) {
+                showCustomAlert('Eingabefehler', 'Name und Beschreibung dürfen nicht leer sein.');
+                return;
+            }
+
+            if (currentHeritageId) {
+                // Update existing heritage
+                const index = heritageData.findIndex(h => h.heritageId === currentHeritageId);
+                if (index !== -1) {
+                    heritageData[index].name = name;
+                    heritageData[index].description = description;
+                    showCustomAlert('Erfolg', `Datensatz "${name}" aktualisiert.`);
+                } else {
+                    showCustomAlert('Fehler', 'Datensatz zum Aktualisieren nicht gefunden.');
+                }
+            } else {
+                // Create new heritage
+                const newId = generateNewHeritageId();
+                heritageData.push({
+                    heritageId: newId,
+                    name: name,
+                    description: description
+                });
+                currentHeritageId = newId; // Set newly created as current
+                showCustomAlert('Erfolg', `Neuer Datensatz "${name}" erstellt.`);
+            }
+            populateDropdown(); // Refresh dropdown
+            loadHeritage(currentHeritageId); // Load the updated/newly created item
+        }
+
+        /**
+         * Handles deleting the currently loaded heritage dataset.
+         */
+        function deleteHeritage() {
+            if (!currentHeritageId) {
+                showCustomAlert('Information', 'Kein Datensatz zum Löschen ausgewählt.');
+                return;
+            }
+
+            // In a real application, you'd use a custom confirmation modal here.
+            // For simplicity, a standard confirm is used, but it's not ideal in Canvas.
+            if (window.confirm(`Möchten Sie den Datensatz "${heritageNameInput.value}" wirklich löschen?`)) {
+                heritageData = heritageData.filter(h => h.heritageId !== currentHeritageId);
+                showCustomAlert('Erfolg', 'Datensatz erfolgreich gelöscht.');
+                clearForm();
+                populateDropdown();
+            }
+        }
+
+        /**
+         * Event listener for the clear 'X' buttons.
+         * Clears the associated input/textarea.
+         * @param {Event} event - The click event object.
+         */
+        function handleClearButtonClick(event) {
+            const targetId = event.currentTarget.dataset.targetId;
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                targetElement.value = '';
+            }
+        }
+
+        // Initialize elements and event listeners when the window loads
+        window.onload = () => {
+            // Get references to DOM elements
+            heritageIdInput = document.getElementById('heritageId');
+            heritageNameInput = document.getElementById('heritageName');
+            heritageDescriptionInput = document.getElementById('heritageDescription');
+
+            newHeritageButton = document.getElementById('newHeritageButton');
+            heritageSelect = document.getElementById('heritageSelect');
+            saveHeritageButton = document.getElementById('saveHeritageButton');
+            deleteButton = document.getElementById('deleteButton');
+            cancelButton = document.getElementById('cancelButton'); // Not explicitly handled, but good to have.
+
+            customAlertModal = document.getElementById('customAlertModal');
+            alertTitle = document.getElementById('alertTitle');
+            alertMessage = document.getElementById('alertMessage');
+            alertCloseBtn = document.getElementById('alertCloseBtn');
+
+            // --- Event Listeners ---
+            newHeritageButton.addEventListener('click', clearForm);
+            heritageSelect.addEventListener('change', (event) => {
+                loadHeritage(event.target.value);
+            });
+            saveHeritageButton.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default form submission
+                saveHeritage();
+            });
+            deleteButton.addEventListener('click', deleteHeritage);
+            cancelButton.addEventListener('click', () => {
+                // Revert to the previously loaded item or clear if none was loaded.
+                if (currentHeritageId) {
+                    loadHeritage(currentHeritageId);
+                } else {
+                    clearForm();
+                }
+            });
+
+            // Clear 'X' buttons
+            document.querySelectorAll('.clear-btn').forEach(button => {
+                button.addEventListener('click', handleClearButtonClick);
+            });
+
+            // Alert modal close button
+            alertCloseBtn.addEventListener('click', () => {
+                customAlertModal.classList.add('hidden');
+            });
+
+            // Initial setup: Populate dropdown and load the first item or clear form
+            populateDropdown();
+            if (heritageData.length > 0) {
+                loadHeritage(heritageData[0].heritageId); // Load the first item by default
+            } else {
+                clearForm(); // If no data, prepare for new entry
+            }
+        };
+    </script>
+</body>
+</html>

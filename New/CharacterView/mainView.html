@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Charakter Wiki Page</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for better scrollbar aesthetics */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1a202c; /* Darker track for purple-950 */
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #553c9a; /* Purple thumb */
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #6b46c1; /* Lighter purple on hover */
+        }
+        /* Inter font from Google Fonts (for better typography) */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Style for the active Table of Contents link (not dynamically implemented in this version, but good practice) */
+        .toc-link.active {
+            font-weight: bold;
+            color: #8b5cf6; /* A brighter purple for active link */
+        }
+        /* Style for fade-in/out effect */
+        .fade-in-image {
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-rose-400 to-purple-950 min-h-screen flex items-center justify-center p-4 text-gray-100">
+
+    <div class="bg-gray-900 p-8 rounded-2xl shadow-xl w-full max-w-4xl border border-gray-800">
+        <h1 class="text-4xl font-extrabold text-center mb-8 tracking-tight">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-400">
+                Charakter-Wiki
+            </span>
+        </h1>
+
+        <!-- Main content area: Flex container for top two columns on medium screens and up -->
+        <div class="flex flex-col md:flex-row md:gap-8 mb-8">
+
+            <!-- Left Column Container for Table of Contents, Physische Merkmale, and Gallery -->
+            <!-- Adjusted width to md:w-1/2 for 50% width -->
+            <div class="md:w-1/2 flex-shrink-1">
+                <!-- Inhaltsverzeichnis (Table of Contents) -->
+                <div class="p-6 bg-gray-800 rounded-xl border border-indigo-700 shadow-md mb-8">
+                    <h2 class="text-xl font-semibold text-indigo-400 mb-4 flex items-center">
+                        <svg class="w-6 h-6 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                        Inhaltsverzeichnis
+                    </h2>
+                    <ul class="list-disc list-inside text-gray-200 space-y-2">
+                        <li><a href="#grundlegende-informationen" class="hover:text-purple-400 transition-colors toc-link">Grundlegende Informationen</a></li>
+                        <li><a href="#physische-merkmale" class="hover:text-purple-400 transition-colors toc-link">Physische Merkmale</a></li>
+                        <li><a href="#galerie" class="hover:text-purple-400 transition-colors toc-link">Galerie</a></li>
+                        <li><a href="#persoenlichkeit-eigenschaften" class="hover:text-purple-400 transition-colors toc-link">Persönlichkeit & Eigenschaften</a></li>
+                        <li><a href="#faehigkeiten" class="hover:text-purple-400 transition-colors toc-link">Fähigkeiten</a></li>
+                        <li><a href="#staerken-schwaechen" class="hover:text-purple-400 transition-colors toc-link">Stärken & Schwächen</a></li>
+                        <li><a href="#familie-verbindungen" class="hover:text-purple-400 transition-colors toc-link">Familie & Verbindungen</a></li>
+                        <li><a href="#weitere-informationen" class="hover:text-purple-400 transition-colors toc-link">Weitere Informationen</a></li>
+                    </ul>
+                </div>
+
+                <!-- Physische Merkmale Section -->
+                <div id="physische-merkmale" class="p-6 bg-gray-800 rounded-xl border border-purple-700 shadow-md mb-8">
+                    <h2 class="text-xl font-semibold text-purple-400 mb-4 flex items-center">
+                        <svg class="w-6 h-6 mr-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M10 10H5a2 2 0 00-2 2v6a2 2 0 002 2h14a2 2 0 002-2v-6a2 2 0 00-2-2h-5m-7 0H5m0 0l-1 9 16 0 1-9H7"></path></svg>
+                        Physische Merkmale
+                    </h2>
+                    <div class="grid grid-cols-1 gap-y-4">
+                        <div>
+                            <label class="block text-lg font-semibold text-gray-200 mb-1">Height:</label>
+                            <p class="w-full p-3 bg-gray-800 rounded-lg shadow-sm text-gray-100 border border-gray-700">1.85 m</p>
+                        </div>
+                        <div>
+                            <label class="block text-lg font-semibold text-gray-200 mb-1">Weight:</label>
+                            <p class="w-full p-3 bg-gray-800 rounded-lg shadow-sm text-gray-100 border border-gray-700">80 kg</p>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <label class="block text-lg font-semibold text-gray-200 mb-1">Visual Appearance:</label>
+                        <p class="w-full p-3 bg-gray-800 rounded-lg shadow-sm text-gray-100 border border-gray-700 min-h-[80px] custom-scrollbar overflow-y-auto">
+                            Aramis hat schulterlanges, dunkles Haar und durchdringende blaue Augen. Er trägt stets eine leichte Rüstung, die seine Beweglichkeit nicht einschränkt, und ein aufwändig verziertes Schwert an seiner Seite. Seine Gesichtszüge sind scharf und edel, oft von einem leichten Grinsen gezeichnet.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Gallery Section (new) -->
+                <div id="galerie" class="p-6 bg-gray-800 rounded-xl border border-gray-700 shadow-md">
+                    <h2 class="text-xl font-semibold text-gray-400 mb-4 flex items-center">
+                        <svg class="w-6 h-6 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L20 16m-2-6a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        Galerie
+                    </h2>
+                    <div class="flex justify-center items-center h-48 rounded-lg overflow-hidden bg-gray-700">
+                        <!-- Single image that will be cycled -->
+                        <img id="galleryImage" src="https://placehold.co/300x200/553c9a/ffffff?text=Charakter+Bild+1" alt="Charakterbild 1" class="w-full h-full object-cover rounded-lg fade-in-image">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Grundlegende Informationen (Infobox) -->
+            <!-- Adjusted width to md:w-1/2 for 50% width -->
+            <div id="grundlegende-informationen" class="md:w-1/2 flex-shrink-1">
+                <div class="p-6 bg-gray-800 rounded-xl border border-rose-700 shadow-sm h-full">
+                    <h2 class="text-xl font-semibold text-rose-400 mb-4 flex items-center">
+                        <svg class="w-6 h-6 mr-2 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Grundlegende Informationen
+                    </h2>
+                    <div class="flex flex-col items-center mb-6">
+                        <!-- Dummy image for character -->
+                        <img src="https://placehold.co/200x200/9333ea/ffffff?text=Charakterbild" alt="Charakterbild" class="w-48 h-48 mx-auto rounded-full object-cover mb-6 border-4 border-purple-500 shadow-lg">
+                        <div class="w-full">
+                            <label class="block text-lg font-semibold text-gray-200 mb-1">Voller Name:</label>
+                            <p class="w-full p-3 bg-gray-800 rounded-lg shadow-sm text-gray-100 border border-gray-700">Aramis Blade Everblade</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-y-4">
+                        <!-- Character ID is hidden -->
+                        <div class="hidden">
+                            <label class="block text-lg font-semibold text-gray-200 mb-1">Character ID:</label>
+                            <p class="w-full p-3 bg-gray-800 rounded-lg shadow-sm text-gray-100 border border-gray-700">101</p>
+                        </div>
+                        <!-- Player ID is hidden -->
+                        <div class="hidden">
+                            <label class="block text-lg font-semibold text-gray-200 mb-1">Player ID:</label>
+                            <p class="w-full p-3 bg-gray-800 rounded-lg shadow-sm text-gray-100 border border-gray-700">202</p>
+                        </div>
+                        <div>
+                            <label class="block text-lg font-semibold text-gray-200 mb-1">Firstname:</label>
+                            <p class="w-full p-3 bg-gray-800 rounded-lg shadow-sm text-gray-100 border border-gray-700">Aramis</p>
+                        </div>
+                        <div>
+                            <label class="block text-lg font-semibold text-gray-200 mb-1">Middlename:</label>
+                            <p class="w-full p-3 bg-gray-800 rounded-lg shadow-sm text-gray-100 border border-gray-700">Blade</p>
+                        </div>
+                        <div>
+                            <label class="block text-lg font-semibold text-gray-200 mb-1">Lastname:</label>
+                            <p class="w-full p-3 bg-gray-800 rounded-lg shadow-sm text-gray-100 border border-gray-700">Everblade</p>
+                        </div>
+                        <div>
+                            <label class="block text-lg font-semibold text-gray-200 mb-1">Nickname:</label>
+                            <p class="w-full p-3 bg-gray-800 rounded-lg shadow-sm text-gray-100 border border-gray-700">The Swift</p>
+                        </div>
+                        <div>
+                            <label class="block text-lg font-semibold text-gray-200 mb-1">Age:</label>
+                            <p class="w-full p-3 bg-gray-800 rounded-lg shadow-sm text-gray-100 border border-gray-700">30</p>
+                        </div>
+                        <div>
+                            <label class="block text-lg font-semibold text-gray-200 mb-1">Birthday:</label>
+                            <p class="w-full p-3 bg-gray-800 rounded-lg shadow-sm text-gray-100 border border-gray-700">12. April</p>
+                        </div>
+                        <div>
+                            <label class="block text-lg font-semibold text-gray-200 mb-1">Gender:</label>
+                            <p class="w-full p-3 bg-gray-800 rounded-lg shadow-sm text-gray-100 border border-gray-700">Männlich</p>
+                        </div>
+                        <div>
+                            <label class="block text-lg font-semibold text-gray-200 mb-1">Sexuality:</label>
+                            <p class="w-full p-3 bg-gray-800 rounded-lg shadow-sm text-gray-100 border border-gray-700">Heterosexuell</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Remaining sections will always take full width below the two-column layout -->
+        <div class="flex flex-col gap-8">
+            <!-- Section: Persönlichkeit & Eigenschaften -->
+            <div id="persoenlichkeit-eigenschaften" class="p-6 bg-gray-800 rounded-xl border border-indigo-700 shadow-sm">
+                <h2 class="text-xl font-semibold text-indigo-400 mb-4 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.364l-.707-.707m12.728 0l-.707.707M12 21v-1m-4.636-1.636l-.707.707M3 12h-.01"></path></svg>
+                    Persönlichkeit & Eigenschaften
+                </h2>
+                <div class="mb-4">
+                    <label class="block text-lg font-semibold text-gray-200 mb-1">Personality:</label>
+                    <p class="w-full p-3 bg-gray-800 rounded-lg shadow-sm text-gray-100 border border-gray-700 min-h-[80px] custom-scrollbar overflow-y-auto">
+                        Aramis ist stolz, ehrenhaft und ein wenig arrogant, aber mit einem tiefen Sinn für Loyalität. Er ist charismatisch und genießt es, im Mittelpunkt zu stehen, kann aber auch überraschend bescheiden sein, wenn es darauf ankommt. Er glaubt fest an Gerechtigkeit und das Wohl der Schwachen.
+                    </p>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-lg font-semibold text-gray-200 mb-1">Likes:</label>
+                    <p class="w-full p-3 bg-gray-800 rounded-lg shadow-sm text-gray-100 border border-gray-700 min-h-[60px] custom-scrollbar overflow-y-auto">
+                        Fechten, gutes Essen, Wein, Lob, Herausforderungen, das Besiegen von Unrecht, edle Taten, die Gesellschaft von Freunden.
+                    </p>
+                </div>
+                <div>
+                    <label class="block text-lg font-semibold text-gray-200 mb-1">Dislikes:</label>
+                    <p class="w-full p-3 bg-gray-800 rounded-lg shadow-sm text-gray-100 border border-gray-700 min-h-[60px] custom-scrollbar overflow-y-auto">
+                        Feigheit, Verrat, Ungerechtigkeit, Langeweile, schlechte Manieren, das Verlieren eines Kampfes, unsaubere Klingen.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Section: Fähigkeiten (new) -->
+            <div id="faehigkeiten" class="p-6 bg-gray-800 rounded-xl border border-purple-700 shadow-md">
+                <h2 class="text-xl font-semibold text-purple-400 mb-4 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-1.25-3M15 10V5.75L17 4l1-1h-8L7 4l2 1.75V10m0 0h6m-6 0H9m0 0a2 2 0 11-4 0m4 0a2 2 0 10-4 0m4 0h6m-6 0a2 2 0 11-4 0m4 0a2 2 0 10-4 0m4 0V5.75L17 4l1-1h-8L7 4l2 1.75V10m0 0a2 2 0 11-4 0m4 0a2 2 0 10-4 0m4 0h6m-6 0a2 2 0 11-4 0m4 0a2 2 0 10-4 0M15 10V5.75L17 4l1-1h-8L7 4l2 1.75V10m0 0a2 2 0 11-4 0m4 0a2 2 0 10-4 0m4 0h6m-6 0a2 2 0 11-4 0m4 0a2 2 0 10-4 0"></path></svg>
+                    Fähigkeiten
+                </h2>
+                <!-- No max-height or overflow properties for dynamic height -->
+                <ul class="list-disc list-inside text-gray-200 space-y-1 pl-4">
+                    <li>Schwertkampf (Meister)</li>
+                    <li>Parade und Konter</li>
+                    <li>Taktisches Denken</li>
+                    <li>Diplomatie (Grundlagen)</li>
+                    <li>Spurenlesen (Einfach)</li>
+                    <li>Überleben in der Wildnis</li>
+                    <li>Erste Hilfe</li>
+                    <li>Pferde reiten</li>
+                    <li>Scharfschießen (Bogen)</li>
+                    <li>Leichte Rüstung tragen</li>
+                    <li>Schnelle Reflexe</li>
+                    <li>Ehrenkodex befolgen</li>
+                </ul>
+            </div>
+
+            <!-- Section: Stärken & Schwächen -->
+            <div id="staerken-schwaechen" class="p-6 bg-gray-800 rounded-xl border border-rose-700 shadow-sm">
+                <h2 class="text-xl font-semibold text-rose-400 mb-4 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13m-6 3H9V7l3-3 6 3v7m-3 3l-3-3H9"></path></svg>
+                    Stärken & Schwächen
+                </h2>
+                <div class="mb-4">
+                    <label class="block text-lg font-semibold text-gray-200 mb-1">Strengths:</label>
+                    <p class="w-full p-3 bg-gray-800 rounded-lg shadow-sm text-gray-100 border border-gray-700 min-h-[60px] custom-scrollbar overflow-y-auto">
+                        Meisterhafter Schwertkämpfer, unerschütterlicher Mut, starke Führungspersönlichkeit, schnelle Auffassungsgabe, ausgeprägter Sinn für Ehre.
+                    </p>
+                </div>
+                <div>
+                    <label class="block text-lg font-semibold text-gray-200 mb-1">Weaknesses:</label>
+                    <p class="w-full p-3 bg-gray-800 rounded-lg shadow-sm text-gray-100 border border-gray-700 min-h-[60px] custom-scrollbar overflow-y-auto">
+                        Überheblichkeit, neigt zu Hitzköpfigkeit, lässt sich leicht provozieren, zu loyal, manchmal naiv gegenüber Intrigen, eitel.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Section: Familie und Verbindungen (new) -->
+            <div id="familie-verbindungen" class="p-6 bg-gray-800 rounded-xl border border-indigo-700 shadow-sm">
+                <h2 class="text-xl font-semibold text-indigo-400 mb-4 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h2a2 2 0 002-2V9a2 2 0 00-2-2h-3m-6 3H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v2m-6 3l1 1 3-3m-6 0h.01M16 12a2 2 0 100-4 2 2 0 000 4z"></path></svg>
+                    Familie & Verbindungen
+                </h2>
+                <p class="text-gray-200 mb-4">
+                    Aramis stammt aus einer alten Adelsfamilie, deren Ruf jedoch durch einen lange zurückliegenden Skandal leicht getrübt ist. Er hat eine jüngere Schwester, Elara, die er sehr beschützt. Seine Eltern sind beide verstorben. Er pflegt enge Freundschaften mit seinen Kampfgefährten und hat eine Rivalität mit einem anderen Schwertmeister namens Kael.
+                </p>
+                <ul class="list-disc list-inside text-gray-200 space-y-1 pl-4">
+                    <li>Schwester: Elara (Waldläuferin)</li>
+                    <li>Erzrivale: Kael (Schwertmeister)</li>
+                    <li>Enge Verbündete: Ritterorden der Phönixklinge</li>
+                </ul>
+            </div>
+
+            <!-- Section: Weitere Informationen (new) -->
+            <div id="weitere-informationen" class="p-6 bg-gray-800 rounded-xl border border-rose-700 shadow-sm">
+                <h2 class="text-xl font-semibold text-rose-400 mb-4 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Weitere Informationen
+                </h2>
+                <p class="text-gray-200 min-h-[60px] custom-scrollbar overflow-y-auto">
+                    Aramis' Lieblingswaffe ist ein vererbtes Großschwert namens "Ehrenruf". Er hat eine Vorliebe für edle Kleidung und ist bekannt für seine makellosen Manieren, außer wenn er provoziert wird. Sein Lebensziel ist es, den guten Ruf seiner Familie wiederherzustellen und sich als der größte Schwertkämpfer seiner Zeit zu beweisen. Er hat eine seltene Narbe über seinem linken Auge, die er in einem Duell erlitten hat.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Array of image URLs for the gallery
+        const galleryImages = [
+            "https://placehold.co/300x200/553c9a/ffffff?text=Charakter+Bild+1",
+            "https://placehold.co/300x200/6b46c1/ffffff?text=Charakter+Bild+2",
+            "https://placehold.co/300x200/8b5cf6/ffffff?text=Charakter+Bild+3",
+            "https://placehold.co/300x200/a78bfa/ffffff?text=Charakter+Bild+4"
+        ];
+
+        let currentImageIndex = 0; // Current index of the displayed image
+        const galleryImageElement = document.getElementById('galleryImage'); // The image element in the gallery
+
+        /**
+         * Updates the gallery image to the next image in the array.
+         * Cycles back to the first image when the end of the array is reached.
+         * Adds a fade-in animation effect.
+         */
+        function updateGalleryImage() {
+            if (!galleryImageElement || galleryImages.length === 0) {
+                console.error("Gallery image element not found or no images in galleryImages array.");
+                return;
+            }
+
+            // Remove existing fade-in class to re-trigger animation
+            galleryImageElement.classList.remove('fade-in-image');
+            // Force reflow to ensure animation restarts (browser optimization can prevent this)
+            void galleryImageElement.offsetWidth; 
+            
+            currentImageIndex = (currentImageIndex + 1) % galleryImages.length; // Move to the next image, loop if at end
+            galleryImageElement.src = galleryImages[currentImageIndex]; // Set the new image source
+            
+            // Add fade-in class to trigger animation for the new image
+            galleryImageElement.classList.add('fade-in-image');
+        }
+
+        // Set interval to change image every 10 seconds (10000 milliseconds)
+        // This will start changing images automatically after the page loads.
+        window.addEventListener('load', () => {
+            if (galleryImages.length > 1) { // Only start cycling if there's more than one image
+                setInterval(updateGalleryImage, 10000);
+            }
+        });
+    </script>
+</body>
+</html>

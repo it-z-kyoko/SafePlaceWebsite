@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Beziehungen bearbeiten</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for better scrollbar aesthetics */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1a202c; /* Darker track for purple-950 */
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #553c9a; /* Purple thumb */
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #6b46c1; /* Lighter purple on hover */
+        }
+        /* Inter font from Google Fonts (for better typography) */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Basic styling for form elements to match the example */
+        .form-input {
+            @apply w-full p-3 bg-gray-700 rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200 ease-in-out;
+        }
+        .form-textarea {
+            @apply w-full p-3 bg-gray-700 rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 min-h-[120px] transition-all duration-200 ease-in-out;
+        }
+        .form-label {
+            @apply block text-sm font-medium text-gray-300;
+        }
+        /* Common action button styling */
+        .action-button-base {
+            @apply rounded-xl text-white transition-all duration-300 ease-in-out shadow-lg transform hover:scale-105 active:scale-95 hover:shadow-xl;
+        }
+        /* Specific styles for smaller buttons */
+        .action-button-small {
+            @apply px-6 py-3 font-semibold text-lg;
+        }
+        /* Specific styles for large primary button */
+        .action-button-large {
+            @apply px-10 py-4 font-extrabold text-xl tracking-wide;
+        }
+        /* Style for the clear 'X' button */
+        .clear-btn {
+            @apply bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-rose-400 to-purple-950 min-h-screen flex items-center justify-center p-4 text-gray-100">
+
+    <div class="bg-gray-900 p-8 rounded-2xl shadow-2xl w-full max-w-4xl border border-gray-800 backdrop-blur-sm bg-opacity-70">
+        <h1 class="text-4xl font-extrabold text-center mb-8 tracking-tight">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-400">
+                Charakter-Beziehungen bearbeiten
+            </span>
+        </h1>
+
+        <!-- Dataset Selection and New Button -->
+        <div class="p-6 bg-gray-800 rounded-xl border border-purple-700 shadow-md mb-6">
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-4 space-y-4 sm:space-y-0">
+                <h2 class="text-xl font-bold text-purple-400">Beziehung auswählen</h2>
+                <button id="newRelationButton" type="button" class="px-4 py-2 rounded-lg bg-blue-700 text-white hover:bg-blue-600 transition-colors duration-300 ease-in-out shadow-md">
+                    Neue Beziehung erstellen
+                </button>
+            </div>
+            <div>
+                <label for="relationSelect" class="block text-sm font-medium text-gray-300 mb-1">Bestehende Beziehungen:</label>
+                <select id="relationSelect" class="w-full p-3 bg-gray-700 rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200 ease-in-out custom-scrollbar">
+                    <!-- Options will be populated by JavaScript -->
+                </select>
+            </div>
+        </div>
+
+        <!-- Main content area for the form, matching the section style -->
+        <div class="p-6 bg-gray-800 rounded-xl border border-purple-700 shadow-md">
+            <h2 class="text-2xl font-bold text-purple-400 mb-6 flex items-center">
+                <svg class="w-7 h-7 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 112 0v1m-4 0h4m-4 0H9m7 0h-4"></path></svg>
+                Beziehungs-Details
+            </h2>
+            <form id="relationForm" class="space-y-6">
+                <!-- Relation ID (Read-only for existing, auto-generated for new) -->
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label for="relationIdDisplay" class="block text-sm font-medium text-gray-300">Beziehungs ID:</label>
+                        <button type="button" class="bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="relationIdDisplay">X</button>
+                    </div>
+                    <input type="text" id="relationIdDisplay" name="relationIdDisplay" value="" class="w-full p-3 bg-gray-700 rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200 ease-in-out opacity-75 cursor-not-allowed" readonly>
+                </div>
+
+                <!-- Character_ID_1 Dropdown with Autocomplete -->
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label for="character1NameInput" class="block text-sm font-medium text-gray-300">Charakter 1:</label>
+                        <button type="button" class="bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="character1NameInput">X</button>
+                    </div>
+                    <input type="text" id="character1NameInput" name="character1NameInput" list="characterOptions" placeholder="Name von Charakter 1 eingeben" class="w-full p-3 bg-gray-700 rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200 ease-in-out" required>
+                    <datalist id="characterOptions">
+                        <!-- Options will be populated by JavaScript -->
+                    </datalist>
+                </div>
+
+                <!-- Character_ID_2 Dropdown with Autocomplete -->
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label for="character2NameInput" class="block text-sm font-medium text-gray-300">Charakter 2:</label>
+                        <button type="button" class="bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="character2NameInput">X</button>
+                    </div>
+                    <input type="text" id="character2NameInput" name="character2NameInput" list="characterOptions" placeholder="Name von Charakter 2 eingeben" class="w-full p-3 bg-gray-700 rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200 ease-in-out" required>
+                </div>
+
+                <!-- Relation Field (TEXT) -->
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label for="relationTypeInput" class="block text-sm font-medium text-gray-300">Beziehungstyp:</label>
+                        <button type="button" class="bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="relationTypeInput">X</button>
+                    </div>
+                    <input type="text" id="relationTypeInput" name="relationTypeInput" placeholder="Beziehungstyp (z.B. Freund, Rivale)" class="w-full p-3 bg-gray-700 rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200 ease-in-out" required>
+                </div>
+
+                <!-- Description Field (TEXTAREA) -->
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label for="relationDescriptionInput" class="block text-sm font-medium text-gray-300">Beschreibung:</label>
+                        <button type="button" class="bg-gray-700 hover:bg-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold transition duration-200" data-target-id="relationDescriptionInput">X</button>
+                    </div>
+                    <textarea id="relationDescriptionInput" name="relationDescriptionInput" placeholder="Detaillierte Beschreibung der Beziehung" class="w-full p-3 bg-gray-700 rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 min-h-[120px] transition-all duration-200 ease-in-out" required></textarea>
+                </div>
+            </form>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row justify-end space-y-4 sm:space-y-0 sm:space-x-4 pt-8">
+            <button type="button" id="cancelButton" class="rounded-xl text-white transition-all duration-300 ease-in-out shadow-lg transform hover:scale-105 active:scale-95 hover:shadow-xl px-6 py-3 font-semibold text-lg bg-gradient-to-r from-gray-700 to-gray-900 hover:from-gray-600 hover:to-gray-800">Abbrechen</button>
+            <button type="button" id="deleteButton" class="rounded-xl text-white transition-all duration-300 ease-in-out shadow-lg transform hover:scale-105 active:scale-95 hover:shadow-xl px-6 py-3 font-semibold text-lg bg-gradient-to-r from-red-700 to-red-900 hover:from-red-600 hover:to-red-800">Löschen</button>
+            <button type="submit" form="relationForm" id="saveRelationButton" class="rounded-xl text-white transition-all duration-300 ease-in-out shadow-lg transform hover:scale-105 active:scale-95 hover:shadow-xl px-10 py-4 font-extrabold text-xl tracking-wide bg-gradient-to-r from-purple-700 to-rose-700 hover:from-purple-800 hover:to-rose-800">Speichern</button>
+        </div>
+    </div>
+
+    <!-- Custom Alert Modal (instead of alert()) -->
+    <div id="customAlertModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center hidden p-4 z-50">
+        <div class="bg-gray-800 p-8 rounded-xl shadow-2xl max-w-sm w-full text-center border border-gray-700">
+            <h3 id="alertTitle" class="text-2xl font-bold text-gray-100 mb-4"></h3>
+            <p id="alertMessage" class="text-gray-200 mb-6"></p>
+            <button id="alertCloseBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200 ease-in-out transform hover:scale-105">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        let relationSelect, newRelationButton;
+        let relationIdDisplay, character1NameInput, character2NameInput, relationTypeInput, relationDescriptionInput;
+        let characterOptionsDatalist; // Only one datalist needed for both character inputs
+        let saveRelationButton, deleteButton, cancelButton;
+        let customAlertModal, alertTitle, alertMessage, alertCloseBtn;
+
+        // --- Simulated Data Stores ---
+        // Character data (Character_ID, Name) - Re-using from previous contexts
+        let characterData = [
+            { characterId: "C001", name: "Aramis" },
+            { characterId: "C002", name: "Elara" },
+            { characterId: "C003", name: "Kael" },
+            { characterId: "C004", name: "Lira" },
+            { characterId: "C005", name: "Zoltan" },
+            { characterId: "C006", name: "Seraphina" },
+            { characterId: "C007", name: "Gideon" },
+            { characterId: "C008", name: "Lyra" }
+        ];
+
+        // Relation data (Relation_ID, Character_ID_1, Character_ID_2, Relation, Description)
+        let relationData = [
+            { relationId: "R001", characterId_1: "C001", characterId_2: "C002", relation: "Geschwister", description: "Aramis und Elara sind Geschwister, die sich gegenseitig beschützen." },
+            { relationId: "R002", characterId_1: "C001", characterId_2: "C003", relation: "Rivalen", description: "Aramis und Kael sind erbitterte Rivalen im Schwertkampf." },
+            { relationId: "R003", characterId_1: "C004", characterId_2: "C005", relation: "Freunde", description: "Lira und Zoltan sind enge Freunde und Reisepartner." }
+        ];
+        let currentRelationId = null; // Tracks the ID of the currently loaded relation, or null for new
+
+        // --- Helper Functions ---
+
+        /**
+         * Displays a custom modal instead of alert().
+         * @param {string} title - The title of the modal.
+         * @param {string} message - The message to display in the modal.
+         */
+        function showCustomAlert(title, message) {
+            alertTitle.textContent = title;
+            alertMessage.textContent = message;
+            customAlertModal.classList.remove('hidden');
+        }
+
+        /**
+         * Populates a datalist element with options from a given data array.
+         * @param {HTMLElement} datalistElement - The <datalist> element to populate.
+         * @param {Array<Object>} dataArray - The array of data objects (e.g., characterData).
+         * @param {string} displayKey - The key in data objects whose value should be displayed to the user.
+         * @param {string} valueKey - The key in data objects whose value should be used as the option's value (though for datalist, value is usually displayKey).
+         */
+        function populateDatalist(datalistElement, dataArray, displayKey, valueKey) {
+            datalistElement.innerHTML = ''; // Clear existing options
+            dataArray.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item[displayKey]; // Display name to user for autocomplete
+                // The 'data-id' attribute is useful if you need to map back to the ID later
+                option.dataset.id = item[valueKey]; 
+                datalistElement.appendChild(option);
+            });
+        }
+
+        /**
+         * Gets an ID from a name by searching in a data array.
+         * @param {string} name - The name to search for.
+         * @param {Array<Object>} dataArray - The array of data objects.
+         * @param {string} nameKey - The key for the name property in data objects.
+         * @param {string} idKey - The key for the ID property in data objects.
+         * @returns {string|null} The corresponding ID or null if not found.
+         */
+        function getIdByName(name, dataArray, nameKey, idKey) {
+            const item = dataArray.find(item => item[nameKey] === name);
+            return item ? item[idKey] : null;
+        }
+
+        /**
+         * Gets a name from an ID by searching in a data array.
+         * @param {string} id - The ID to search for.
+         * @param {Array<Object>} dataArray - The array of data objects.
+         * @param {string} nameKey - The key for the name property in data objects.
+         * @param {string} idKey - The key for the ID property in data objects.
+         * @returns {string|null} The corresponding name or null if not found.
+         */
+        function getNameById(id, dataArray, nameKey, idKey) {
+            const item = dataArray.find(item => item[idKey] === id);
+            return item ? item[nameKey] : null;
+        }
+
+        /**
+         * Clears all input fields in the form and sets the state to "new relation".
+         */
+        function clearForm() {
+            relationIdDisplay.value = "Wird automatisch generiert";
+            relationIdDisplay.classList.add('opacity-75', 'cursor-not-allowed');
+            character1NameInput.value = "";
+            character2NameInput.value = "";
+            relationTypeInput.value = "";
+            relationDescriptionInput.value = "";
+            currentRelationId = null;
+            relationSelect.value = ""; // Deselect main dropdown
+        }
+
+        /**
+         * Loads a relation dataset into the form fields.
+         * @param {string} id - The relation ID to load.
+         */
+        function loadRelation(id) {
+            const relation = relationData.find(r => r.relationId === id);
+            if (relation) {
+                relationIdDisplay.value = relation.relationId;
+                relationIdDisplay.classList.remove('opacity-75', 'cursor-not-allowed');
+                
+                character1NameInput.value = getNameById(relation.characterId_1, characterData, 'name', 'characterId') || '';
+                character2NameInput.value = getNameById(relation.characterId_2, characterData, 'name', 'characterId') || '';
+                relationTypeInput.value = relation.relation;
+                relationDescriptionInput.value = relation.description;
+                
+                currentRelationId = relation.relationId;
+                relationSelect.value = relation.relationId; // Ensure main dropdown reflects selection
+            } else {
+                showCustomAlert('Fehler', 'Beziehung nicht gefunden.');
+                clearForm();
+            }
+        }
+
+        /**
+         * Populates the main dropdown list with existing relations.
+         */
+        function populateRelationDropdown() {
+            relationSelect.innerHTML = '<option value="">-- Beziehung auswählen --</option>'; // Default option
+            relationData.forEach(rel => {
+                const option = document.createElement('option');
+                option.value = rel.relationId;
+                const char1Name = getNameById(rel.characterId_1, characterData, 'name', 'characterId');
+                const char2Name = getNameById(rel.characterId_2, characterData, 'name', 'characterId');
+                option.textContent = `${char1Name || 'Unbekannter Charakter'} <-> ${char2Name || 'Unbekannter Charakter'} (${rel.relation})`;
+                relationSelect.appendChild(option);
+            });
+            // Reselect the current item if it exists
+            if (currentRelationId) {
+                relationSelect.value = currentRelationId;
+            } else if (relationData.length > 0) {
+                // If no current ID, but relations exist, select the first one
+                relationSelect.value = relationData[0].relationId;
+                loadRelation(relationData[0].relationId);
+            } else {
+                clearForm();
+            }
+        }
+
+        /**
+         * Generates a new unique ID for a relation.
+         */
+        function generateNewRelationId() {
+            const maxIdNum = relationData.reduce((max, r) => {
+                const num = parseInt(r.relationId.replace('R', ''));
+                return isNaN(num) ? max : Math.max(max, num);
+            }, 0);
+            return `R${String(maxIdNum + 1).padStart(3, '0')}`;
+        }
+
+        /**
+         * Handles saving a relation (either new or existing).
+         */
+        function saveRelation() {
+            const char1Name = character1NameInput.value.trim();
+            const char2Name = character2NameInput.value.trim();
+            const relationType = relationTypeInput.value.trim();
+            const description = relationDescriptionInput.value.trim();
+
+            if (!char1Name || !char2Name || !relationType || !description) {
+                showCustomAlert('Eingabefehler', 'Alle Felder müssen ausgefüllt sein.');
+                return;
+            }
+
+            const char1Id = getIdByName(char1Name, characterData, 'name', 'characterId');
+            const char2Id = getIdByName(char2Name, characterData, 'name', 'characterId');
+
+            if (!char1Id) {
+                showCustomAlert('Fehler', 'Ungültiger Name für Charakter 1. Bitte wählen Sie aus der Liste oder geben Sie einen gültigen Namen ein.');
+                return;
+            }
+            if (!char2Id) {
+                showCustomAlert('Fehler', 'Ungültiger Name für Charakter 2. Bitte wählen Sie aus der Liste oder geben Sie einen gültigen Namen ein.');
+                return;
+            }
+
+            // Prevent self-relations unless explicitly desired by design
+            if (char1Id === char2Id) {
+                showCustomAlert('Fehler', 'Ein Charakter kann keine Beziehung zu sich selbst haben.');
+                return;
+            }
+
+            // Check for duplicate relation (order-agnostic check)
+            if (!currentRelationId) {
+                const duplicate = relationData.some(rel =>
+                    (rel.characterId_1 === char1Id && rel.characterId_2 === char2Id) ||
+                    (rel.characterId_1 === char2Id && rel.characterId_2 === char1Id)
+                );
+                if (duplicate) {
+                    showCustomAlert('Fehler', 'Diese Beziehung existiert bereits.');
+                    return;
+                }
+            }
+            
+
+            if (currentRelationId) {
+                // Update existing relation
+                const index = relationData.findIndex(r => r.relationId === currentRelationId);
+                if (index !== -1) {
+                    relationData[index].characterId_1 = char1Id;
+                    relationData[index].characterId_2 = char2Id;
+                    relationData[index].relation = relationType;
+                    relationData[index].description = description;
+                    showCustomAlert('Erfolg', `Beziehung "${relationIdDisplay.value}" aktualisiert.`);
+                } else {
+                    showCustomAlert('Fehler', 'Beziehung zum Aktualisieren nicht gefunden.');
+                }
+            } else {
+                // Create new relation
+                const newId = generateNewRelationId();
+                relationData.push({
+                    relationId: newId,
+                    characterId_1: char1Id,
+                    characterId_2: char2Id,
+                    relation: relationType,
+                    description: description
+                });
+                currentRelationId = newId; // Set newly created as current
+                showCustomAlert('Erfolg', `Neue Beziehung (${char1Name} <-> ${char2Name}) erstellt.`);
+            }
+            populateRelationDropdown(); // Refresh main dropdown
+            loadRelation(currentRelationId); // Load the updated/newly created item
+        }
+
+        /**
+         * Handles deleting the currently loaded relation.
+         */
+        function deleteRelation() {
+            if (!currentRelationId) {
+                showCustomAlert('Information', 'Keine Beziehung zum Löschen ausgewählt.');
+                return;
+            }
+
+            if (window.confirm(`Möchten Sie diese Beziehung wirklich löschen?`)) {
+                relationData = relationData.filter(r => r.relationId !== currentRelationId);
+                showCustomAlert('Erfolg', 'Beziehung erfolgreich gelöscht.');
+                clearForm();
+                populateRelationDropdown();
+            }
+        }
+
+        /**
+         * Event listener for the clear 'X' buttons.
+         * Clears the associated input/textarea.
+         * @param {Event} event - The click event object.
+         */
+        function handleClearButtonClick(event) {
+            const targetId = event.currentTarget.dataset.targetId;
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                targetElement.value = '';
+            }
+        }
+
+        // --- Event Listeners Initialization ---
+        window.onload = () => {
+            // Get DOM elements
+            relationSelect = document.getElementById('relationSelect');
+            newRelationButton = document.getElementById('newRelationButton');
+            relationIdDisplay = document.getElementById('relationIdDisplay');
+            character1NameInput = document.getElementById('character1NameInput');
+            character2NameInput = document.getElementById('character2NameInput');
+            relationTypeInput = document.getElementById('relationTypeInput');
+            relationDescriptionInput = document.getElementById('relationDescriptionInput');
+            characterOptionsDatalist = document.getElementById('characterOptions');
+            saveRelationButton = document.getElementById('saveRelationButton');
+            deleteButton = document.getElementById('deleteButton');
+            cancelButton = document.getElementById('cancelButton');
+
+            customAlertModal = document.getElementById('customAlertModal');
+            alertTitle = document.getElementById('alertTitle');
+            alertMessage = document.getElementById('alertMessage');
+            alertCloseBtn = document.getElementById('alertCloseBtn');
+
+            // Set up event listeners
+            newRelationButton.addEventListener('click', clearForm);
+            relationSelect.addEventListener('change', (event) => {
+                loadRelation(event.target.value);
+            });
+            saveRelationButton.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default form submission
+                saveRelation();
+            });
+            deleteButton.addEventListener('click', deleteRelation);
+            cancelButton.addEventListener('click', () => {
+                if (currentRelationId) {
+                    loadRelation(currentRelationId);
+                } else {
+                    clearForm();
+                }
+            });
+
+            // Clear 'X' buttons for all relevant inputs
+            document.querySelectorAll('.clear-btn').forEach(button => {
+                button.addEventListener('click', handleClearButtonClick);
+            });
+
+            // Alert modal close button
+            alertCloseBtn.addEventListener('click', () => {
+                customAlertModal.classList.add('hidden');
+            });
+
+            // Initial population of datalists
+            populateDatalist(characterOptionsDatalist, characterData, 'name', 'characterId');
+
+            // Initial setup: Populate main dropdown and load first item or clear form
+            populateRelationDropdown();
+        };
+    </script>
+</body>
+</html>
